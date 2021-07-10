@@ -1,10 +1,10 @@
 import {
-    FETCH_DICT_DOC_ACTION,
-    REQUEST_DICT_DOC_ACTION,
-    FAILURE_DICT_DOC_ACTION, INS_DICT_DOC_ACTION, DEL_DICT_DOC_ACTION, UPD_DICT_DOC_ACTION,
+    FETCH_DICT_CITY_ACTION,
+    REQUEST_DICT_CITY_ACTION,
+    FAILURE_DICT_CITY_ACTION, INS_DICT_CITY_ACTION, DEL_DICT_CITY_ACTION, UPD_DICT_CITY_ACTION,
 } from "../utils/consts";
 
-const dictDocReducer = (state, action) => {
+const dictCityReducer = (state, action) => {
     if (state === undefined) {
         return {
             dataset: [],
@@ -14,42 +14,36 @@ const dictDocReducer = (state, action) => {
     }
 
     switch (action.type) {
-        case FETCH_DICT_DOC_ACTION:
+        case FETCH_DICT_CITY_ACTION:
             return {
                 dataset: action.payload.data,
                 isLoading: false,
                 error: null,
             }
-        case REQUEST_DICT_DOC_ACTION:
+        case REQUEST_DICT_CITY_ACTION:
             return {
                 ...state,
                 isLoading: true
-                // dataset: [],
-                // isLoading: true,
-                // error: null,
             }
-        case FAILURE_DICT_DOC_ACTION:
+        case FAILURE_DICT_CITY_ACTION:
             return {
                 ...state,
                 error: action.payload,
                 isLoading: false,
-                // dataset: [],
-                // isLoading: false,
-                // error: action.payload,
             }
-        case INS_DICT_DOC_ACTION:
+        case INS_DICT_CITY_ACTION:
             return {
                 dataset: [...state.dataset, action.payload.data],
                 isLoading: false,
                 error: null,
             }
-        case DEL_DICT_DOC_ACTION:
+        case DEL_DICT_CITY_ACTION:
             return {
                 dataset: state.dataset.filter(item => item.id !== action.payload),
                 isLoading: false,
                 error: null,
             }
-        case UPD_DICT_DOC_ACTION:
+        case UPD_DICT_CITY_ACTION:
             return {
                 dataset: state.dataset.map(i => {
                     if (i.id === action.payload.data.id) {
@@ -66,4 +60,4 @@ const dictDocReducer = (state, action) => {
     }
 };
 
-export default dictDocReducer;
+export default dictCityReducer;

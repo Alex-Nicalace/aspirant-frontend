@@ -4,10 +4,14 @@ export const getDictDocSelector = (state) => {
     return state.dictDoc;
 }
 
-export const getDictDocDatasetSelector = (state) => {
-    return getDictDocSelector(state).dataset //getDictDocSelector(state).dataset;
-}
+export const getDatasetDictDocSelector = createSelector([getDictDocSelector], (state) => {
+    return state.dataset;
+});
 
-export const getDictDocHardSelector = createSelector([getDictDocDatasetSelector], (docs) => {
-    return docs.filter(i => i.id === 1);
+export const getIsLoadingDictDocSelector = createSelector([getDictDocSelector], (state) => {
+    return state.isLoading;
+});
+
+export const getErrorDictDocSelector = createSelector([getDictDocSelector], (state) => {
+    return state.error;
 });

@@ -1,22 +1,22 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from 'react';
 import {AspirantApiContext} from "../context/aspirant-api-context";
-import DictDocEdit from "../dict-doc-edit";
 import TableEdit from "../table-edit";
+import DictEducationLevelEdit from "../dict-education-level-edit/dict-education-level-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
-    {id: 'document', disablePadding: false, label: 'документ'},
+    {id: 'educationLevel', disablePadding: false, label: 'уровень образования'},
+    {id: 'weightEducationLevel', disablePadding: false, label: 'приоритет'},
 ];
 
-const DictDoc = () => {
+const DictEducationLevel = () => {
     const {
-        dictDoc: {
+        dictEducationLevels: {
             dataset, isLoading, error,
             fetch,
             deleteRec,
         },
     } = useContext(AspirantApiContext);
-
     return (
         <TableEdit
             headCells={headCells}
@@ -25,10 +25,10 @@ const DictDoc = () => {
             error={error}
             deleteRec={deleteRec}
             fetch={fetch}
-            FormEdit={DictDocEdit}
-            initialOrderBy='document'
+            FormEdit={DictEducationLevelEdit}
+            initialOrderBy='weightEducationLevel'
         />
     );
-}
+};
 
-export default DictDoc;
+export default DictEducationLevel;

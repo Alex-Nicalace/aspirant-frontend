@@ -1,29 +1,29 @@
 import React, {useContext, useEffect, useState} from 'react';
-import TextField from "@material-ui/core/TextField";
-import FormWrap from "../form-wrap";
 import {AspirantApiContext} from "../context/aspirant-api-context";
+import FormWrap from "../form-wrap";
+import TextField from "@material-ui/core/TextField";
 
-const DictDocEdit = ({closeEdit, modeEdit, currentRec}) => {
+const DictCountryEdit = ({closeEdit, modeEdit, currentRec}) => {
     const {
-        dictDoc: {
+        dictCountry: {
             insertRec,
             updateRec,
             dataset
-    }} = useContext(AspirantApiContext);
-    const [document, setDocument] = useState('');
+        }} = useContext(AspirantApiContext);
+    const [country, setCountry] = useState('');
 
     useEffect(() => {
         // чтобы в момоент редактирования в форме оказались редактируемые данные
         if (modeEdit === 'update') {
             const result = dataset.find(i => i.id === currentRec);
-            result && setDocument(result.document);
+            result && setCountry(result.country);
             return;
         }
-        setDocument('');
+        setCountry('');
     }, [modeEdit]);
 
-    const changeTypeDocumentHandle = (e) => {
-        setDocument(e.target.value)
+    const changeValueHandle = (e) => {
+        setCountry(e.target.value)
     }
 
     const saveChangesHandle = async (e) => {
@@ -33,10 +33,10 @@ const DictDocEdit = ({closeEdit, modeEdit, currentRec}) => {
 
         switch (modeEdit) {
             case 'insert':
-                await insertRec({document});
+                await insertRec({country});
                 return
             case 'update':
-                await updateRec({id: currentRec, document});
+                await updateRec({id: currentRec, country});
                 return
             default:
                 return
@@ -46,17 +46,16 @@ const DictDocEdit = ({closeEdit, modeEdit, currentRec}) => {
     return (
         <FormWrap saveBtn={saveChangesHandle} closeEdit={closeEdit}>
             <TextField
-                id="kind-document"
-                label="тип документа"
+                id="country"
+                label="страна"
                 required
                 type='search'
-                value={document}
-                // onChange={changeTypeDocument}
-                onChange={changeTypeDocumentHandle}
+                value={country}
+                onChange={changeValueHandle}
                 fullWidth
             />
         </FormWrap>
-    )
+    );
 };
 
-export default DictDocEdit;
+export default DictCountryEdit;

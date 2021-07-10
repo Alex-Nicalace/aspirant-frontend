@@ -8,7 +8,7 @@ import {AspirantApiContext} from "../context/aspirant-api-context";
 const AppRouter = () => {
         const {isAuth} = useContext(AspirantApiContext);
         //const isAuth = true;
-    console.log(isAuth);
+    //console.log(isAuth);
         return (
             isAuth
                 ? (

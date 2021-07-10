@@ -1,22 +1,21 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from 'react';
 import {AspirantApiContext} from "../context/aspirant-api-context";
-import DictDocEdit from "../dict-doc-edit";
 import TableEdit from "../table-edit";
+import DictCountryEdit from "../dict-country-edit/dict-country-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
-    {id: 'document', disablePadding: false, label: 'документ'},
+    {id: 'country', disablePadding: false, label: 'страна'},
 ];
 
-const DictDoc = () => {
+const DictCountry = () => {
     const {
-        dictDoc: {
+        dictCountry: {
             dataset, isLoading, error,
             fetch,
             deleteRec,
         },
     } = useContext(AspirantApiContext);
-
     return (
         <TableEdit
             headCells={headCells}
@@ -25,10 +24,10 @@ const DictDoc = () => {
             error={error}
             deleteRec={deleteRec}
             fetch={fetch}
-            FormEdit={DictDocEdit}
-            initialOrderBy='document'
+            FormEdit={DictCountryEdit}
+            initialOrderBy='country'
         />
     );
-}
+};
 
-export default DictDoc;
+export default DictCountry;

@@ -5,13 +5,22 @@ import green from "@material-ui/core/colors/green";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditIcon from '@material-ui/icons/Edit';
+import {makeStyles} from '@material-ui/core/styles'
+
+const useStyles  = makeStyles(theme => ({
+    root: {
+        textAlign:'right',
+        '& button': {
+            marginLeft: theme.spacing(1)
+        }
+    }
+}))
 
 const ButtonsPanel = ({deleteRec, setModeEdit, currentRec}) => {
+    const classes = useStyles();
     return (
-        <Box
+        <Box className={classes.root}
             p={1}
-            style={{textAlign:'right'}}
-
         >
             <Button
                 variant='contained'

@@ -1,8 +1,9 @@
 import {
     FETCH_DICT_DOC_ACTION,
     REQUEST_DICT_DOC_ACTION,
-    FAILURE_DICT_DOC_ACTION, INS_DICT_DOC_ACTION, DEL_DICT_DOC_ACTION, UPD_DICT_DOC_ACTION,
+    FAILURE_DICT_DOC_ACTION, INS_DICT_DOC_ACTION, DEL_DICT_DOC_ACTION, UPD_DICT_DOC_ACTION, SUCCESS, ERROR, WARNING,
 } from "../utils/consts";
+import {setDisappearingMessage} from "./messages-actions";
 
 export const dictDocLoaded = (data) => {
     return {
@@ -60,8 +61,10 @@ export const insertDictDoc = (rec) => async (api, dispatch) => {
     try {
         const response = await api.post(rec);
         dispatch(dictDocInserted(response));
+        dispatch(setDisappearingMessage('запись успешно добавлена', SUCCESS));
     } catch (e) {
-        dispatch(dictDocError(e.response))
+        dispatch(dictDocError(e.response));
+        dispatch(setDisappearingMessage(`запись не добавлена... ${e.response.data.message}`, ERROR));
     }
 }
 
@@ -70,8 +73,10 @@ export const deleteDictDoc = (id) => async (api, dispatch) => {
     try {
         await api.delete(id);
         dispatch(dictDocDeleted(id));
+        dispatch(setDisappearingMessage('запись удалена', WARNING));
     } catch (e) {
-        dispatch(dictDocError(e.response))
+        dispatch(dictDocError(e.response));
+        dispatch(setDisappearingMessage(`запись не удалена... ${e.response.data.message}`, ERROR));
     }
     // api.delete(id)
     //     .then(() => {
@@ -88,8 +93,10 @@ export const updateDictDoc = (rec) => async (api, dispatch) => {
     try {
         const response = await api.put(rec);
         dispatch(dictDocUpdated(response));
+        dispatch(setDisappearingMessage('запись успешно обновлена', SUCCESS));
     } catch (e) {
-        dispatch(dictDocError(e.response))
+        dispatch(dictDocError(e.response));
+        dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));
     }
     // api.put(rec)
     //     .then((response) => {
