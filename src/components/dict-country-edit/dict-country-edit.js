@@ -1,60 +1,31 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {AspirantApiContext} from "../context/aspirant-api-context";
-import FormWrap from "../form-wrap";
 import TextField from "@material-ui/core/TextField";
+import FormFields from "../form-fields";
+
+const recInit = {
+    country: ''
+}
 
 const DictCountryEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {
-        dictCountry: {
-            insertRec,
-            updateRec,
-            dataset
-        }} = useContext(AspirantApiContext);
-    const [country, setCountry] = useState('');
-
-    useEffect(() => {
-        // чтобы в момоент редактирования в форме оказались редактируемые данные
-        if (modeEdit === 'update') {
-            const result = dataset.find(i => i.id === currentRec);
-            result && setCountry(result.country);
-            return;
-        }
-        setCountry('');
-    }, [modeEdit]);
-
-    const changeValueHandle = (e) => {
-        setCountry(e.target.value)
-    }
-
-    const saveChangesHandle = async (e) => {
-        e.preventDefault();
-
-        closeEdit();
-
-        switch (modeEdit) {
-            case 'insert':
-                await insertRec({country});
-                return
-            case 'update':
-                await updateRec({id: currentRec, country});
-                return
-            default:
-                return
-        }
-    }
-
+    const {dictCountry} = useContext(AspirantApiContext);
     return (
-        <FormWrap saveBtn={saveChangesHandle} closeEdit={closeEdit}>
+        <FormFields
+            data={dictCountry}
+            currentRec={currentRec}
+            closeEdit={closeEdit}
+            modeEdit={modeEdit}
+            recInit={recInit}
+        >
             <TextField
                 id="country"
                 label="страна"
                 required
                 type='search'
-                value={country}
-                onChange={changeValueHandle}
                 fullWidth
+                name='country'
             />
-        </FormWrap>
+        </FormFields>
     );
 };
 

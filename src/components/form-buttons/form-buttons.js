@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const FormWrap = ({children, saveBtn, closeEdit}) => {
+const FormButtons = ({children, saveBtn, closeEdit}) => {
     const classes = useStyles();
     return (
         <form onSubmit={saveBtn} className={classes.root}>
@@ -46,4 +46,4 @@ const FormWrap = ({children, saveBtn, closeEdit}) => {
     );
 };
 
-export default FormWrap;
+export default FormButtons;

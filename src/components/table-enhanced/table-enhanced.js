@@ -201,6 +201,7 @@ export default function TableEnhanced({
         },
         container: {
             maxHeight: maxHeight,
+            // minHeight: '300px'
         },
         paper: {
             width: '100%',

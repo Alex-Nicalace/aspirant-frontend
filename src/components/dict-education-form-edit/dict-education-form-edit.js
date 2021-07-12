@@ -4,29 +4,29 @@ import TextField from "@material-ui/core/TextField";
 import FormFields from "../form-fields";
 
 const recInit = {
-    city: ''
+    educationForm: '',
 }
 
-const DictCityEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {dictCity} = useContext(AspirantApiContext);
+const DictEducationFormEdit = ({closeEdit, modeEdit, currentRec}) => {
+    const {dictEducationForm} = useContext(AspirantApiContext);
     return (
         <FormFields
-            data={dictCity}
+            data={dictEducationForm}
             currentRec={currentRec}
             closeEdit={closeEdit}
             modeEdit={modeEdit}
             recInit={recInit}
         >
             <TextField
-                id="city"
-                label="город"
+                id="educationForm"
+                label="форма обучения"
                 required
                 type='search'
                 fullWidth
-                name='city'
+                name='educationForm'
             />
         </FormFields>
     );
 };
 
-export default DictCityEdit;
+export default DictEducationFormEdit;

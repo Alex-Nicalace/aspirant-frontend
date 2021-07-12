@@ -1,61 +1,32 @@
 import React, {useContext, useEffect, useState} from 'react';
 import TextField from "@material-ui/core/TextField";
-import FormWrap from "../form-wrap";
+import FormButtons from "../form-buttons";
 import {AspirantApiContext} from "../context/aspirant-api-context";
+import FormFields from "../form-fields";
+
+const recInit = {
+    document: ''
+}
 
 const DictDocEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {
-        dictDoc: {
-            insertRec,
-            updateRec,
-            dataset
-    }} = useContext(AspirantApiContext);
-    const [document, setDocument] = useState('');
-
-    useEffect(() => {
-        // чтобы в момоент редактирования в форме оказались редактируемые данные
-        if (modeEdit === 'update') {
-            const result = dataset.find(i => i.id === currentRec);
-            result && setDocument(result.document);
-            return;
-        }
-        setDocument('');
-    }, [modeEdit]);
-
-    const changeTypeDocumentHandle = (e) => {
-        setDocument(e.target.value)
-    }
-
-    const saveChangesHandle = async (e) => {
-        e.preventDefault();
-
-        closeEdit();
-
-        switch (modeEdit) {
-            case 'insert':
-                await insertRec({document});
-                return
-            case 'update':
-                await updateRec({id: currentRec, document});
-                return
-            default:
-                return
-        }
-    }
-
+    const {dictDoc} = useContext(AspirantApiContext);
     return (
-        <FormWrap saveBtn={saveChangesHandle} closeEdit={closeEdit}>
+        <FormFields
+            data={dictDoc}
+            currentRec={currentRec}
+            closeEdit={closeEdit}
+            modeEdit={modeEdit}
+            recInit={recInit}
+        >
             <TextField
                 id="kind-document"
                 label="тип документа"
                 required
                 type='search'
-                value={document}
-                // onChange={changeTypeDocument}
-                onChange={changeTypeDocumentHandle}
                 fullWidth
+                name='document'
             />
-        </FormWrap>
+        </FormFields>
     )
 };
 

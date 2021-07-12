@@ -9,6 +9,11 @@ const _pathDictDocAPI = 'dict-doc';
 const _pathDictCountryAPI = 'dict-country';
 const _pathDictEducationLevelAPI = 'dict-education-level';
 const _pathDictCityAPI = 'dict-city';
+const _pathDictStreetAPI = 'dict-street';
+const _pathDictContactTypeAPI = 'dict-contact-type';
+const _pathDictSubjectAPI = 'dict-subject';
+const _pathDictEducationFormAPI = 'dict-education-form';
+const _pathDictCertificationResultAPI = 'dict-certification-result';
 
 export default class AspirantApiService {
     userApi = {
@@ -99,6 +104,111 @@ export default class AspirantApiService {
         },
         async put(data) {
             return await _instance.put(_pathDictCityAPI, data)
+        }
+    }
+
+    dictStreetAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictStreetAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictStreetAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictStreetAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictStreetAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictStreetAPI, data)
+        }
+    }
+
+    dictContactTypeAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictContactTypeAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictContactTypeAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictContactTypeAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictContactTypeAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictContactTypeAPI, data)
+        }
+    }
+
+    dictSubjectAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictSubjectAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictSubjectAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictSubjectAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictSubjectAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictSubjectAPI, data)
+        }
+    }
+
+    dictEducationFormAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictEducationFormAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictEducationFormAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictEducationFormAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictEducationFormAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictEducationFormAPI, data)
+        }
+    }
+
+    dictCertificationResultAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictCertificationResultAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictCertificationResultAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictCertificationResultAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictCertificationResultAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictCertificationResultAPI, data)
         }
     }
 

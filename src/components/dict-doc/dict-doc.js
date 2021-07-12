@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext} from "react";
 import {AspirantApiContext} from "../context/aspirant-api-context";
 import DictDocEdit from "../dict-doc-edit";
 import TableEdit from "../table-edit";

@@ -1,17 +1,16 @@
 import React, {useContext} from 'react';
 import {AspirantApiContext} from "../context/aspirant-api-context";
 import TableEdit from "../table-edit";
-import DictEducationLevelEdit from "../dict-education-level-edit";
+import DictSubjectEdit from "../dict-subject-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
-    {id: 'educationLevel', disablePadding: false, label: 'уровень образования'},
-    {id: 'weightEducationLevel', disablePadding: false, label: 'приоритет'},
+    {id: 'subject', disablePadding: false, label: 'предмет'},
 ];
 
-const DictEducationLevel = () => {
+const DictSubject = () => {
     const {
-        dictEducationLevels: {
+        dictSubject: {
             dataset, isLoading, error,
             fetch,
             deleteRec,
@@ -25,10 +24,10 @@ const DictEducationLevel = () => {
             error={error}
             deleteRec={deleteRec}
             fetch={fetch}
-            FormEdit={DictEducationLevelEdit}
-            initialOrderBy='weightEducationLevel'
+            FormEdit={DictSubjectEdit}
+            initialOrderBy='subject'
         />
     );
 };
 
-export default DictEducationLevel;
+export default DictSubject;

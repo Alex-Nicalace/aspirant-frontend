@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deleteDictDoc, fetchDictDoc, insertDictDoc, updateDictDoc} from "../../../actions/dict-doc-actions";
 import {
     getDatasetDictDocSelector,
-    getDictDocSelector, getErrorDictDocSelector,
+    getErrorDictDocSelector,
     getIsLoadingDictDocSelector
 } from "../../../selectors/dict-doc-selectors";
 import {getIsAuth} from "../../../selectors/user-selector";
@@ -37,6 +37,54 @@ import {
     getIsLoadingDictCitySelector
 } from "../../../selectors/dict-city-selectors";
 import {deleteDictCity, fetchDictCity, insertDictCity, updateDictCity} from "../../../actions/dict-city-actions";
+import {
+    getDatasetDictStreetSelector,
+    getErrorDictStreetSelector,
+    getIsLoadingDictStreetSelector
+} from "../../../selectors/dict-street-selectors";
+import {
+    deleteDictStreet,
+    fetchDictStreet,
+    insertDictStreet,
+    updateDictStreet
+} from "../../../actions/dict-street-actions";
+import {
+    getDatasetDictContactTypeSelector, getErrorDictContactTypeSelector,
+    getIsLoadingDictContactTypeSelector
+} from "../../../selectors/dict-contact-type-selectors";
+import {
+    deleteDictContactType,
+    fetchDictContactType,
+    insertDictContactType, updateDictContactType
+} from "../../../actions/dict-contact-type-actions";
+import {
+    getDatasetDictSubjectSelector, getErrorDictSubjectSelector,
+    getIsLoadingDictSubjectSelector
+} from "../../../selectors/dict-subject-selectors";
+import {
+    deleteDictSubject,
+    fetchDictSubject,
+    insertDictSubject,
+    updateDictSubject
+} from "../../../actions/dict-subject-actions";
+import {
+    deleteDictEducationForm,
+    fetchDictEducationForm,
+    insertDictEducationForm, updateDictEducationForm
+} from "../../../actions/dict-education-form-actions";
+import {
+    getDatasetDictEducationFormSelector, getErrorDictEducationFormSelector,
+    getIsLoadingDictEducationFormSelector
+} from "../../../selectors/dict-education-form-selectors";
+import {
+    getDatasetDictCertificationResultSelector, getErrorDictCertificationResultSelector,
+    getIsLoadingDictCertificationResultSelector
+} from "../../../selectors/dict-certification-result-selectors";
+import {
+    deleteDictCertificationResult,
+    fetchDictCertificationResult,
+    insertDictCertificationResult, updateDictCertificationResult
+} from "../../../actions/dict-certification-result-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -114,6 +162,24 @@ export const AspirantApi = ({children}) => {
         }
     }
 
+    const dictStreet = {
+        dataset: useSelector(state => getDatasetDictStreetSelector(state)),
+        isLoading: useSelector(state => getIsLoadingDictStreetSelector(state)),
+        error: useSelector(state => getErrorDictStreetSelector(state)),
+        fetch: async () => {
+            await fetchDictStreet (aspirantApiService.dictStreetAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictStreet(rec)(aspirantApiService.dictStreetAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictStreet(id)(aspirantApiService.dictStreetAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictStreet(rec)(aspirantApiService.dictStreetAPI, dispatch);
+        }
+    }
+
     const dictEducationLevels = {
         dataset: useSelector(state => getDatasetDictEducationLevelsSelector(state)),
         isLoading: useSelector(state => getIsLoadingDictEducationLevelsSelector(state)),
@@ -132,30 +198,79 @@ export const AspirantApi = ({children}) => {
         }
     }
 
+    const dictContactType = {
+        dataset: useSelector(state => getDatasetDictContactTypeSelector(state)),
+        isLoading: useSelector(state => getIsLoadingDictContactTypeSelector(state)),
+        error: useSelector(state => getErrorDictContactTypeSelector(state)),
+        fetch: async () => {
+            await fetchDictContactType(aspirantApiService.dictContactTypeAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictContactType(rec)(aspirantApiService.dictContactTypeAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictContactType(id)(aspirantApiService.dictContactTypeAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictContactType(rec)(aspirantApiService.dictContactTypeAPI, dispatch);
+        }
+    }
 
+    const dictSubject = {
+        dataset: useSelector(state => getDatasetDictSubjectSelector(state)),
+        isLoading: useSelector(state => getIsLoadingDictSubjectSelector(state)),
+        error: useSelector(state => getErrorDictSubjectSelector(state)),
+        fetch: async () => {
+            await fetchDictSubject(aspirantApiService.dictSubjectAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictSubject(rec)(aspirantApiService.dictSubjectAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictSubject(id)(aspirantApiService.dictSubjectAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictSubject(rec)(aspirantApiService.dictSubjectAPI, dispatch);
+        }
+    }
 
-    // const fetchDictDocApi = async () => {
-    //     await fetchDictDoc(aspirantApiService.dictDocAPI , dispatch);
-    // }
-    // const insertDictDocApi = async (rec) => {
-    //     await insertDictDoc(rec)(aspirantApiService.dictDocAPI , dispatch);
-    // }
-    // const deleteDictDocApi = async (id) => {
-    //     await deleteDictDoc(id)(aspirantApiService.dictDocAPI , dispatch);
-    // }
-    // const updateDictDocApi = async (rec) => {
-    //     await updateDictDoc(rec)(aspirantApiService.dictDocAPI , dispatch);
-    // }
+    const dictEducationForm = {
+        dataset: useSelector(state => getDatasetDictEducationFormSelector(state)),
+        isLoading: useSelector(state => getIsLoadingDictEducationFormSelector(state)),
+        error: useSelector(state => getErrorDictEducationFormSelector(state)),
 
-    // const pushMessage = (message, typeMessage) => {
-    //     dispatch(setMessage(message, typeMessage));
-    // }
-    // const destroyMessage = () => {
-    //     dispatch(clearMessage());
-    // }
-    // const pushDisappearingMessage = (message, typeMessage, timeout) => {
-    //     setDisappearingMessage(message, typeMessage, timeout)(dispatch)
-    // }
+        fetch: async () => {
+            await fetchDictEducationForm(aspirantApiService.dictEducationFormAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictEducationForm(rec)(aspirantApiService.dictEducationFormAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictEducationForm(id)(aspirantApiService.dictEducationFormAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictEducationForm(rec)(aspirantApiService.dictEducationFormAPI, dispatch);
+        }
+    }
+
+    const dictCertificationResult = {
+        dataset: useSelector(state => getDatasetDictCertificationResultSelector(state)),
+        isLoading: useSelector(state => getIsLoadingDictCertificationResultSelector(state)),
+        error: useSelector(state => getErrorDictCertificationResultSelector(state)),
+
+        fetch: async () => {
+            await fetchDictCertificationResult(aspirantApiService.dictCertificationResultAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictCertificationResult(rec)(aspirantApiService.dictCertificationResultAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictCertificationResult(id)(aspirantApiService.dictCertificationResultAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictCertificationResult(rec)(aspirantApiService.dictCertificationResultAPI, dispatch);
+        }
+    }
 
     return (
         <AspirantApiContext.Provider value={{
@@ -171,6 +286,11 @@ export const AspirantApi = ({children}) => {
             dictCountry,
             dictEducationLevels,
             dictCity,
+            dictStreet,
+            dictContactType,
+            dictSubject,
+            dictEducationForm,
+            dictCertificationResult,
             isAuth,
         }}>
             {children}
