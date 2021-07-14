@@ -14,6 +14,8 @@ const _pathDictContactTypeAPI = 'dict-contact-type';
 const _pathDictSubjectAPI = 'dict-subject';
 const _pathDictEducationFormAPI = 'dict-education-form';
 const _pathDictCertificationResultAPI = 'dict-certification-result';
+const _pathDictEnterpriseAPI = 'dict-enterprise';
+const _pathDictEnterpriseAsTreeAPI = 'dict-enterprise-as-tree';
 
 export default class AspirantApiService {
     userApi = {
@@ -210,6 +212,38 @@ export default class AspirantApiService {
         async put(data) {
             return await _instance.put(_pathDictCertificationResultAPI, data)
         }
+    }
+
+    dictEnterpriseAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictEnterpriseAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictEnterpriseAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictEnterpriseAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictEnterpriseAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictEnterpriseAPI, data)
+        }
+    }
+
+    dictEnterpriseAsTreeAPI = {
+        async getTreeAll() {
+            return await _instance.get(_pathDictEnterpriseAsTreeAPI)
+            //.then(response => response.data)
+        },
+        async getTreeBranch(id) {
+            return await _instance.get(`${_pathDictEnterpriseAsTreeAPI}/${id}`)
+            //.then(response => response.data)
+        },
     }
 
 }

@@ -85,6 +85,16 @@ import {
     fetchDictCertificationResult,
     insertDictCertificationResult, updateDictCertificationResult
 } from "../../../actions/dict-certification-result-actions";
+import {
+    getDatasetAsTreeDictEnterpriseSelector,
+    getDatasetDictEnterpriseSelector, getErrorDictEnterpriseSelector,
+    getIsLoadingDictEnterpriseSelector
+} from "../../../selectors/dict-enterprise-selectors";
+import {
+    deleteDictEnterprise,
+    fetchDictEnterprise,
+    insertDictEnterprise, updateDictEnterprise
+} from "../../../actions/dict-enterprise-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -272,6 +282,26 @@ export const AspirantApi = ({children}) => {
         }
     }
 
+    const dictEnterprise = {
+        dataset: useSelector(state => getDatasetDictEnterpriseSelector(state)),
+        datasetAsTree: useSelector(state => getDatasetAsTreeDictEnterpriseSelector(state)),
+        isLoading: useSelector(state => getIsLoadingDictEnterpriseSelector(state)),
+        error: useSelector(state => getErrorDictEnterpriseSelector(state)),
+
+        fetch: async () => {
+            await fetchDictEnterprise(aspirantApiService.dictEnterpriseAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictEnterprise(rec)(aspirantApiService.dictEnterpriseAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictEnterprise(id)(aspirantApiService.dictEnterpriseAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictEnterprise(rec)(aspirantApiService.dictEnterpriseAPI, dispatch);
+        }
+    }
+
     return (
         <AspirantApiContext.Provider value={{
             messages,
@@ -291,6 +321,7 @@ export const AspirantApi = ({children}) => {
             dictSubject,
             dictEducationForm,
             dictCertificationResult,
+            dictEnterprise,
             isAuth,
         }}>
             {children}

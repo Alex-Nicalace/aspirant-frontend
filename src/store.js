@@ -11,6 +11,7 @@ import dictContactTypeReducer from "./reducers/contact-type-reducers";
 import dictSubjectReducer from "./reducers/dict-subject-reducers";
 import dictEducationFormReducer from "./reducers/dict-education-form-reducers";
 import dictCertificationResultReducer from "./reducers/dict-certification-result-reducers";
+import dictEnterpriseReducer from "./reducers/dict-enterprise-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
@@ -24,6 +25,7 @@ const reducer = combineReducers({
     dictSubject: dictSubjectReducer,
     dictEducationForm: dictEducationFormReducer,
     dictCertificationResult: dictCertificationResultReducer,
+    dictEnterprise: dictEnterpriseReducer,
 
 });
 

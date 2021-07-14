@@ -16,6 +16,7 @@ import {Paper} from "@material-ui/core";
 import DictSubject from "../dict-subject";
 import DictEducationForm from "../dict-education-form";
 import DictCertificationResult from "../dict-certification-result";
+import DictEnterpriseAsTree from "../dict-enterprise-as-tree";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -91,6 +92,7 @@ export default function Dictionaries() {
                         <Tab label="предметы" {...a11yProps(6)} />
                         <Tab label="форма обучения" {...a11yProps(7)} />
                         <Tab label="результат аттестации" {...a11yProps(8)} />
+                        <Tab label="структура" {...a11yProps(9)} />
                     </Tabs>
                 </AppBar>
                 {/*<SwipeableViews*/}
@@ -124,6 +126,9 @@ export default function Dictionaries() {
                 </TabPanel>
                 <TabPanel value={value} index={8}>
                     <DictCertificationResult />
+                </TabPanel>
+                <TabPanel value={value} index={9}>
+                    <DictEnterpriseAsTree />
                 </TabPanel>
                 {/*</SwipeableViews>*/}
             </Paper>
