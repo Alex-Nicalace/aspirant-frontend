@@ -1,7 +1,7 @@
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import PropTypes from 'prop-types';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -17,6 +17,7 @@ import DictSubject from "../dict-subject";
 import DictEducationForm from "../dict-education-form";
 import DictCertificationResult from "../dict-certification-result";
 import DictEnterpriseAsTree from "../dict-enterprise-as-tree";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -54,20 +55,29 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
-    return {
-        id: `scrollable-auto-tab-${index}`,
-        'aria-controls': `scrollable-auto-tabpanel-${index}`,
-    };
-}
+const tabsArray = [
+    {value: 'type-document', label: 'документы', component: <DictDoc/>},
+    {value: 'education-level', label: 'уровни образования', component: <DictEducationLevel/>},
+    {value: 'country', label: 'страны', component: <DictCountry/>},
+    {value: 'city', label: 'города', component: <DictCity/>},
+    {value: 'street', label: 'улицы', component: <DictStreet/>},
+    {value: 'type-contact', label: 'типы контактов', component: <DictContactType/>},
+    {value: 'subject', label: 'предметы', component: <DictSubject/>},
+    {value: 'education-form', label: 'форма обучения', component: <DictEducationForm/>},
+    {value: 'certification-result', label: 'результат аттестации', component: <DictCertificationResult/>},
+    {value: 'enterprise-as-tree', label: 'структура', component: <DictEnterpriseAsTree/>},
+]
 
-export default function Dictionaries() {
+export default function Dictionaries({nameDict}) {
+    const history = useHistory();
     const classes = useStyles();
-    const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+    //const theme = useTheme();
+    //const [value, setValue] = React.useState(0);
+    const value = nameDict;
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        //setValue(newValue);
+        history.push(newValue);
     };
 
     return (
@@ -83,16 +93,7 @@ export default function Dictionaries() {
                         scrollButtons="auto"
                         aria-label="scrollable auto tabs example"
                     >
-                        <Tab label="документы" {...a11yProps(0)} />
-                        <Tab label="уровни образования" {...a11yProps(1)} />
-                        <Tab label="страны" {...a11yProps(2)} />
-                        <Tab label="города" {...a11yProps(3)} />
-                        <Tab label="улицы" {...a11yProps(4)} />
-                        <Tab label="типы контактов" {...a11yProps(5)} />
-                        <Tab label="предметы" {...a11yProps(6)} />
-                        <Tab label="форма обучения" {...a11yProps(7)} />
-                        <Tab label="результат аттестации" {...a11yProps(8)} />
-                        <Tab label="структура" {...a11yProps(9)} />
+                        {tabsArray.map(i => <Tab value={i.value} label={i.label} key={i.value}/>)}
                     </Tabs>
                 </AppBar>
                 {/*<SwipeableViews*/}
@@ -100,36 +101,7 @@ export default function Dictionaries() {
                 {/*    index={value}*/}
                 {/*    onChangeIndex={handleChange}*/}
                 {/*>*/}
-                <TabPanel value={value} index={0}>
-                    <DictDoc/>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <DictEducationLevel/>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <DictCountry/>
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <DictCity/>
-                </TabPanel>
-                <TabPanel value={value} index={4}>
-                    <DictStreet/>
-                </TabPanel>
-                <TabPanel value={value} index={5}>
-                    <DictContactType/>
-                </TabPanel>
-                <TabPanel value={value} index={6}>
-                    <DictSubject />
-                </TabPanel>
-                <TabPanel value={value} index={7}>
-                    <DictEducationForm />
-                </TabPanel>
-                <TabPanel value={value} index={8}>
-                    <DictCertificationResult />
-                </TabPanel>
-                <TabPanel value={value} index={9}>
-                    <DictEnterpriseAsTree />
-                </TabPanel>
+                {tabsArray.map(i => <TabPanel key={i.value} index={i.value} value={value}>{i.component}</TabPanel>)}
                 {/*</SwipeableViews>*/}
             </Paper>
         </div>

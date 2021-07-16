@@ -22,13 +22,6 @@ const TableEdit = ({
                        FormEdit,
                        initialOrderBy
                    }) => {
-    const {
-        messages: {
-            messages,
-            destroyMessage,
-        }
-
-    } = useContext(AspirantApiContext);
 
     const [modeEdit, setModeEdit] = useState(null)
     const [currentRec, setCurrentRec] = useState(null);
@@ -37,8 +30,6 @@ const TableEdit = ({
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
-
-    const openNotification = Boolean(messages.message)
 
     useEffect(() => {
         fetch();
@@ -78,13 +69,6 @@ const TableEdit = ({
 
     const handleCloseDialog = () => {
         setIsShowDialog(false);
-    };
-
-    const handleCloseNotification = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        destroyMessage();
     };
 
     if (isLoading)
@@ -136,13 +120,7 @@ const TableEdit = ({
                 </Container>
             </Popover>
 
-            <Notification
-                message={messages.message}
-                type={messages.typeMessage}
-                autoHideDuration={DURATION_MESSAGE}
-                open={openNotification}
-                handleClose={handleCloseNotification}
-            />
+
 
         </>
     );

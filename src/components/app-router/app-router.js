@@ -13,7 +13,7 @@ const AppRouter = () => {
             isAuth
                 ? (
                     <Switch> {authRoutes.map(({path, render, exact}) =>
-                        <Route key={path} path={path} render={render} exact={exact}/>)};
+                        <Route key={path} path={path} render={render} exact={ exact }/>)};
                         <Redirect to={ASPIRANT_ROUTE}/>
                     </Switch>
                 )

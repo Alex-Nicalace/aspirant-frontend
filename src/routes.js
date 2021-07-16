@@ -11,9 +11,9 @@ export const authRoutes = [
         exact: true
     },
     {
-        path: DICTIONARIES_ROUTE,
-        render: () => <Dictionaries />,
-        exact: true
+        path: DICTIONARIES_ROUTE + '/:nameDict',
+        render: ({match:{params:{nameDict}}}) => <Dictionaries nameDict={nameDict}/>,
+        exact: false
     },
 
 

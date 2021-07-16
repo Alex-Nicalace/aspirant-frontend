@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-const DialogAlert = ({isShowDialog, handleClose, title, message, handleYes}) => {
+const DialogAlert = ({isShowDialog, title, message, handleClose,  handleYes}) => {
 
     return (
             <Dialog
@@ -25,7 +25,7 @@ const DialogAlert = ({isShowDialog, handleClose, title, message, handleYes}) => 
                     <Button onClick={handleClose} color="primary">
                         отмена
                     </Button>
-                    <Button onClick={() => {handleYes(); handleClose()}} color="primary" autoFocus>
+                    <Button onClick={() => handleYes()} color="primary" autoFocus>
                         да
                     </Button>
                 </DialogActions>
