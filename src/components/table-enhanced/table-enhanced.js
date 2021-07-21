@@ -9,7 +9,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
-import {IconButton, Link, TableFooter, useTheme} from "@material-ui/core";
+import {IconButton, Link, useTheme} from "@material-ui/core";
 import LastPageIcon from '@material-ui/icons/LastPage';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -58,24 +58,24 @@ function stableSort(array, comparator) {
     {id: 'dop_info', numeric: false, disablePadding: false, label: 'доп. инф.'},
 ];*/
 
-function TablePaginationActions({count, page, rowsPerPage, onChangePage}) {
+function TablePaginationActions({count, page, rowsPerPage, onPageChange}) {
     const classes = useStyles1();
     const theme = useTheme();
 
     const handleFirstPageButtonClick = (event) => {
-        onChangePage(event, 0);
+        onPageChange(event, 0);
     };
 
     const handleBackButtonClick = (event) => {
-        onChangePage(event, page - 1);
+        onPageChange(event, page - 1);
     };
 
     const handleNextButtonClick = (event) => {
-        onChangePage(event, page + 1);
+        onPageChange(event, page + 1);
     };
 
     const handleLastPageButtonClick = (event) => {
-        onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
 
     return (
@@ -120,7 +120,7 @@ function EnhancedTableHead({classes, order, orderBy, onRequestSort, headCells}) 
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'default'}
+                        padding={headCell.disablePadding ? 'none' : 'normal'}
                         //sortDirection={orderBy === headCell.id ? order : false}
                     >
                         <TableSortLabel
@@ -312,8 +312,8 @@ export default function TableEnhanced({
                 count={dataset.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
                 SelectProps={{
                     inputProps: {'aria-label': 'rows per page'},

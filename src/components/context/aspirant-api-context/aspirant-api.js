@@ -95,6 +95,30 @@ import {
     fetchDictEnterprise,
     insertDictEnterprise, updateDictEnterprise
 } from "../../../actions/dict-enterprise-actions";
+import {
+    getDatasetFacesSelector,
+    getErrorFacesSelector,
+    getIsLoadingFacesSelector
+} from "../../../selectors/faces-selectors";
+import {deleteFaces, fetchFaces, insertFaces, refreshRecordFaces, updateFaces} from "../../../actions/faces-actions";
+import {
+    getDatasetDependsOnIdFaceNamesSelector,
+    getDatasetFaceNamesSelector,
+    getErrorFaceNamesSelector,
+    getIsLoadingFaceNamesSelector
+} from "../../../selectors/face-names-selectors";
+import {deleteFaceNames, fetchFaceNames, insertFaceNames, updateFaceNames} from "../../../actions/face-names-actions";
+import {
+    getDatasetDependsOnIdFaceDocumentsSelector,
+    getDatasetFaceDocumentsSelector, getErrorFaceDocumentsSelector,
+    getIsLoadingFaceDocumentsSelector
+} from "../../../selectors/face-documents-selectors";
+import {
+    deleteFaceDocuments,
+    fetchFaceDocuments,
+    insertFaceDocuments,
+    updateFaceDocuments
+} from "../../../actions/face-documents-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -283,10 +307,10 @@ export const AspirantApi = ({children}) => {
     }
 
     const dictEnterprise = {
-        dataset: useSelector(state => getDatasetDictEnterpriseSelector(state)),
-        datasetAsTree: useSelector(state => getDatasetAsTreeDictEnterpriseSelector(state)),
-        isLoading: useSelector(state => getIsLoadingDictEnterpriseSelector(state)),
-        error: useSelector(state => getErrorDictEnterpriseSelector(state)),
+        dataset: useSelector(getDatasetDictEnterpriseSelector),
+        datasetAsTree: useSelector(getDatasetAsTreeDictEnterpriseSelector),
+        isLoading: useSelector(getIsLoadingDictEnterpriseSelector),
+        error: useSelector(getErrorDictEnterpriseSelector),
 
         fetch: async () => {
             await fetchDictEnterprise(aspirantApiService.dictEnterpriseAPI, dispatch)
@@ -300,6 +324,86 @@ export const AspirantApi = ({children}) => {
         updateRec: async (rec) => {
             await updateDictEnterprise(rec)(aspirantApiService.dictEnterpriseAPI, dispatch);
         }
+    }
+
+    const faces = {
+        dataset: useSelector(getDatasetFacesSelector),
+        isLoading: useSelector(getIsLoadingFacesSelector),
+        error: useSelector(getErrorFacesSelector),
+
+        fetch: async () => {
+            await fetchFaces(aspirantApiService.facesAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaces(rec)(aspirantApiService.facesAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaces(id)(aspirantApiService.facesAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaces(rec)(aspirantApiService.facesAPI, dispatch);
+        }
+    }
+
+    const faceNames = {
+        dataset: useSelector(getDatasetFaceNamesSelector),
+        isLoading: useSelector(getIsLoadingFaceNamesSelector),
+        error: useSelector(getErrorFaceNamesSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceNamesSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceNames(faceId)(aspirantApiService.faceNamesAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceNames(rec)({
+                faceNamesAPI:aspirantApiService.faceNamesAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceNames(id)({
+                faceNamesAPI:aspirantApiService.faceNamesAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceNames(rec)({
+                faceNamesAPI:aspirantApiService.faceNamesAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        // refreshRec: async (id) => {
+        //     await refreshRecordFaces(id)(aspirantApiService.faceNamesAPI, dispatch);
+        // }
+    }
+
+    const faceDocuments = {
+        dataset: useSelector(getDatasetFaceDocumentsSelector),
+        isLoading: useSelector(getIsLoadingFaceDocumentsSelector),
+        error: useSelector(getErrorFaceDocumentsSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceDocumentsSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceDocuments(faceId)(aspirantApiService.faceDocumentsAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceDocuments(rec)({
+                faceDocumentsAPI:aspirantApiService.faceDocumentsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceDocuments(id)({
+                faceDocumentsAPI:aspirantApiService.faceDocumentsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceDocuments(rec)({
+                faceDocumentsAPI:aspirantApiService.faceDocumentsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
     }
 
     return (
@@ -322,6 +426,9 @@ export const AspirantApi = ({children}) => {
             dictEducationForm,
             dictCertificationResult,
             dictEnterprise,
+            faces,
+            faceNames,
+            faceDocuments,
             isAuth,
         }}>
             {children}

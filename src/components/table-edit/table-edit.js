@@ -1,13 +1,10 @@
-import React, {useContext, useEffect, useState} from "react";
-import {AspirantApiContext} from "../context/aspirant-api-context";
+import React, {useEffect, useState} from "react";
 import TableEnhanced from "../table-enhanced";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonsPanel from "../buttons-panel";
 import Popover from "@material-ui/core/Popover";
 import {Container} from "@material-ui/core";
 import DialogAlert from "../dialog-alert";
-import Notification from "../notification";
-import {DURATION_MESSAGE} from "../../utils/consts";
 
 // const headCells = [
 //     {id: 'id', disablePadding: false, key: true},
@@ -20,7 +17,9 @@ const TableEdit = ({
                        fetch,
                        deleteRec,
                        FormEdit,
-                       initialOrderBy
+                       initialOrderBy,
+                       onGetKeyValue = () => {
+                       },
                    }) => {
 
     const [modeEdit, setModeEdit] = useState(null)
@@ -43,6 +42,10 @@ const TableEdit = ({
 
     }, [dataset])
 
+    useEffect(() => {
+        onGetKeyValue(currentRec)
+    }, [currentRec])
+
     const setModeEditHandle = (modeEdit, event) => {
         if (modeEdit === 'update' && !currentRec)
             return;
@@ -59,6 +62,7 @@ const TableEdit = ({
         if (currentRec) {
             await deleteRec(currentRec);
         }
+        setIsShowDialog(false);
     }
 
     const handleClickOpenDialog = () => {

@@ -16,6 +16,10 @@ const _pathDictEducationFormAPI = 'dict-education-form';
 const _pathDictCertificationResultAPI = 'dict-certification-result';
 const _pathDictEnterpriseAPI = 'dict-enterprise';
 const _pathDictEnterpriseAsTreeAPI = 'dict-enterprise-as-tree';
+const _pathFaceAPI = 'face';
+const _pathFaceNameAPI = 'face-name';
+const _pathFaceDocumentAPI = 'face-document';
+const _pathFaceCitizenshipAPI = 'face-citizenship';
 
 export default class AspirantApiService {
     userApi = {
@@ -244,6 +248,90 @@ export default class AspirantApiService {
             return await _instance.get(`${_pathDictEnterpriseAsTreeAPI}/${id}`)
             //.then(response => response.data)
         },
+    }
+
+    facesAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathFaceAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceAPI, data)
+        }
+    }
+
+    faceNamesAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceNameAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllNamesOneFace(faceId) {
+            return await _instance.get(`${_pathFaceNameAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceNameAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceNameAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceNameAPI, data)
+        }
+    }
+
+    faceDocumentsAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceDocumentAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceDocumentAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceDocumentAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceDocumentAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceDocumentAPI, data)
+        }
+    }
+
+    faceCitizenshipsAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceCitizenshipAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceCitizenshipAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceCitizenshipAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceCitizenshipAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceCitizenshipAPI, data)
+        }
     }
 
 }

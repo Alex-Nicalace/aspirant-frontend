@@ -41,7 +41,7 @@ const DictEnterpriseAsTree = () => {
     } = useContext(AspirantApiContext);
     const classes = useStyles();
     const [expanded, setExpanded] = useState([1]); //контроль раскрытых веток
-    const [selected, setSelected] = useState(0); // контроль выделенных веток
+    const [selected, setSelected] = useState('1'); // контроль выделенных веток
     const [modeEdit, setModeEdit] = useState(null); // вставка или обновление
     const [anchorEl, setAnchorEl] = useState(null);
     const [isShowDialog, setIsShowDialog] = useState(false);
@@ -92,6 +92,7 @@ const DictEnterpriseAsTree = () => {
     const handleSelect = (event, nodeIds) => {
         // контроль выделенных веток
         setSelected(nodeIds);
+        console.log(nodeIds)
     };
 
     if (error)
@@ -156,11 +157,6 @@ const DictEnterpriseAsTree = () => {
                 currentRec={selected}
 
             />
-            <Box className={classes.reParentBtns} m={1}>
-                <Button variant='contained' onClick={rememberIdForReParentHandler}>вырезать</Button>
-                <Button variant='contained' onClick={reParentBranchHandler} disabled={!idForReParent}>вставить</Button>
-                <Button variant='contained' onClick={cancelReParentBranch} disabled={!idForReParent}>отмена</Button>
-            </Box>
             <Paper elevation={2}>
                 <TreeView
                     className={classes.root}
@@ -175,6 +171,11 @@ const DictEnterpriseAsTree = () => {
                     {renderTreeMain(datasetAsTree)}
                 </TreeView>
             </Paper>
+            <Box className={classes.reParentBtns} m={1}>
+                <Button variant='contained' onClick={rememberIdForReParentHandler}>вырезать</Button>
+                <Button variant='contained' onClick={reParentBranchHandler} disabled={!idForReParent}>вставить</Button>
+                <Button variant='contained' onClick={cancelReParentBranch} disabled={!idForReParent}>отмена</Button>
+            </Box>
 
             <Popover
                 id={id}

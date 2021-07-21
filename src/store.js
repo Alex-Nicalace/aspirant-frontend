@@ -12,6 +12,10 @@ import dictSubjectReducer from "./reducers/dict-subject-reducers";
 import dictEducationFormReducer from "./reducers/dict-education-form-reducers";
 import dictCertificationResultReducer from "./reducers/dict-certification-result-reducers";
 import dictEnterpriseReducer from "./reducers/dict-enterprise-reducers";
+import facesReducer from "./reducers/faces-reducers";
+import faceNamesReducer from "./reducers/face-names-reducers";
+import faceDocumentsReducer from "./reducers/face-documents-reducers";
+import faceCitizenshipsReducer from "./reducers/face-citizenships-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
@@ -26,6 +30,10 @@ const reducer = combineReducers({
     dictEducationForm: dictEducationFormReducer,
     dictCertificationResult: dictCertificationResultReducer,
     dictEnterprise: dictEnterpriseReducer,
+    faces: facesReducer,
+    faceNames: faceNamesReducer,
+    faceDocuments: faceDocumentsReducer,
+    faceCitizenships: faceCitizenshipsReducer,
 
 });
 

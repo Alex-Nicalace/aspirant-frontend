@@ -9,6 +9,7 @@ import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
 import {useHistory, useLocation} from "react-router-dom";
 import {ASPIRANT_ROUTE, DICTIONARIES_ROUTE} from "../../utils/consts";
+import {authRoutes} from "../../routes";
 
 const drawerWidth = 240;
 
@@ -52,15 +53,9 @@ const AppDrawer = ({isVisibleAppDrawer, toggleAppDrawer}) => {
     const history = useHistory();
     const location = useLocation();
 
-    const items = [
-        {path: ASPIRANT_ROUTE, label: 'главная', icon: <Home/>},
-        {path: DICTIONARIES_ROUTE, label: 'справочники', icon: <LibraryBooksIcon/>},
-
-    ]
-
     const list = () => (
         <List >
-            {items.map((i, index) => (
+            {authRoutes.map((i, index) => (
                 <ListItem
                     button
                     key={i.path}

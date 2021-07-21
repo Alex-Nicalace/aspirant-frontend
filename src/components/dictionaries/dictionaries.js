@@ -1,23 +1,13 @@
 import React from 'react';
-import SwipeableViews from 'react-swipeable-views';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-import DictDoc from "../dict-doc";
-import DictCountry from "../dict-country";
-import DictEducationLevel from "../dict-education-level";
-import DictCity from "../dict-city";
-import DictStreet from "../dict-street";
-import DictContactType from "../dict-contact-type/dict-contact-type";
-import {Paper} from "@material-ui/core";
-import DictSubject from "../dict-subject";
-import DictEducationForm from "../dict-education-form";
-import DictCertificationResult from "../dict-certification-result";
-import DictEnterpriseAsTree from "../dict-enterprise-as-tree";
-import {useHistory} from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
+import {Redirect, Route, Switch, useHistory, useLocation} from "react-router-dom";
+import {dictionariesSubRoutes} from "../../routes";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,28 +45,17 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-const tabsArray = [
-    {value: 'type-document', label: 'документы', component: <DictDoc/>},
-    {value: 'education-level', label: 'уровни образования', component: <DictEducationLevel/>},
-    {value: 'country', label: 'страны', component: <DictCountry/>},
-    {value: 'city', label: 'города', component: <DictCity/>},
-    {value: 'street', label: 'улицы', component: <DictStreet/>},
-    {value: 'type-contact', label: 'типы контактов', component: <DictContactType/>},
-    {value: 'subject', label: 'предметы', component: <DictSubject/>},
-    {value: 'education-form', label: 'форма обучения', component: <DictEducationForm/>},
-    {value: 'certification-result', label: 'результат аттестации', component: <DictCertificationResult/>},
-    {value: 'enterprise-as-tree', label: 'структура', component: <DictEnterpriseAsTree/>},
-]
-
-export default function Dictionaries({nameDict}) {
+export default function Dictionaries() {
     const history = useHistory();
     const classes = useStyles();
-    //const theme = useTheme();
-    //const [value, setValue] = React.useState(0);
-    const value = nameDict;
+    const {pathname} = useLocation();
+
+    // если указан не существующий роут справочника то отпеределить значение из епервого элмента ройтов
+    // иначе предупрежедние мол указано не существующее значение
+    const pathCandidate = dictionariesSubRoutes.find(item => item.path === pathname)
+    const value = pathCandidate ? pathname : dictionariesSubRoutes[0].path;
 
     const handleChange = (event, newValue) => {
-        //setValue(newValue);
         history.push(newValue);
     };
 
@@ -86,6 +65,7 @@ export default function Dictionaries({nameDict}) {
                 <AppBar position="static" color="default">
                     <Tabs
                         value={value}
+                        defaultValue={dictionariesSubRoutes[0].path}
                         onChange={handleChange}
                         indicatorColor="primary"
                         textColor="primary"
@@ -93,20 +73,15 @@ export default function Dictionaries({nameDict}) {
                         scrollButtons="auto"
                         aria-label="scrollable auto tabs example"
                     >
-                        {tabsArray.map(i => <Tab value={i.value} label={i.label} key={i.value}/>)}
+                        {dictionariesSubRoutes.map(i => <Tab value={i.path} label={i.label} key={i.path}/>)}
                     </Tabs>
                 </AppBar>
-                {/*<SwipeableViews*/}
-                {/*    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}*/}
-                {/*    index={value}*/}
-                {/*    onChangeIndex={handleChange}*/}
-                {/*>*/}
-                {tabsArray.map(i => <TabPanel key={i.value} index={i.value} value={value}>{i.component}</TabPanel>)}
-                {/*</SwipeableViews>*/}
+                <Switch>
+                    {dictionariesSubRoutes.map(({path, component}) =>
+                        <Route key={path} path={path} render={() => component} exact/>)};
+                    <Redirect to={dictionariesSubRoutes[0].path}/>
+                </Switch>
             </Paper>
         </div>
     );
 }
-
-
-//export default Dictionaries;

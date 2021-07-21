@@ -2,73 +2,156 @@ import React, {useEffect, useState} from 'react';
 import FormButtons from "../form-buttons";
 
 const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit}) => {
-    const {
-        insertRec,
-        updateRec,
-        dataset
-    } = data;
-    const [rec, setRec] = useState(recInit);
+        const {
+            insertRec,
+            updateRec,
+            dataset
+        } = data;
+        //const [rec, setRec] = useState(recInit);
+        const [rec, setRec] = useState(null);
+        //const initState = {};
 
-    useEffect(() => {
-        // чтобы в момоент редактирования в форме оказались редактируемые данные
-        if (modeEdit === 'update') {
-            const result = dataset.find(i => i.id === currentRec);
-            result && setRec(result);
-            return;
+        // useEffect(() => {
+        //     // чтобы в момоент редактирования в форме оказались редактируемые данные
+        //     if (modeEdit === 'update') {
+        //         const result = dataset.find(i => i.id === currentRec);
+        //         result && setRec(result);
+        //         return;
+        //     }
+        //
+        //     setRec(recInit);
+        // }, [modeEdit]);
+
+        useEffect(() => {
+            // чтобы в момоент редактирования в форме оказались редактируемые данные
+            if (modeEdit === 'update') {
+                const result = dataset.find(i => i.id === currentRec);
+                result && setRec(result);
+                return;
+            }
+            !recInit
+                ? setRec(buildInitState(children))
+                : setRec(recInit)
+            //console.log(initState);
+        }, [])
+
+        const buildInitState = (childrenMy) => {
+            //console.log(childrenMy);
+            //  в циуле перебераю всех чилов
+            const res = {};
+            const func = (childrenMy) => {
+                React.Children.forEach(childrenMy, ((child) => {
+                    if (typeof (child) === 'object') {
+                        if (Array.isArray(child.props?.children)) {
+                            // если масив значит имется чилдрены
+                            func(child.props.children)
+                        }
+                        if (child.props.hasOwnProperty('name')) {
+                            // если имеется пропс имеет name то создать ему onChange и value
+                            res[child.props.name] = child.props.hasOwnProperty('value')
+                                ? child.props.value
+                                : '';
+                        }
+                    }
+                }))
+            }
+            func(childrenMy);
+            return res;
         }
 
-        setRec(recInit);
-    }, [modeEdit]);
-
-    const changeValueHandle = ({target: {value, name}}) => {
-        setRec((state) => {
-            return {
-                ...state,
-                [name]: value
-            }
-        })
-    }
-
-    const saveChangesHandle = async (e) => {
-        e.preventDefault();
-
-        closeEdit();
-
-        switch (modeEdit) {
-            case 'insert':
-                await insertRec({...rec});
-                return
-            case 'update':
-                await updateRec({id: currentRec, ...rec});
-                return
-            default:
-                return
+        const changeValueHandle = (value, name) => {
+            setRec((state) => {
+                return {
+                    ...state,
+                    [name]: value
+                }
+            });
+            //console.log(`name comp - ${name} value - ${value} state - ${rec}`)
+            //console.log(rec)
         }
-    }
 
-    return (
-        <FormButtons saveBtn={saveChangesHandle} closeEdit={closeEdit}>
-            {React.Children.map(children, ((child, index) => {
-                return React.cloneElement(child, {
-                    ...child.props,
-                    onChange: changeValueHandle,
-                    value: rec[child.props.name]
-                });
-            }))
+        const saveChangesHandle = async (e) => {
+            e.preventDefault();
+
+            closeEdit();
+
+            switch (modeEdit) {
+                case 'insert':
+                    await insertRec({...rec});
+                    return
+                case 'update':
+                    await updateRec({id: currentRec, ...rec});
+                    return
+                default:
+                    return
             }
+        }
 
-            {/*<TextField*/}
-            {/*    id="country"*/}
-            {/*    label="страна"*/}
-            {/*    required*/}
-            {/*    type='search'*/}
-            {/*    value={rec.country}*/}
-            {/*    onChange={changeValueHandle}*/}
-            {/*    fullWidth*/}
-            {/*    name='country'*/}
-            {/*/>*/}
-        </FormButtons>
-    );
-};
+        const addToCompPropValueAndEventOnChange = (childrenMy) => {
+            //console.log(childrenMy);
+            return (
+                //  в циуле перебераю всех чилов
+                React.Children.map(childrenMy, ((child) => {
+                    let childrenModify = null
+                    //console.log(`----  ${child.type.name}`)
+
+                    if (Array.isArray(child.props?.children)) {
+                        // если масив значит имется чилдрены
+                        childrenModify = addToCompPropValueAndEventOnChange(child.props?.children)
+                    }
+                    const propsModify = {...child.props};
+                    if (childrenModify) {
+                        // если имеются измененные чилдрены то присвоить их
+                        propsModify.children = childrenModify
+                    }
+                    if (propsModify.hasOwnProperty('name')) {
+                        // если имеется пропс имеет name то создать ему onChange и value
+                        propsModify.onChange =
+                            !child.props.isDataPicker // у DataPicker другой интерфейс
+                                ? ({target: {value, name}}) => changeValueHandle(value, name)
+                                : (date) => changeValueHandle(date, child.props.name);
+                        propsModify.value = rec[child.props.name]
+                    }
+                    return (typeof (child) === 'object')
+                        ? React.cloneElement(child, {
+                            ...propsModify
+                        })
+                        : child;
+                }))
+
+            )
+        }
+
+        return (
+            <FormButtons saveBtn={saveChangesHandle} closeEdit={closeEdit}>
+
+                {rec && addToCompPropValueAndEventOnChange(children)
+                    //     React.Children.map(children, ((child, index) => {
+                    //     return React.cloneElement(child, {
+                    //         ...child.props,
+                    //         onChange: (
+                    //             !child.props.isDataPicker // у DataPicker другой интерфейс
+                    //                 ? ({target: {value, name}}) => changeValueHandle(value, name )
+                    //                 : (date) => changeValueHandle(date, child.props.name)
+                    //         ),
+                    //         value: rec[child.props.name]
+                    //     });
+                    // }))
+                }
+
+                {/*<TextField*/}
+                {/*    id="country"*/}
+                {/*    label="страна"*/}
+                {/*    required*/}
+                {/*    type='search'*/}
+                {/*    value={rec.country}*/}
+                {/*    onChange={changeValueHandle}*/}
+                {/*    fullWidth*/}
+                {/*    name='country'*/}
+                {/*/>*/}
+            </FormButtons>
+        );
+    }
+;
 
 export default FormFields;

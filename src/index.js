@@ -3,19 +3,36 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import 'fontsource-roboto';
-import {createMuiTheme, ThemeProvider} from "@material-ui/core";
+import {ThemeProvider} from "@material-ui/core";
+import createTheme from "@material-ui/core/styles/createTheme";
 import {ruRU} from '@material-ui/core/locale'; // локализация компонентов MU
+// для функционирования пакета Material-UI pickers
+import {MuiPickersUtilsProvider} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import ruLocale from "date-fns/locale/ru";
+import format from "date-fns/format";
+// -------------------------------------------------
 
 import App from "./components/app";
 import store from "./store";
 import {AspirantApi} from "./components/context/aspirant-api-context";
 import ErrorBoundary from "./components/error-boundry";
 
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         //primary: {main: '#1976d2'}
     }
 }, ruRU)
+
+class RuLocalizedUtils extends DateFnsUtils {
+    getCalendarHeaderText(date) {
+        return format(date, "LLLL", { locale: ruLocale });
+    }
+
+    getDatePickerHeaderText(date) {
+        return format(date, "dd MMMM", { locale: ruLocale });
+    }
+}
 
 ReactDOM.render(
     <React.StrictMode>
@@ -24,7 +41,9 @@ ReactDOM.render(
                 <AspirantApi>
                     <ErrorBoundary>
                         <BrowserRouter>
-                            <App/>
+                            <MuiPickersUtilsProvider utils={RuLocalizedUtils} locale={ruLocale}>
+                                <App/>
+                            </MuiPickersUtilsProvider>
                         </BrowserRouter>
                     </ErrorBoundary>
                 </AspirantApi>
