@@ -119,6 +119,16 @@ import {
     insertFaceDocuments,
     updateFaceDocuments
 } from "../../../actions/face-documents-actions";
+import {
+    getDatasetDependsOnIdFaceCitizenshipsSelector,
+    getDatasetFaceCitizenshipsSelector, getErrorFaceCitizenshipsSelector,
+    getIsLoadingFaceCitizenshipsSelector
+} from "../../../selectors/face-citizenships-selectors";
+import {
+    deleteFaceCitizenships,
+    fetchFaceCitizenships,
+    insertFaceCitizenships, updateFaceCitizenships
+} from "../../../actions/face-citizenships-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -406,6 +416,35 @@ export const AspirantApi = ({children}) => {
         },
     }
 
+    const faceCitizenships = {
+        dataset: useSelector(getDatasetFaceCitizenshipsSelector),
+        isLoading: useSelector(getIsLoadingFaceCitizenshipsSelector),
+        error: useSelector(getErrorFaceCitizenshipsSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceCitizenshipsSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceCitizenships(faceId)(aspirantApiService.faceCitizenshipsAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceCitizenships(rec)({
+                faceCitizenshipsAPI:aspirantApiService.faceCitizenshipsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceCitizenships(id)({
+                faceCitizenshipsAPI:aspirantApiService.faceCitizenshipsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceCitizenships(rec)({
+                faceCitizenshipsAPI:aspirantApiService.faceCitizenshipsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
     return (
         <AspirantApiContext.Provider value={{
             messages,
@@ -429,6 +468,7 @@ export const AspirantApi = ({children}) => {
             faces,
             faceNames,
             faceDocuments,
+            faceCitizenships,
             isAuth,
         }}>
             {children}

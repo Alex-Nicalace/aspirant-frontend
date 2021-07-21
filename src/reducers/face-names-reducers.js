@@ -35,18 +35,21 @@ const faceNamesReducer = (state, action) => {
             }
         case INS_FACE_NAMES_ACTION:
             return {
+                ...state,
                 dataset: [...state.dataset, action.payload.data],
                 isLoading: false,
                 error: null,
             }
         case DEL_FACE_NAMES_ACTION:
             return {
+                ...state,
                 dataset: state.dataset.filter(item => item.id !== action.payload),
                 isLoading: false,
                 error: null,
             }
         case UPD_FACE_NAMES_ACTION:
             return {
+                ...state,
                 dataset: state.dataset.map(i => {
                     if (i.id === action.payload.data.id) {
                         return action.payload.data

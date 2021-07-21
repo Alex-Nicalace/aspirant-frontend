@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import FormButtons from "../form-buttons";
 
-const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit}) => {
+const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, valuesToState}) => {
         const {
             insertRec,
             updateRec,
@@ -30,10 +30,14 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit}) 
                 return;
             }
             !recInit
-                ? setRec(buildInitState(children))
+                ? setRec({...buildInitState(children), ...valuesToState})
                 : setRec(recInit)
-            //console.log(initState);
+            //console.log({...buildInitState(children), ...valuesToState});
         }, [])
+
+    useEffect(() => {
+        console.log(rec)
+    }, [rec])
 
         const buildInitState = (childrenMy) => {
             //console.log(childrenMy);

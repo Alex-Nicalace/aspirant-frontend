@@ -8,14 +8,14 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const recInit = {
-    dateOn: null,
-    dateOff: null,
-    tblDictCountryId: '',
-    tblDictDocId: '',
-    numDocument: '',
-    tblFaceId: null,
-}
+// const recInit = {
+//     dateOn: null,
+//     dateOff: null,
+//     tblDictCountryId: '',
+//     tblDictDocId: '',
+//     numDocument: '',
+//     tblFaceId: null,
+// }
 
 const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
     /*такие вот мысли .... редактирование хронологии как правило делается в контектсте редактирвания
@@ -29,7 +29,7 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
         dictCountry.fetch();
     }, [])
     const {faceId} = faceDocuments;
-    recInit.tblFaceId = faceId; // tblFaceId foreign key
+    // recInit.tblFaceId = faceId; // tblFaceId foreign key
 
     const renderDocsKind = dictDoc.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.document} </MenuItem>);
     renderDocsKind.unshift(<MenuItem key='dictDoc-key' value=''> <em>не выбрано</em> </MenuItem>);
@@ -39,11 +39,12 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
 
     return (
         <FormFields
-            data={faceDocuments}
+            data={faceDocuments }
             currentRec={currentRec}
             closeEdit={closeEdit}
             modeEdit={modeEdit}
             //recInit={recInit}
+            valuesToState={{tblFaceId: faceId}}
         >
             <FormControl style={{minWidth: "200px"}}>
                 <InputLabel id='document-label'>документ</InputLabel>
