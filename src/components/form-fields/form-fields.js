@@ -35,9 +35,9 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
             //console.log({...buildInitState(children), ...valuesToState});
         }, [])
 
-    useEffect(() => {
-        console.log(rec)
-    }, [rec])
+        useEffect(() => {
+            console.log(rec)
+        }, [rec])
 
         const buildInitState = (childrenMy) => {
             //console.log(childrenMy);
@@ -71,7 +71,7 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
                 }
             });
             //console.log(`name comp - ${name} value - ${value} state - ${rec}`)
-            //console.log(rec)
+
         }
 
         const saveChangesHandle = async (e) => {
@@ -96,12 +96,16 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
             return (
                 //  в циуле перебераю всех чилов
                 React.Children.map(childrenMy, ((child) => {
-                    let childrenModify = null
+                    let childrenModify = null;
+                    let controlModify = null;
                     //console.log(`----  ${child.type.name}`)
 
                     if (Array.isArray(child.props?.children)) {
                         // если масив значит имется чилдрены
                         childrenModify = addToCompPropValueAndEventOnChange(child.props?.children)
+                    }
+                    if (child.props?.hasOwnProperty('control')) {
+                        controlModify = addToCompPropValueAndEventOnChange(child.props.control)
                     }
                     const propsModify = {...child.props};
                     if (childrenModify) {
@@ -112,9 +116,19 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
                         // если имеется пропс имеет name то создать ему onChange и value
                         propsModify.onChange =
                             !child.props.isDataPicker // у DataPicker другой интерфейс
-                                ? ({target: {value, name}}) => changeValueHandle(value, name)
+                                ? ({
+                                       target: {
+                                           value,
+                                           name,
+                                           checked
+                                       }
+                                   }) => changeValueHandle(child.props.isCheckBox ? checked : value, name)
                                 : (date) => changeValueHandle(date, child.props.name);
                         propsModify.value = rec[child.props.name]
+                        propsModify.checked = rec[child.props.name]
+                    }
+                    if (controlModify) {
+                        propsModify.control = controlModify[0]
                     }
                     return (typeof (child) === 'object')
                         ? React.cloneElement(child, {

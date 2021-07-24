@@ -129,6 +129,127 @@ import {
     fetchFaceCitizenships,
     insertFaceCitizenships, updateFaceCitizenships
 } from "../../../actions/face-citizenships-actions";
+import {
+    getDatasetDependsOnIdFaceEducationsSelector,
+    getDatasetFaceEducationsSelector, getErrorFaceEducationsSelector,
+    getIsLoadingFaceEducationsSelector
+} from "../../../selectors/face-educations-selectors";
+import {
+    deleteFaceEducations,
+    fetchFaceEducations,
+    insertFaceEducations, updateFaceEducations
+} from "../../../actions/face-educations-actions";
+import {
+    getDatasetDependsOnIdFaceWorksSelector,
+    getDatasetFaceWorksSelector,
+    getErrorFaceWorksSelector,
+    getIsLoadingFaceWorksSelector
+} from "../../../selectors/face-works-selectors";
+import {deleteFaceWorks, fetchFaceWorks, insertFaceWorks, updateFaceWorks} from "../../../actions/face-works-actions";
+import {
+    getDatasetDependsOnIdFaceResidencesSelector,
+    getDatasetFaceResidencesSelector, getErrorFaceResidencesSelector,
+    getIsLoadingFaceResidencesSelector
+} from "../../../selectors/face-residences-selectors";
+import {
+    deleteFaceResidences,
+    fetchFaceResidences,
+    insertFaceResidences, updateFaceResidences
+} from "../../../actions/face-residences-actions";
+import {
+    getDatasetDependsOnIdFaceContactsSelector,
+    getDatasetFaceContactsSelector, getErrorFaceContactsSelector,
+    getIsLoadingFaceContactsSelector
+} from "../../../selectors/face-contacts-selectors";
+import {
+    deleteFaceContacts,
+    fetchFaceContacts,
+    insertFaceContacts,
+    updateFaceContacts
+} from "../../../actions/face-contacts-actions";
+import {
+    getDatasetDependsOnIdFaceOrdersSelector,
+    getDatasetFaceOrdersSelector,
+    getErrorFaceOrdersSelector,
+    getIsLoadingFaceOrdersSelector
+} from "../../../selectors/face-orders-selectors";
+import {
+    deleteFaceOrders,
+    fetchFaceOrders,
+    insertFaceOrders,
+    updateFaceOrders
+} from "../../../actions/face-orders-actions";
+import {
+    getDatasetDependsOnIdFaceEntranceExaminSelector,
+    getDatasetFaceEntranceExaminSelector, getErrorFaceEntranceExaminSelector,
+    getIsLoadingFaceEntranceExaminSelector
+} from "../../../selectors/face-entrance-examin-selectors";
+import {
+    deleteFaceEntranceExamin,
+    fetchFaceEntranceExamin,
+    insertFaceEntranceExamin, updateFaceEntranceExamin
+} from "../../../actions/face-entrance-examin-actions";
+import {
+    getDatasetDependsOnIdFaceAspirantSelector,
+    getDatasetFaceAspirantSelector, getErrorFaceAspirantSelector,
+    getIsLoadingFaceAspirantSelector
+} from "../../../selectors/face-aspirant-selectors";
+import {
+    deleteFaceAspirant,
+    fetchFaceAspirant,
+    insertFaceAspirant,
+    updateFaceAspirant
+} from "../../../actions/face-aspirant-actions";
+import {
+    getDatasetDependsOnIdFaceAcademicAdvisorSelector, getDatasetFaceAcademicAdvisorSelector,
+    getErrorFaceAcademicAdvisorSelector,
+    getIsLoadingFaceAcademicAdvisorSelector
+} from "../../../selectors/face-academic-advisor-selectors";
+import {
+    deleteFaceAcademicAdvisor,
+    fetchFaceAcademicAdvisor,
+    insertFaceAcademicAdvisor, updateFaceAcademicAdvisor
+} from "../../../actions/face-academic-advisor-actions";
+import {
+    getDatasetDependsOnIdFaceScientificPublSelector,
+    getDatasetFaceScientificPublSelector, getErrorFaceScientificPublSelector,
+    getIsLoadingFaceScientificPublSelector
+} from "../../../selectors/face-scientific-publ-selectors";
+import {
+    deleteFaceScientificPubl,
+    fetchFaceScientificPubl,
+    insertFaceScientificPubl, updateFaceScientificPubl
+} from "../../../actions/face-scientific-publ-actions";
+import {
+    getDatasetDependsOnIdFaceCertificationResultSelector,
+    getDatasetFaceCertificationResultSelector, getErrorFaceCertificationResultSelector,
+    getIsLoadingFaceCertificationResultSelector
+} from "../../../selectors/face-certification-result-selectors";
+import {
+    deleteFaceCertificationResult,
+    fetchFaceCertificationResult,
+    insertFaceCertificationResult, updateFaceCertificationResult
+} from "../../../actions/face-certification-result-actions";
+import {
+    getDatasetDependsOnIdFaceBusinessTripSelector,
+    getDatasetFaceBusinessTripSelector, getErrorFaceBusinessTripSelector,
+    getIsLoadingFaceBusinessTripSelector
+} from "../../../selectors/face-business-trip-selectors";
+import {
+    deleteFaceBusinessTrip,
+    fetchFaceBusinessTrip,
+    insertFaceBusinessTrip, updateFaceBusinessTrip
+} from "../../../actions/face-business-trip-actions";
+import {
+    getDatasetDependsOnIdFaceExaminationsSelector,
+    getDatasetFaceExaminationsSelector, getErrorFaceExaminationsSelector,
+    getIsLoadingFaceExaminationsSelector
+} from "../../../selectors/face-examinations-selectors";
+import {
+    deleteFaceExaminations,
+    fetchFaceExaminations,
+    insertFaceExaminations, updateFaceExaminations
+} from "../../../actions/face-examinations-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -193,7 +314,7 @@ export const AspirantApi = ({children}) => {
         isLoading: useSelector(state => getIsLoadingDictCitySelector(state)),
         error: useSelector(state => getErrorDictCitySelector(state)),
         fetch: async () => {
-            await fetchDictCity (aspirantApiService.dictCityAPI, dispatch)
+            await fetchDictCity(aspirantApiService.dictCityAPI, dispatch)
         },
         insertRec: async (rec) => {
             await insertDictCity(rec)(aspirantApiService.dictCityAPI, dispatch);
@@ -211,7 +332,7 @@ export const AspirantApi = ({children}) => {
         isLoading: useSelector(state => getIsLoadingDictStreetSelector(state)),
         error: useSelector(state => getErrorDictStreetSelector(state)),
         fetch: async () => {
-            await fetchDictStreet (aspirantApiService.dictStreetAPI, dispatch)
+            await fetchDictStreet(aspirantApiService.dictStreetAPI, dispatch)
         },
         insertRec: async (rec) => {
             await insertDictStreet(rec)(aspirantApiService.dictStreetAPI, dispatch);
@@ -366,19 +487,19 @@ export const AspirantApi = ({children}) => {
         },
         insertRec: async (rec) => {
             await insertFaceNames(rec)({
-                faceNamesAPI:aspirantApiService.faceNamesAPI,
+                faceNamesAPI: aspirantApiService.faceNamesAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
         deleteRec: async (id) => {
             await deleteFaceNames(id)({
-                faceNamesAPI:aspirantApiService.faceNamesAPI,
+                faceNamesAPI: aspirantApiService.faceNamesAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
         updateRec: async (rec) => {
             await updateFaceNames(rec)({
-                faceNamesAPI:aspirantApiService.faceNamesAPI,
+                faceNamesAPI: aspirantApiService.faceNamesAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
@@ -398,19 +519,19 @@ export const AspirantApi = ({children}) => {
         },
         insertRec: async (rec) => {
             await insertFaceDocuments(rec)({
-                faceDocumentsAPI:aspirantApiService.faceDocumentsAPI,
+                faceDocumentsAPI: aspirantApiService.faceDocumentsAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
         deleteRec: async (id) => {
             await deleteFaceDocuments(id)({
-                faceDocumentsAPI:aspirantApiService.faceDocumentsAPI,
+                faceDocumentsAPI: aspirantApiService.faceDocumentsAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
         updateRec: async (rec) => {
             await updateFaceDocuments(rec)({
-                faceDocumentsAPI:aspirantApiService.faceDocumentsAPI,
+                faceDocumentsAPI: aspirantApiService.faceDocumentsAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
@@ -427,35 +548,379 @@ export const AspirantApi = ({children}) => {
         },
         insertRec: async (rec) => {
             await insertFaceCitizenships(rec)({
-                faceCitizenshipsAPI:aspirantApiService.faceCitizenshipsAPI,
+                faceCitizenshipsAPI: aspirantApiService.faceCitizenshipsAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
         deleteRec: async (id) => {
             await deleteFaceCitizenships(id)({
-                faceCitizenshipsAPI:aspirantApiService.faceCitizenshipsAPI,
+                faceCitizenshipsAPI: aspirantApiService.faceCitizenshipsAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
         updateRec: async (rec) => {
             await updateFaceCitizenships(rec)({
-                faceCitizenshipsAPI:aspirantApiService.faceCitizenshipsAPI,
+                faceCitizenshipsAPI: aspirantApiService.faceCitizenshipsAPI,
                 facesAPI: aspirantApiService.facesAPI
             }, dispatch);
         },
     }
 
+    const faceEducations = {
+        dataset: useSelector(getDatasetFaceEducationsSelector),
+        isLoading: useSelector(getIsLoadingFaceEducationsSelector),
+        error: useSelector(getErrorFaceEducationsSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceEducationsSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceEducations(faceId)(aspirantApiService.faceEducationsAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceEducations(rec)({
+                faceEducationsAPI: aspirantApiService.faceEducationsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceEducations(id)({
+                faceEducationsAPI: aspirantApiService.faceEducationsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceEducations(rec)({
+                faceEducationsAPI: aspirantApiService.faceEducationsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceWorks = {
+        dataset: useSelector(getDatasetFaceWorksSelector),
+        isLoading: useSelector(getIsLoadingFaceWorksSelector),
+        error: useSelector(getErrorFaceWorksSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceWorksSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceWorks(faceId)(aspirantApiService.faceWorksAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceWorks(rec)({
+                faceWorksAPI: aspirantApiService.faceWorksAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceWorks(id)({
+                faceWorksAPI: aspirantApiService.faceWorksAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceWorks(rec)({
+                faceWorksAPI: aspirantApiService.faceWorksAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceResidences = {
+        dataset: useSelector(getDatasetFaceResidencesSelector),
+        isLoading: useSelector(getIsLoadingFaceResidencesSelector),
+        error: useSelector(getErrorFaceResidencesSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceResidencesSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceResidences(faceId)(aspirantApiService.faceResidencesAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceResidences(rec)({
+                faceResidencesAPI: aspirantApiService.faceResidencesAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceResidences(id)({
+                faceResidencesAPI: aspirantApiService.faceResidencesAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceResidences(rec)({
+                faceResidencesAPI: aspirantApiService.faceResidencesAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceContacts = {
+        dataset: useSelector(getDatasetFaceContactsSelector),
+        isLoading: useSelector(getIsLoadingFaceContactsSelector),
+        error: useSelector(getErrorFaceContactsSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceContactsSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceContacts(faceId)(aspirantApiService.faceContactsAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceContacts(rec)({
+                faceContactsAPI: aspirantApiService.faceContactsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceContacts(id)({
+                faceContactsAPI: aspirantApiService.faceContactsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceContacts(rec)({
+                faceContactsAPI: aspirantApiService.faceContactsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceOrders = {
+        dataset: useSelector(getDatasetFaceOrdersSelector),
+        isLoading: useSelector(getIsLoadingFaceOrdersSelector),
+        error: useSelector(getErrorFaceOrdersSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceOrdersSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceOrders(faceId)(aspirantApiService.faceOrdersAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceOrders(rec)({
+                faceOrdersAPI: aspirantApiService.faceOrdersAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceOrders(id)({
+                faceOrdersAPI: aspirantApiService.faceOrdersAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceOrders(rec)({
+                faceOrdersAPI: aspirantApiService.faceOrdersAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceEntranceExamin = {
+        dataset: useSelector(getDatasetFaceEntranceExaminSelector),
+        isLoading: useSelector(getIsLoadingFaceEntranceExaminSelector),
+        error: useSelector(getErrorFaceEntranceExaminSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceEntranceExaminSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceEntranceExamin(faceId)(aspirantApiService.faceEntranceExaminAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceEntranceExamin(rec)({
+                faceEntranceExaminAPI: aspirantApiService.faceEntranceExaminAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceEntranceExamin(id)({
+                faceEntranceExaminAPI: aspirantApiService.faceEntranceExaminAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceEntranceExamin(rec)({
+                faceEntranceExaminAPI: aspirantApiService.faceEntranceExaminAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceAspirant = {
+        dataset: useSelector(getDatasetFaceAspirantSelector),
+        isLoading: useSelector(getIsLoadingFaceAspirantSelector),
+        error: useSelector(getErrorFaceAspirantSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceAspirantSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceAspirant(faceId)(aspirantApiService.faceAspirantAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceAspirant(rec)({
+                faceAspirantAPI: aspirantApiService.faceAspirantAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceAspirant(id)({
+                faceAspirantAPI: aspirantApiService.faceAspirantAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceAspirant(rec)({
+                faceAspirantAPI: aspirantApiService.faceAspirantAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceAcademicAdvisor = {
+        dataset: useSelector(getDatasetFaceAcademicAdvisorSelector),
+        isLoading: useSelector(getIsLoadingFaceAcademicAdvisorSelector),
+        error: useSelector(getErrorFaceAcademicAdvisorSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceAcademicAdvisorSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceAcademicAdvisor(faceId)(aspirantApiService.faceAcademicAdvisorAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceAcademicAdvisor(rec)({
+                faceAcademicAdvisorAPI: aspirantApiService.faceAcademicAdvisorAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceAcademicAdvisor(id)({
+                faceAcademicAdvisorAPI: aspirantApiService.faceAcademicAdvisorAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceAcademicAdvisor(rec)({
+                faceAcademicAdvisorAPI: aspirantApiService.faceAcademicAdvisorAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceScientificPubl = {
+        dataset: useSelector(getDatasetFaceScientificPublSelector),
+        isLoading: useSelector(getIsLoadingFaceScientificPublSelector),
+        error: useSelector(getErrorFaceScientificPublSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceScientificPublSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceScientificPubl(faceId)(aspirantApiService.faceScientificPublAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceScientificPubl(rec)({
+                faceScientificPublAPI: aspirantApiService.faceScientificPublAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceScientificPubl(id)({
+                faceScientificPublAPI: aspirantApiService.faceScientificPublAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceScientificPubl(rec)({
+                faceScientificPublAPI: aspirantApiService.faceScientificPublAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceCertificationResult = {
+        dataset: useSelector(getDatasetFaceCertificationResultSelector),
+        isLoading: useSelector(getIsLoadingFaceCertificationResultSelector),
+        error: useSelector(getErrorFaceCertificationResultSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceCertificationResultSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceCertificationResult(faceId)(aspirantApiService.faceCertificationResultAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceCertificationResult(rec)({
+                faceCertificationResultAPI: aspirantApiService.faceCertificationResultAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceCertificationResult(id)({
+                faceCertificationResultAPI: aspirantApiService.faceCertificationResultAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceCertificationResult(rec)({
+                faceCertificationResultAPI: aspirantApiService.faceCertificationResultAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceBusinessTrip = {
+        dataset: useSelector(getDatasetFaceBusinessTripSelector),
+        isLoading: useSelector(getIsLoadingFaceBusinessTripSelector),
+        error: useSelector(getErrorFaceBusinessTripSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceBusinessTripSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceBusinessTrip(faceId)(aspirantApiService.faceBusinessTripAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceBusinessTrip(rec)({
+                faceBusinessTripAPI: aspirantApiService.faceBusinessTripAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceBusinessTrip(id)({
+                faceBusinessTripAPI: aspirantApiService.faceBusinessTripAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceBusinessTrip(rec)({
+                faceBusinessTripAPI: aspirantApiService.faceBusinessTripAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+
+    const faceExaminations = {
+        dataset: useSelector(getDatasetFaceExaminationsSelector),
+        isLoading: useSelector(getIsLoadingFaceExaminationsSelector),
+        error: useSelector(getErrorFaceExaminationsSelector),
+        faceId: useSelector(getDatasetDependsOnIdFaceExaminationsSelector),
+
+        fetch: async (faceId) => {
+            await fetchFaceExaminations(faceId)(aspirantApiService.faceExaminationsAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFaceExaminations(rec)({
+                faceExaminationsAPI: aspirantApiService.faceExaminationsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFaceExaminations(id)({
+                faceExaminationsAPI: aspirantApiService.faceExaminationsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFaceExaminations(rec)({
+                faceExaminationsAPI: aspirantApiService.faceExaminationsAPI,
+                facesAPI: aspirantApiService.facesAPI
+            }, dispatch);
+        },
+    }
+    
     return (
         <AspirantApiContext.Provider value={{
+            isAuth,
+            //-----------------------
             messages,
-            // pushMessage,
-            // destroyMessage,
-            // pushDisappearingMessage,
+            //-----------------------
             dictDoc,
-            // fetchDictDocApi,
-            // insertDictDocApi,
-            // deleteDictDocApi,
-            // updateDictDocApi,
             dictCountry,
             dictEducationLevels,
             dictCity,
@@ -465,11 +930,23 @@ export const AspirantApi = ({children}) => {
             dictEducationForm,
             dictCertificationResult,
             dictEnterprise,
+            //-----------------------
             faces,
             faceNames,
             faceDocuments,
             faceCitizenships,
-            isAuth,
+            faceEducations,
+            faceWorks,
+            faceResidences,
+            faceContacts,
+            faceOrders,
+            faceEntranceExamin,
+            faceAspirant,
+            faceAcademicAdvisor,
+            faceScientificPubl,
+            faceCertificationResult,
+            faceBusinessTrip,
+            faceExaminations,
         }}>
             {children}
         </AspirantApiContext.Provider>

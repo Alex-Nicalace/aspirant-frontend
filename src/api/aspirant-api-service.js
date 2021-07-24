@@ -20,6 +20,18 @@ const _pathFaceAPI = 'face';
 const _pathFaceNameAPI = 'face-name';
 const _pathFaceDocumentAPI = 'face-document';
 const _pathFaceCitizenshipAPI = 'face-citizenship';
+const _pathFaceEducationAPI = 'face-education';
+const _pathFaceWorkAPI = 'face-work';
+const _pathFaceResidenceAPI = 'face-residence';
+const _pathFaceContactAPI = 'face-contact';
+const _pathFaceOrderAPI = 'face-order';
+const _pathFaceEntranceExaminAPI = 'face-entrance-examin';
+const _pathFaceAspirantAPI = 'face-aspirant';
+const _pathFaceAcademicAdvisorAPI = 'face-academic-advisor';
+const _pathFaceScientificPublAPI = 'face-scientific-publ';
+const _pathFaceCertificationResultAPI = 'face-certification-result';
+const _pathFaceBusinessTripAPI = 'face-business-trip';
+const _pathFaceExaminationsTripAPI = 'face-examinations';
 
 export default class AspirantApiService {
     userApi = {
@@ -331,6 +343,258 @@ export default class AspirantApiService {
         },
         async put(data) {
             return await _instance.put(_pathFaceCitizenshipAPI, data)
+        }
+    }
+
+    faceEducationsAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceEducationAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceEducationAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceEducationAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceEducationAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceEducationAPI, data)
+        }
+    }
+
+    faceWorksAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceWorkAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceWorkAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceWorkAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceWorkAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceWorkAPI, data)
+        }
+    }
+
+    faceResidencesAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceResidenceAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceResidenceAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceResidenceAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceResidenceAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceResidenceAPI, data)
+        }
+    }
+
+    faceContactsAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceContactAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceContactAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceContactAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceContactAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceContactAPI, data)
+        }
+    }
+
+    faceOrdersAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceOrderAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceOrderAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceOrderAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceOrderAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceOrderAPI, data)
+        }
+    }
+
+    faceEntranceExaminAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceEntranceExaminAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceEntranceExaminAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceEntranceExaminAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceEntranceExaminAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceEntranceExaminAPI, data)
+        }
+    }
+
+    faceAspirantAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceAspirantAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceAspirantAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceAspirantAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceAspirantAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceAspirantAPI, data)
+        }
+    }
+
+    faceAcademicAdvisorAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceAcademicAdvisorAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceAcademicAdvisorAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceAcademicAdvisorAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceAcademicAdvisorAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceAcademicAdvisorAPI, data)
+        }
+    }
+
+    faceScientificPublAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceScientificPublAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceScientificPublAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceScientificPublAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceScientificPublAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceScientificPublAPI, data)
+        }
+    }
+
+    faceCertificationResultAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceCertificationResultAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceCertificationResultAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceCertificationResultAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceCertificationResultAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceCertificationResultAPI, data)
+        }
+    }
+
+    faceBusinessTripAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceBusinessTripAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceBusinessTripAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceBusinessTripAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceBusinessTripAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceBusinessTripAPI, data)
+        }
+    }
+
+    faceExaminationsAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceExaminationsTripAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceExaminationsTripAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceExaminationsTripAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceExaminationsTripAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceExaminationsTripAPI, data)
         }
     }
 

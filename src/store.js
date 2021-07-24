@@ -16,6 +16,18 @@ import facesReducer from "./reducers/faces-reducers";
 import faceNamesReducer from "./reducers/face-names-reducers";
 import faceDocumentsReducer from "./reducers/face-documents-reducers";
 import faceCitizenshipsReducer from "./reducers/face-citizenships-reducers";
+import faceEducationsReducer from "./reducers/face-educations-reducers";
+import faceWorksReducer from "./reducers/face-works-reducers";
+import faceResidencesReducer from "./reducers/face-residences-reducers";
+import faceContactsReducer from "./reducers/face-contacts-reducers";
+import faceOrdersReducer from "./reducers/face-orders-reducers";
+import faceEntranceExaminReducer from "./reducers/face-entrance-examin-reducers";
+import faceAspirantReducer from "./reducers/face-aspirant-reducers";
+import faceAcademicAdvisorReducer from "./reducers/face-academic-advisor-reducers";
+import faceScientificPublReducer from "./reducers/face-scientific-publ-reducers";
+import faceCertificationResultReducer from "./reducers/face-certification-result-reducers";
+import faceBusinessTripReducer from "./reducers/face-business-trip-reducers";
+import faceExaminationsReducer from "./reducers/face-examinations-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
@@ -34,7 +46,18 @@ const reducer = combineReducers({
     faceNames: faceNamesReducer,
     faceDocuments: faceDocumentsReducer,
     faceCitizenships: faceCitizenshipsReducer,
-
+    faceEducations: faceEducationsReducer,
+    faceWorks: faceWorksReducer,
+    faceResidences: faceResidencesReducer,
+    faceContacts: faceContactsReducer,
+    faceOrders: faceOrdersReducer,
+    faceEntranceExamin: faceEntranceExaminReducer,
+    faceAspirant: faceAspirantReducer,
+    faceAcademicAdvisor: faceAcademicAdvisorReducer,
+    faceScientificPubl: faceScientificPublReducer,
+    faceCertificationResult: faceCertificationResultReducer,
+    faceBusinessTrip: faceBusinessTripReducer,
+    faceExaminations: faceExaminationsReducer,
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
