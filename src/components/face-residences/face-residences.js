@@ -1,25 +1,26 @@
 import React from 'react';
 import TableEdit from "../table-edit";
-import FaceEducationsEdit from "../face-educations-edit";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import FaceResidencesEdit from "../face-residences-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
-    {id: 'dateFinished', disablePadding: false, label: 'дата окончания', dataType: 'date'},
-    {id: 'specialty', disablePadding: false, label: 'специальность'},
-    {id: 'isExcellent', disablePadding: false, label: 'отличник'},
-    {id: 'quantitySatisfactory', disablePadding: false, label: 'кол. уд. оценок'},
-    {id: 'educationLevel', disablePadding: false, label: 'ур. образования'},
+    {id: 'country', disablePadding: false, label: 'страна', },
+    {id: 'city', disablePadding: false, label: 'город'},
+    {id: 'street', disablePadding: false, label: 'улица'},
+    {id: 'house', disablePadding: false, label: 'дом'},
+    {id: 'apartment', disablePadding: false, label: 'квартира'},
+    {id: 'dateOn', disablePadding: false, label: 'актуально на', dataType: 'date'},
 ];
 
-const FaceEducations = ({faceId}) => {
+const FaceResidences = ({faceId}) => {
     const {
-        faceEducations: {
+        faceResidences: {
             dataset, isLoading, error,
             fetch,
             deleteRec,
         },
-    } = useAspirantApiContext();
+    } = useAspirantApiContext()
 
     const fetchForCurrentId = () => {
         fetch(faceId);
@@ -33,10 +34,10 @@ const FaceEducations = ({faceId}) => {
             error={error}
             deleteRec={deleteRec}
             fetch={fetchForCurrentId}
-            FormEdit={FaceEducationsEdit}
+            FormEdit={FaceResidencesEdit}
             initialOrderBy='dateOn'
         />
     );
 };
 
-export default FaceEducations;
+export default FaceResidences;

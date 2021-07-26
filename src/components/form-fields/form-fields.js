@@ -35,9 +35,9 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
             //console.log({...buildInitState(children), ...valuesToState});
         }, [])
 
-        useEffect(() => {
-            console.log(rec)
-        }, [rec])
+        // useEffect(() => {
+        //     console.log(rec)
+        // }, [rec])
 
         const buildInitState = (childrenMy) => {
             //console.log(childrenMy);

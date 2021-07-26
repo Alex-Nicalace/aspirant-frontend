@@ -1,70 +1,106 @@
-import React, {useContext} from 'react';
-import {AspirantApiContext} from "../context/aspirant-api-context";
-import TextField from "@material-ui/core/TextField";
-import FormFields from "../form-fields";
-import {KeyboardDatePicker} from "@material-ui/pickers";
+import React from 'react';
+import {useForm} from "react-hook-form";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import * as yup from "yup";
+import {yupResolver} from "@hookform/resolvers/yup";
+import FormWrapField from "../form-wrap-field";
+import {Input, InputDate} from "../controls";
 
-const recInit = {
-    dateOn: null,
-    lastname: '',
-    firstname: '',
-    middleName: '',
-}
+const schema = yup.object().shape({
+    firstname: yup
+        .string()
+        .matches(/^([^0-9]*)$/, "имя не может содержать цифры")
+        .required("имя обязательное поле"),
+    lastname: yup
+        .string()
+        .matches(/^([^0-9]*)$/, "фамилия не может содержать цифры")
+        .required("фамилия обязательное поле"),
+    middleName: yup
+        .string()
+        .matches(/^([^0-9]*)$/, "отчество не может содержать цифры"),
+    dateOn: yup
+        .date()
+        .required('дата обязательное поле')
+});
 
 const FaceNamesEdit = ({closeEdit, modeEdit, currentRec}) => {
-    /*такие вот мысли .... редактирование хронологии как правило делается в контектсте редактирвания
-    данных о лице кот. уже загружены и в стейте на этот момент уже есть ИД лица
-    другой вариант это пробрасывать это свойство сюда через пропсы
-    пробую первый вариант брать из стейта
-    * */
-    const {faceNames} = useContext(AspirantApiContext);
-    const {faceId} = faceNames;
-    recInit.tblFaceId = faceId; // tblFaceId foreign key
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+    });
+    const {
+        faceNames: {
+            insertRec,
+            updateRec,
+            dataset,
+            faceId
+        }
+    } = useAspirantApiContext();
+
+    const valuesToState = {tblFaceId: faceId};
+
     return (
-        <FormFields
-            data={faceNames}
-            currentRec={currentRec}
+        <FormWrapField
+            dataset={dataset}
             closeEdit={closeEdit}
+            currentRec={currentRec}
+            handleSubmit={handleSubmit}
+            insertRec={insertRec}
             modeEdit={modeEdit}
-            recInit={recInit}
+            setValue={setValue}
+            updateRec={updateRec}
+            valuesToState={valuesToState}
         >
-            <KeyboardDatePicker
-                id='dateOn-id'
-                label='актуально с'
-                variant='inline' // календарь где показывать
-                format='dd.MM.yyyy'
+            <InputDate
+                control={control}
                 name='dateOn'
-                autoOk
-                isDataPicker={true}
-                KeyboardButtonProps={{
-                    'arial-label': 'secondary checkbox',
-                }}
+                rules={{required: true}}
+                defaultValue={null}
+                label='актуально с'
+                required
+                error={!!errors.dateOn}
+                helperText={errors?.dateOn?.message}
             />
-            <TextField
-                id="lastname-id"
+
+            <Input
+                control={control}
+                name='lastname'
+                rules={{required: true}}
+                defaultValue=''
                 label="фамилия"
                 required
                 type='search'
+                error={!!errors.lastname}
+                helperText={errors?.lastname?.message}
                 fullWidth
-                name='lastname'
             />
-            <TextField
-                id="firstname-id"
+
+            <Input
+                control={control}
+                name='firstname'
+                rules={{required: true}}
+                defaultValue=''
                 label="имя"
                 required
                 type='search'
+                error={!!errors.firstname}
+                helperText={errors?.firstname?.message}
                 fullWidth
-                name='firstname'
             />
-            <TextField
-                id="middleName-id"
-                label="отчество"
-                required
-                type='search'
-                fullWidth
+
+            <Input
+                control={control}
                 name='middleName'
+                defaultValue=''
+                label="отчество"
+                type='search'
+                error={!!errors.middleName}
+                helperText={errors?.middleName?.message}
+                fullWidth
             />
-        </FormFields>
+
+        </FormWrapField>
+
     );
 };
 

@@ -22,7 +22,7 @@ const _pathFaceDocumentAPI = 'face-document';
 const _pathFaceCitizenshipAPI = 'face-citizenship';
 const _pathFaceEducationAPI = 'face-education';
 const _pathFaceWorkAPI = 'face-work';
-const _pathFaceResidenceAPI = 'face-residence';
+const _pathFaceResidenceAPI = 'face-residences';
 const _pathFaceContactAPI = 'face-contact';
 const _pathFaceOrderAPI = 'face-order';
 const _pathFaceEntranceExaminAPI = 'face-entrance-examin';
@@ -456,8 +456,8 @@ export default class AspirantApiService {
             return await _instance.post(_pathFaceEntranceExaminAPI, data)
             //.then(response => response.data)
         },
-        async getAllOneFace(faceId) {
-            return await _instance.get(`${_pathFaceEntranceExaminAPI}/faceId/${faceId}`)
+        async getAllOneFace(faceId, isCandidateMin) {
+            return await _instance.get(`${_pathFaceEntranceExaminAPI}/faceId/${faceId}/${isCandidateMin}`)
             //.then(response => response.data)
         },
         async getOne(id) {

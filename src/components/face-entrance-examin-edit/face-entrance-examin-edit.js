@@ -5,41 +5,50 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList} from "../controls";
+import {DropdownList, Input, InputDate} from "../controls";
 
 const schema = yup.object().shape({
-    tblDictCountryId: yup
+    tblDictSubjectId: yup
         .string()
-        .required("гражданство обязательное поле"),
+        .required("предмет обязательное поле"),
+    estimate: yup
+        .number()
+        .required("оценка обязательное поле"),
+    date: yup
+        .date()
+        .required("дата обязательное поле"),
 });
 
-const FaceCitizenshipsEdit = ({closeEdit, modeEdit, currentRec}) => {
+const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, isCandidateMin}) => {
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
         resolver: yupResolver(schema),
     });
+
     /*такие вот мысли .... редактирование хронологии как правило делается в контектсте редактирвания
     данных о лице кот. уже загружены и в стейте на этот момент уже есть ИД лица
     другой вариант это пробрасывать это свойство сюда через пропсы
     пробую первый вариант брать из стейта
     * */
     const {
-        faceCitizenships: {
+        faceEntranceExamin: {
             insertRec,
             updateRec,
             dataset,
             faceId
-        }, dictCountry
+        },
+        dictSubject
     } = useAspirantApiContext();
 
-    const valuesToState = {tblFaceId: faceId};
-
     useEffect(() => {
-        dictCountry.fetch();
+        dictSubject.fetch();
     }, [])
 
-    const renderCountry = dictCountry.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.country} </MenuItem>);
-    renderCountry.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
+    const valuesToState = {tblFaceId: faceId, isCandidateMin};
+
+    const renderSubject = dictSubject.dataset.map((i) => <MenuItem key={i.id}
+                                                                   value={i.id}>{i.subject} </MenuItem>);
+    renderSubject.unshift(<MenuItem key='renderSubject-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -53,23 +62,44 @@ const FaceCitizenshipsEdit = ({closeEdit, modeEdit, currentRec}) => {
             updateRec={updateRec}
             valuesToState={valuesToState}
         >
-
+            <InputDate
+                control={control}
+                name='date'
+                rules={{required: true}}
+                defaultValue={null}
+                label='дата'
+                required
+                error={!!errors.date}
+                helperText={errors?.date?.message}
+            />
+            <Input
+                control={control}
+                name='estimate'
+                rules={{required: true}}
+                defaultValue=''
+                label="оценка"
+                required
+                type='search'
+                error={!!errors.estimate}
+                helperText={errors?.estimate?.message}
+                fullWidth
+            />
             <DropdownList
                 style={{minWidth: "200px"}}
                 control={control}
-                name='tblDictCountryId'
+                name='tblDictSubjectId'
                 rules={{required: true}}
                 defaultValue=''
-                label='гражданство'
+                label='предмет'
                 required
-                renderItem={renderCountry}
-                error={!!errors.tblDictCountryId}
-                helperText={errors?.tblDictCountryId?.message}
+                renderItem={renderSubject}
+                error={!!errors.tblDictSubjectId}
+                helperText={errors?.tblDictSubjectId?.message}
                 fullWidth
             />
 
         </FormWrapField>
     );
-};
+}
 
-export default FaceCitizenshipsEdit;
+export default FaceEntranceExaminEdit;

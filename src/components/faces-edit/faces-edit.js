@@ -1,85 +1,122 @@
-import React, {useContext} from 'react';
-import {AspirantApiContext} from "../context/aspirant-api-context";
-import TextField from "@material-ui/core/TextField";
-import FormFields from "../form-fields";
-import {KeyboardDatePicker} from "@material-ui/pickers";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
+import React from 'react';
 import MenuItem from "@material-ui/core/MenuItem";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import FormWrapField from "../form-wrap-field";
+import {DropdownList, Input, InputDate} from "../controls";
 
-const recInit = {
-    lastname: '',
-    firstname: '',
-    middleName: '',
-    sex: '',
-    birthdate: null,
-}
+const schema = yup.object().shape({
+    firstname: yup
+        .string()
+        .matches(/^([^0-9]*)$/, "имя не может содержать цифры")
+        .required("имя обязательное поле"),
+    lastname: yup
+        .string()
+        .matches(/^([^0-9]*)$/, "фамилия не может содержать цифры")
+        .required("фамилия обязательное поле"),
+    middleName: yup
+        .string()
+        .matches(/^([^0-9]*)$/, "отчество не может содержать цифры"),
+    birthdate: yup
+        .date()
+        .required('дата обязательное поле'),
+    sex: yup
+        .boolean()
+        .required("пол обязательное поле"),
+});
+
+const renderSex = [
+    <MenuItem value=''><em>пусто</em></MenuItem>,
+    <MenuItem value={true}>мужской</MenuItem>,
+    <MenuItem value={false}>женский</MenuItem>
+]
 
 const FacesEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {faces} = useContext(AspirantApiContext);
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+    });
+    const {
+        faces: {
+            insertRec,
+            updateRec,
+            dataset,
+        }
+    } = useAspirantApiContext();
+
     return (
-        <FormFields
-            data={faces}
-            currentRec={currentRec}
+        <FormWrapField
+            dataset={dataset}
             closeEdit={closeEdit}
+            currentRec={currentRec}
+            handleSubmit={handleSubmit}
+            insertRec={insertRec}
             modeEdit={modeEdit}
-            recInit={recInit}
+            setValue={setValue}
+            updateRec={updateRec}
         >
-            <TextField
-                id="lastname-id"
+            <Input
+                control={control}
+                name='lastname'
+                rules={{required: true}}
+                defaultValue=''
                 label="фамилия"
                 required
                 type='search'
+                error={!!errors.lastname}
+                helperText={errors?.lastname?.message}
                 fullWidth
-                name='lastname'
             />
-            <TextField
-                id="firstname-id"
+
+            <Input
+                control={control}
+                name='firstname'
+                rules={{required: true}}
+                defaultValue=''
                 label="имя"
                 required
                 type='search'
+                error={!!errors.firstname}
+                helperText={errors?.firstname?.message}
                 fullWidth
-                name='firstname'
             />
-            <TextField
-                id="middleName-id"
+            <Input
+                control={control}
+                name='middleName'
+                defaultValue=''
                 label="отчество"
                 type='search'
+                error={!!errors.middleName}
+                helperText={errors?.middleName?.message}
                 fullWidth
-                name='middleName'
             />
-            <KeyboardDatePicker
-                id='birthdate-id'
-                label='дата рождения'
-                //disableToolbar
-                variant='inline' // календарь где показывать
-                format='dd.MM.yyyy'
-                //margin='normal'
-                //value='23.03.1983'
-                //onChange={(date) => changeValueHandle(date, 'birthdate')}
+            <InputDate
+                control={control}
                 name='birthdate'
-                autoOk
-                isDataPicker={true}
-                KeyboardButtonProps={{
-                    'arial-label': 'secondary checkbox',
-                }}
+                rules={{required: true}}
+                defaultValue={null}
+                label='дата рождения'
+                required
+                error={!!errors.birthdate}
+                helperText={errors?.birthdate?.message}
             />
-            <FormControl fullWidth>
-                <InputLabel id='sex-label-id'>пол</InputLabel>
-                <Select
-                    labelId='sex-label-id'
-                    id='sex-select-id'
-                    //value={sex}
-                    name='sex'
-                    //onChange={handleChangeState}
-                >
-                    <MenuItem value=''><em>пусто</em></MenuItem>
-                    <MenuItem value={true}>мужской</MenuItem>
-                    <MenuItem value={false}>женский</MenuItem>
-                </Select>
-            </FormControl>
-        </FormFields>
+            <DropdownList
+                style={{minWidth: "200px"}}
+                control={control}
+                name='sex'
+                rules={{required: true}}
+                defaultValue=''
+                label='пол'
+                required
+                renderItem={renderSex}
+                error={!!errors.tblDictEducationLevelId}
+                helperText={errors?.tblDictEducationLevelId?.message}
+                fullWidth
+            />
+
+        </FormWrapField>
     );
 };
 

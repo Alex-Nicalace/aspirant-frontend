@@ -1,86 +1,116 @@
-import React, {useContext, useEffect} from 'react';
-import {AspirantApiContext} from "../context/aspirant-api-context";
-import TextField from "@material-ui/core/TextField";
-import FormFields from "../form-fields";
-import {KeyboardDatePicker} from "@material-ui/pickers";
+import React from 'react';
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import FormWrapField from "../form-wrap-field";
+import {Input, InputDate} from "../controls";
 
-// const recInit = {
-//     dateOn: null,
-//     dateOff: null,
-//     tblDictCountryId: '',
-//     tblDictDocId: '',
-//     numDocument: '',
-//     tblFaceId: null,
-// }
+const schema = yup.object().shape({
+    enterprise: yup
+        .string()
+        .required("место работы обязательное поле"),
+    dateOn: yup
+        .date(),
+    dateOff: yup
+        .date()
+});
 
 const FaceWorksEdit = ({closeEdit, modeEdit, currentRec}) => {
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+    });
     /*такие вот мысли .... редактирование хронологии как правило делается в контектсте редактирвания
     данных о лице кот. уже загружены и в стейте на этот момент уже есть ИД лица
     другой вариант это пробрасывать это свойство сюда через пропсы
     пробую первый вариант брать из стейта
     * */
-    const {faceWorks} = useContext(AspirantApiContext);
+    const {
+        faceWorks: {
+            insertRec,
+            updateRec,
+            dataset,
+            faceId
+        },
+    } = useAspirantApiContext();
 
-    const {faceId} = faceWorks;
-    // recInit.tblFaceId = faceId; // tblFaceId foreign key
+    const valuesToState = {tblFaceId: faceId};
 
     return (
-        <FormFields
-            data={faceWorks}
-            currentRec={currentRec}
+        <FormWrapField
+            dataset={dataset}
             closeEdit={closeEdit}
+            currentRec={currentRec}
+            handleSubmit={handleSubmit}
+            insertRec={insertRec}
             modeEdit={modeEdit}
-            //recInit={recInit}
-            valuesToState={{tblFaceId: faceId}}
+            setValue={setValue}
+            updateRec={updateRec}
+            valuesToState={valuesToState}
         >
-            <KeyboardDatePicker
-                id='dateOn-id'
-                label='с'
-                variant='inline' // календарь где показывать
-                format='dd.MM.yyyy'
+            <InputDate
+                control={control}
                 name='dateOn'
-                value={null}
-                autoOk
-                isDataPicker={true}
-                KeyboardButtonProps={{
-                    'arial-label': 'secondary checkbox',
-                }}
+                //rules={{required: true}}
+                defaultValue={null}
+                label='с'
+                //required
+                error={!!errors.dateOn}
+                helperText={errors?.dateOn?.message}
             />
-            <KeyboardDatePicker
-                id='dateOff-id'
-                label='по'
-                variant='inline' // календарь где показывать
-                format='dd.MM.yyyy'
+
+            <InputDate
+                control={control}
                 name='dateOff'
-                value={null}
-                autoOk
-                isDataPicker={true}
-                KeyboardButtonProps={{
-                    'arial-label': 'secondary checkbox',
-                }}
+                //rules={{required: true}}
+                defaultValue={null}
+                label='по'
+                //required
+                error={!!errors.dateOff}
+                helperText={errors?.dateOff?.message}
             />
-            <TextField
-                id="enterprise-id"
-                label="место работы"
-                type='search'
-                fullWidth
+
+            <Input
+                control={control}
                 name='enterprise'
-            />
-            <TextField
-                id="jobTitle-id"
-                label="должность"
+                rules={{required: true}}
+                defaultValue=''
+                label="место работы"
+                required
                 type='search'
+                error={!!errors.enterprise}
+                helperText={errors?.enterprise?.message}
                 fullWidth
+            />
+
+            <Input
+                control={control}
                 name='jobTitle'
-            />
-            <TextField
-                id="lenOfService-id"
-                label="период"
+                //rules={{required: true}}
+                defaultValue=''
+                label="должность"
+                //required
                 type='search'
+                error={!!errors.jobTitle}
+                helperText={errors?.jobTitle?.message}
                 fullWidth
-                name='lenOfService'
             />
-        </FormFields>
+
+            <Input
+                control={control}
+                name='lenOfService'
+                //rules={{required: true}}
+                defaultValue=''
+                label="период"
+                //required
+                type='search'
+                error={!!errors.lenOfService}
+                helperText={errors?.lenOfService?.message}
+                fullWidth
+            />
+
+        </FormWrapField>
     );
 };
 

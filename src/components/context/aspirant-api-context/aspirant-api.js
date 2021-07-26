@@ -717,8 +717,8 @@ export const AspirantApi = ({children}) => {
         error: useSelector(getErrorFaceEntranceExaminSelector),
         faceId: useSelector(getDatasetDependsOnIdFaceEntranceExaminSelector),
 
-        fetch: async (faceId) => {
-            await fetchFaceEntranceExamin(faceId)(aspirantApiService.faceEntranceExaminAPI, dispatch)
+        fetch: async (faceId, isCandidateMin) => {
+            await fetchFaceEntranceExamin(faceId, isCandidateMin)(aspirantApiService.faceEntranceExaminAPI, dispatch)
         },
         insertRec: async (rec) => {
             await insertFaceEntranceExamin(rec)({
@@ -939,7 +939,7 @@ export const AspirantApi = ({children}) => {
             faceWorks,
             faceResidences,
             faceContacts,
-            faceOrders,
+            faceOrders, //-
             faceEntranceExamin,
             faceAspirant,
             faceAcademicAdvisor,

@@ -5,41 +5,47 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList} from "../controls";
+import {DropdownList, Input} from "../controls";
 
 const schema = yup.object().shape({
-    tblDictCountryId: yup
+    tblDictContactTypeId: yup
         .string()
-        .required("гражданство обязательное поле"),
+        .required("тип контакта обязательное поле"),
+    contact: yup
+        .string()
+        .required("контакт обязательное поле"),
 });
 
-const FaceCitizenshipsEdit = ({closeEdit, modeEdit, currentRec}) => {
+const FaceContactsEdit = ({closeEdit, modeEdit, currentRec}) => {
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
         resolver: yupResolver(schema),
     });
+
     /*такие вот мысли .... редактирование хронологии как правило делается в контектсте редактирвания
     данных о лице кот. уже загружены и в стейте на этот момент уже есть ИД лица
     другой вариант это пробрасывать это свойство сюда через пропсы
     пробую первый вариант брать из стейта
     * */
     const {
-        faceCitizenships: {
+        faceContacts: {
             insertRec,
             updateRec,
             dataset,
             faceId
-        }, dictCountry
+        },
+        dictContactType
     } = useAspirantApiContext();
+
+    useEffect(() => {
+        dictContactType.fetch();
+    }, [])
 
     const valuesToState = {tblFaceId: faceId};
 
-    useEffect(() => {
-        dictCountry.fetch();
-    }, [])
-
-    const renderCountry = dictCountry.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.country} </MenuItem>);
-    renderCountry.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
+    const renderContactType = dictContactType.dataset.map((i) => <MenuItem key={i.id}
+                                                                           value={i.id}>{i.contactType} </MenuItem>);
+    renderContactType.unshift(<MenuItem key='dictContactType-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -53,23 +59,33 @@ const FaceCitizenshipsEdit = ({closeEdit, modeEdit, currentRec}) => {
             updateRec={updateRec}
             valuesToState={valuesToState}
         >
-
             <DropdownList
                 style={{minWidth: "200px"}}
                 control={control}
-                name='tblDictCountryId'
+                name='tblDictContactTypeId'
                 rules={{required: true}}
                 defaultValue=''
-                label='гражданство'
+                label='тип контакта'
                 required
-                renderItem={renderCountry}
-                error={!!errors.tblDictCountryId}
-                helperText={errors?.tblDictCountryId?.message}
+                renderItem={renderContactType}
+                error={!!errors.tblDictContactTypeId}
+                helperText={errors?.tblDictContactTypeId?.message}
                 fullWidth
             />
-
+            <Input
+                control={control}
+                name='contact'
+                rules={{required: true}}
+                defaultValue=''
+                label="контакт"
+                required
+                type='search'
+                error={!!errors.contact}
+                helperText={errors?.contact?.message}
+                fullWidth
+            />
         </FormWrapField>
     );
-};
+}
 
-export default FaceCitizenshipsEdit;
+export default FaceContactsEdit;

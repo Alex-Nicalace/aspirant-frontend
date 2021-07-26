@@ -53,10 +53,10 @@ export const faceEntranceExaminUpdated = (data) => {
     }
 }
 
-export const fetchFaceEntranceExamin = (faceId) => async (api, dispatch) => {
+export const fetchFaceEntranceExamin = (faceId, isCandidateMin) => async (api, dispatch) => {
     dispatch(faceEntranceExaminRequested());
     try {
-        const response = await api.getAllOneFace(faceId);
+        const response = await api.getAllOneFace(faceId, isCandidateMin);
         response.datasetDependsOnId = faceId;
         dispatch(faceEntranceExaminLoaded(response));
     } catch (e) {

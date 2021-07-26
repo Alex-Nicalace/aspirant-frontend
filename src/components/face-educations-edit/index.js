@@ -1,3 +1,3 @@
-import FaceDocumentsEdit from "../face-documents-edit";
+import FaceEducationsEdit from "./face-educations-edit";
 
-export default FaceDocumentsEdit;
+export default FaceEducationsEdit;

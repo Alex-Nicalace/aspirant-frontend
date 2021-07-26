@@ -1,20 +1,17 @@
 import React from 'react';
 import TableEdit from "../table-edit";
-import FaceEducationsEdit from "../face-educations-edit";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import FaceContactsEdit from "../face-contacts-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
-    {id: 'dateFinished', disablePadding: false, label: 'дата окончания', dataType: 'date'},
-    {id: 'specialty', disablePadding: false, label: 'специальность'},
-    {id: 'isExcellent', disablePadding: false, label: 'отличник'},
-    {id: 'quantitySatisfactory', disablePadding: false, label: 'кол. уд. оценок'},
-    {id: 'educationLevel', disablePadding: false, label: 'ур. образования'},
+    {id: 'contactType', disablePadding: false, label: 'тип контакта',},
+    {id: 'contact', disablePadding: false, label: 'контакт'},
 ];
 
-const FaceEducations = ({faceId}) => {
+const FaceContacts = ({faceId}) => {
     const {
-        faceEducations: {
+        faceContacts: {
             dataset, isLoading, error,
             fetch,
             deleteRec,
@@ -33,10 +30,10 @@ const FaceEducations = ({faceId}) => {
             error={error}
             deleteRec={deleteRec}
             fetch={fetchForCurrentId}
-            FormEdit={FaceEducationsEdit}
+            FormEdit={FaceContactsEdit}
             initialOrderBy='dateOn'
         />
     );
 };
 
-export default FaceEducations;
+export default FaceContacts;
