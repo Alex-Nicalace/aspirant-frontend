@@ -10,7 +10,7 @@ import {
     WARNING,
 } from "../utils/consts";
 import {setDisappearingMessage} from "./messages-actions";
-//import {refreshRecordFaces} from "./faces-actions";
+//import {refreshRecordFaces} from "./faces-list-actions";
 
 export const faceOrdersLoaded = (data) => {
     return {

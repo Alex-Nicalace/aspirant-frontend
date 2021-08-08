@@ -10,98 +10,97 @@ import {
     WARNING,
 } from "../utils/consts";
 import {setDisappearingMessage} from "./messages-actions";
-//import {refreshRecordFaces} from "./faces-actions";
+//import {refreshRecordFaces} from "./facess-list-actions";
 
-export const faceAcademicAdvisorLoaded = (data) => {
+export const facesAcademicAdvisorLoaded = (data) => {
     return {
         type: FETCH_FACE_ACADEMIC_ADVISOR_ACTION,
         payload: data,
     }
 }
 
-export const faceAcademicAdvisorRequested = () => {
+export const facesAcademicAdvisorRequested = () => {
     return {
         type: REQUEST_FACE_ACADEMIC_ADVISOR_ACTION,
     }
 }
 
-export const faceAcademicAdvisorError = (error) => {
+export const facesAcademicAdvisorError = (error) => {
     return {
         type: FAILURE_FACE_ACADEMIC_ADVISOR_ACTION,
         payload: error,
     }
 }
 
-export const faceAcademicAdvisorInserted = (data) => {
+export const facesAcademicAdvisorInserted = (data) => {
     return {
         type: INS_FACE_ACADEMIC_ADVISOR_ACTION,
         payload: data,
     }
 }
 
-export const faceAcademicAdvisorDeleted = (id) => {
+export const facesAcademicAdvisorDeleted = (id) => {
     return {
         type: DEL_FACE_ACADEMIC_ADVISOR_ACTION,
         payload: id,
     }
 }
 
-export const faceAcademicAdvisorUpdated = (data) => {
+export const facesAcademicAdvisorUpdated = (data) => {
     return {
         type: UPD_FACE_ACADEMIC_ADVISOR_ACTION,
         payload: data,
     }
 }
 
-export const fetchFaceAcademicAdvisor = (faceId) => async (api, dispatch) => {
-    dispatch(faceAcademicAdvisorRequested());
+export const fetchFaceAcademicAdvisor = async (api, dispatch) => {
+    dispatch(facesAcademicAdvisorRequested());
     try {
-        const response = await api.getAllOneFace(faceId);
-        response.datasetDependsOnId = faceId;
-        dispatch(faceAcademicAdvisorLoaded(response));
+        const response = await api.getAllFace();
+        dispatch(facesAcademicAdvisorLoaded(response));
     } catch (e) {
-        dispatch(faceAcademicAdvisorError(e.response))
+        dispatch(facesAcademicAdvisorError(e.response))
     }
 }
 
-export const insertFaceAcademicAdvisor = (rec) => async ({faceAcademicAdvisorAPI, facesAPI}, dispatch) => {
-    dispatch(faceAcademicAdvisorRequested());
+export const insertFaceAcademicAdvisor = (rec) => async (facesAcademicAdvisorAPI, dispatch) => {
+    dispatch(facesAcademicAdvisorRequested());
     try {
-        const response = await faceAcademicAdvisorAPI.post(rec);
-        dispatch(faceAcademicAdvisorInserted(response));
+        const response = await facesAcademicAdvisorAPI.post(rec);
+        dispatch(facesAcademicAdvisorInserted(response));
         dispatch(setDisappearingMessage('запись успешно добавлена', SUCCESS));
         // фамилия добавлена теперь надо обновить запись из свобной таблицы
-        //await refreshRecordFaces(rec.tblFaceId)(facesAPI, dispatch);
+        //await refreshRecordFaces(rec.tblFaceId)(facessAPI, dispatch);
     } catch (e) {
-        dispatch(faceAcademicAdvisorError(e.response));
+        dispatch(facesAcademicAdvisorError(e.response));
         dispatch(setDisappearingMessage(`запись не добавлена... ${e.response.data.message}`, ERROR));
     }
 }
 
-export const deleteFaceAcademicAdvisor = (id) => async ({faceAcademicAdvisorAPI, facesAPI}, dispatch) => {
-    dispatch(faceAcademicAdvisorRequested());
+export const deleteFaceAcademicAdvisor = (id) => async (facesAcademicAdvisorAPI, dispatch) => {
+    dispatch(facesAcademicAdvisorRequested());
     try {
-        const deleted = await faceAcademicAdvisorAPI.delete(id);
-        dispatch(faceAcademicAdvisorDeleted(id));
+        const deleted = await facesAcademicAdvisorAPI.delete(id);
+        dispatch(facesAcademicAdvisorDeleted(id));
         dispatch(setDisappearingMessage('запись удалена', WARNING));
         // фамилия добавлена теперь надо обновить запись из свобной таблицы
-        //await refreshRecordFaces(deleted.data.tblFaceId)(facesAPI, dispatch);
+        //await refreshRecordFaces(deleted.data.tblFaceId)(facessAPI, dispatch);
     } catch (e) {
-        dispatch(faceAcademicAdvisorError(e.response));
+        dispatch(facesAcademicAdvisorError(e.response));
         dispatch(setDisappearingMessage(`запись не удалена... ${e.response.data.message}`, ERROR));
     }
 }
 
-export const updateFaceAcademicAdvisor = (rec) => async ({faceAcademicAdvisorAPI, facesAPI}, dispatch) => {
-    dispatch(faceAcademicAdvisorRequested());
+export const updateFaceAcademicAdvisor = (rec) => async (facesAcademicAdvisorAPI, dispatch) => {
+    dispatch(facesAcademicAdvisorRequested());
     try {
-        const response = await faceAcademicAdvisorAPI.put(rec);
-        dispatch(faceAcademicAdvisorUpdated(response));
+        const response = await facesAcademicAdvisorAPI.put(rec);
+        dispatch(facesAcademicAdvisorUpdated(response));
         dispatch(setDisappearingMessage('запись успешно обновлена', SUCCESS));
         // фамилия добавлена теперь надо обновить запись из свобной таблицы
-        //await refreshRecordFaces(rec.tblFaceId)(facesAPI, dispatch);
+        //await refreshRecordFaces(rec.tblFaceId)(facessAPI, dispatch);
     } catch (e) {
-        dispatch(faceAcademicAdvisorError(e.response));
+        dispatch(facesAcademicAdvisorError(e.response));
         dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));
     }
 }

@@ -16,22 +16,28 @@ const _pathDictEducationFormAPI = 'dict-education-form';
 const _pathDictCertificationResultAPI = 'dict-certification-result';
 const _pathDictEnterpriseAPI = 'dict-enterprise';
 const _pathDictEnterpriseAsTreeAPI = 'dict-enterprise-as-tree';
+const _pathDictDirectionAPI = 'dict-direction';
+const _pathDictDirectionalityAndSpecialtyAPI = 'dict-directionality-and-specialty';
+
 const _pathFaceAPI = 'face';
 const _pathFaceNameAPI = 'face-name';
 const _pathFaceDocumentAPI = 'face-document';
 const _pathFaceCitizenshipAPI = 'face-citizenship';
 const _pathFaceEducationAPI = 'face-education';
 const _pathFaceWorkAPI = 'face-work';
-const _pathFaceResidenceAPI = 'face-residences';
+const _pathFaceResidenceAPI = 'face-residence';
 const _pathFaceContactAPI = 'face-contact';
 const _pathFaceOrderAPI = 'face-order';
 const _pathFaceEntranceExaminAPI = 'face-entrance-examin';
 const _pathFaceAspirantAPI = 'face-aspirant';
-const _pathFaceAcademicAdvisorAPI = 'face-academic-advisor';
 const _pathFaceScientificPublAPI = 'face-scientific-publ';
 const _pathFaceCertificationResultAPI = 'face-certification-result';
 const _pathFaceBusinessTripAPI = 'face-business-trip';
 const _pathFaceExaminationsTripAPI = 'face-examinations';
+
+const _pathOrdersAPI = 'order';
+
+const _pathFaceAcademicAdvisorAPI = 'face-academic-advisor';
 
 export default class AspirantApiService {
     userApi = {
@@ -251,6 +257,56 @@ export default class AspirantApiService {
         }
     }
 
+    dictDirectionAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictDirectionAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictDirectionAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictDirectionAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictDirectionAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictDirectionAPI, data)
+        }
+    }
+
+    dictDirectionalityAndSpecialtyAPI = {
+        async post(data) {
+            return await _instance.post(_pathDictDirectionalityAndSpecialtyAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathDictDirectionalityAndSpecialtyAPI)
+            //.then(response => response.data)
+        },
+        async getAllDirectionality() {
+            return await _instance.get(`${_pathDictDirectionalityAndSpecialtyAPI}/directionality`)
+            //.then(response => response.data)
+        },
+        async getAllSpecialty() {
+            return await _instance.get(`${_pathDictDirectionalityAndSpecialtyAPI}/specialty`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathDictDirectionalityAndSpecialtyAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathDictDirectionalityAndSpecialtyAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathDictDirectionalityAndSpecialtyAPI, data)
+        }
+    }
+
     dictEnterpriseAsTreeAPI = {
         async getTreeAll() {
             return await _instance.get(_pathDictEnterpriseAsTreeAPI)
@@ -439,6 +495,10 @@ export default class AspirantApiService {
             return await _instance.get(`${_pathFaceOrderAPI}/faceId/${faceId}`)
             //.then(response => response.data)
         },
+        async getAllOneOrder(orderId) {
+            return await _instance.get(`${_pathFaceOrderAPI}/orderId/${orderId}`)
+            //.then(response => response.data)
+        },
         async getOne(id) {
             return await _instance.get(`${_pathFaceOrderAPI}/${id}`)
             //.then(response => response.data)
@@ -500,6 +560,10 @@ export default class AspirantApiService {
         },
         async getAllOneFace(faceId) {
             return await _instance.get(`${_pathFaceAcademicAdvisorAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getAllFace() {
+            return await _instance.get(`${_pathFaceAcademicAdvisorAPI}/`)
             //.then(response => response.data)
         },
         async getOne(id) {
@@ -595,6 +659,27 @@ export default class AspirantApiService {
         },
         async put(data) {
             return await _instance.put(_pathFaceExaminationsTripAPI, data)
+        }
+    }
+
+    ordersAPI = {
+        async post(data) {
+            return await _instance.post(_pathOrdersAPI, data)
+            //.then(response => response.data)
+        },
+        async getAll() {
+            return await _instance.get(_pathOrdersAPI)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathOrdersAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathOrdersAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathOrdersAPI, data)
         }
     }
 

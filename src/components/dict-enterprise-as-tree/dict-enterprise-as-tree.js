@@ -30,7 +30,10 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const DictEnterpriseAsTree = () => {
+const DictEnterpriseAsTree = ({
+                                  changeEnterpriseId = () => {},
+                                  currentRecInit
+                              }) => {
     const {
         dictEnterprise: {
             datasetAsTree, isLoading, error, dataset,
@@ -68,6 +71,11 @@ const DictEnterpriseAsTree = () => {
         }
     }, [idForReParent]);
 
+    //
+    useEffect(() => {
+        setSelected(currentRecInit);
+    }, [currentRecInit])
+
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
@@ -92,11 +100,12 @@ const DictEnterpriseAsTree = () => {
     const handleSelect = (event, nodeIds) => {
         // контроль выделенных веток
         setSelected(nodeIds);
-        console.log(nodeIds)
+        changeEnterpriseId(nodeIds);
+        //console.log(nodeIds)
     };
 
     if (error)
-        return <ErrorIndicator message={error.data}/>
+        return <ErrorIndicator error={error}/>
 
     if (isLoading)
         return <CircularProgress/>

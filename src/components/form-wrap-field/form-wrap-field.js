@@ -25,6 +25,7 @@ const FormWrapField = ({
 
     const saveChangesHandle = async (data) => {
         closeEdit();
+        console.log(data);
 
         switch (modeEdit) {
             case 'insert':

@@ -4,7 +4,7 @@ import {
     FAILURE_FACE_CITIZENSHIPS_ACTION, INS_FACE_CITIZENSHIPS_ACTION, DEL_FACE_CITIZENSHIPS_ACTION, UPD_FACE_CITIZENSHIPS_ACTION, SUCCESS, ERROR, WARNING,
 } from "../utils/consts";
 import {setDisappearingMessage} from "./messages-actions";
-//import {refreshRecordFaces} from "./faces-actions";
+//import {refreshRecordFaces} from "./faces-list-actions";
 
 export const faceCitizenshipsLoaded = (data) => {
     return {

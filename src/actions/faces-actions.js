@@ -69,6 +69,16 @@ export const fetchFaces = async (api, dispatch) => {
     }
 }
 
+export const fetchOneFace = (id) => async (api, dispatch) => {
+    dispatch(facesRequested());
+    try {
+        const response = await api.getOne(id);
+        dispatch(facesInserted(response));
+    } catch (e) {
+        dispatch(facesError(e.response));
+    }
+}
+
 export const insertFaces = (rec) => async (api, dispatch) => {
     dispatch(facesRequested());
     try {

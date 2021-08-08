@@ -9,16 +9,21 @@ import {CheckboxWithLabel, DropdownList, Input, InputDate} from "../controls";
 
 const schema = yup.object().shape({
     tblDictEducationLevelId: yup
-        .string()
+        .number()
+        .nullable()
         .required("уровень образования обязательное поле"),
     specialty: yup
         .string()
         .required("специальность обязательное поле"),
     dateFinished: yup
         .date()
+        .nullable()
+        .typeError('некорректная дата')
         .required("дата окончания обязательное поле"),
     quantitySatisfactory: yup
         .number()
+        .min(0, 'не может быть отрицательным')
+        .typeError('некорректные данные'),
 });
 
 const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
@@ -50,7 +55,7 @@ const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
 
     const renderEducationLevel = dictEducationLevels.dataset.map((i) => <MenuItem key={i.id}
                                                                                   value={i.id}>{i.educationLevel} </MenuItem>);
-    renderEducationLevel.unshift(<MenuItem key='dictEducationLevel-key' value=''> <em>не выбрано</em> </MenuItem>);
+    renderEducationLevel.unshift(<MenuItem key='dictEducationLevel-key' value={null}> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -93,7 +98,9 @@ const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 defaultValue={false}
                 label='отличник'
                 onChange={(e) => e.target.checked && setValue('quantitySatisfactory', 0)}
-
+                error={!!errors.isExcellent}
+                helperText={errors?.isExcellent?.message}
+                fullWidth
             />
 
             <Input
@@ -114,7 +121,7 @@ const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictEducationLevelId'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label='уровень образования'
                 required
                 renderItem={renderEducationLevel}

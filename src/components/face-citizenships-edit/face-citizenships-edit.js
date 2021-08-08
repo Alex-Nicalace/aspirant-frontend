@@ -9,7 +9,8 @@ import {DropdownList} from "../controls";
 
 const schema = yup.object().shape({
     tblDictCountryId: yup
-        .string()
+        .number()
+        .nullable()
         .required("гражданство обязательное поле"),
 });
 
@@ -39,7 +40,7 @@ const FaceCitizenshipsEdit = ({closeEdit, modeEdit, currentRec}) => {
     }, [])
 
     const renderCountry = dictCountry.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.country} </MenuItem>);
-    renderCountry.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
+    renderCountry.unshift(<MenuItem key='dictCountry-key' value={null}> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -59,7 +60,7 @@ const FaceCitizenshipsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictCountryId'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label='гражданство'
                 required
                 renderItem={renderCountry}

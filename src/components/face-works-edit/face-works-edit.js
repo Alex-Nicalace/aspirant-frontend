@@ -11,9 +11,15 @@ const schema = yup.object().shape({
         .string()
         .required("место работы обязательное поле"),
     dateOn: yup
-        .date(),
+        .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата'),
     dateOff: yup
         .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата'),
 });
 
 const FaceWorksEdit = ({closeEdit, modeEdit, currentRec}) => {

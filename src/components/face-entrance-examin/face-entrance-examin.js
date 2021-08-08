@@ -33,6 +33,7 @@ const FaceEntranceExamin = ({faceId, isCandidateMin}) => {
             fetch={fetchForCurrentId}
             FormEdit={FaceEntranceExaminEdit}
             initialOrderBy='dateOn'
+            valuesToState={{isCandidateMin}}
         />
     );
 };

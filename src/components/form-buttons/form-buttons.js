@@ -11,12 +11,12 @@ const useStyles = makeStyles(theme => ({
             margin: '1em'
         }
     },
-    btnSave: {
-        background: green["300"],
-    },
-    btnCancel: {
-        background: yellow.A100,
-    },
+    // btnSave: {
+    //     background: green["300"],
+    // },
+    // btnCancel: {
+    //     background: yellow.A100,
+    // },
 }));
 
 const FormButtons = ({children, saveBtn, closeEdit}) => {
@@ -29,15 +29,19 @@ const FormButtons = ({children, saveBtn, closeEdit}) => {
             <Box m={1} style={{textAlign:'right'}}>
                 <Button
                     variant='contained'
-                    className={classes.btnSave}
+                    //className={classes.btnSave}
                     type='submit'
+                    color='primary'
+                    size='small'
                 >
                     Сохранить
                 </Button>
                 <Button
                     variant='contained'
-                    className={classes.btnCancel}
-                    onClick={closeEdit}
+                    //className={classes.btnCancel}
+                    onClick={closeEdit }
+                    color='secondary'
+                    size='small'
                 >
                     Отмена
                 </Button>

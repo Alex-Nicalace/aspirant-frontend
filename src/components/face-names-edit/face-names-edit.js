@@ -20,6 +20,7 @@ const schema = yup.object().shape({
         .matches(/^([^0-9]*)$/, "отчество не может содержать цифры"),
     dateOn: yup
         .date()
+        .typeError('некорректная дата')
         .required('дата обязательное поле')
 });
 

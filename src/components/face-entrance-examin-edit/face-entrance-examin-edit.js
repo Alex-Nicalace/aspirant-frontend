@@ -9,17 +9,24 @@ import {DropdownList, Input, InputDate} from "../controls";
 
 const schema = yup.object().shape({
     tblDictSubjectId: yup
-        .string()
+        .number()
+        .nullable()
         .required("предмет обязательное поле"),
     estimate: yup
         .number()
+        .nullable()
+        .min(1, 'мин. зн. 1')
+        .max(5, 'макс. зн. 5')
         .required("оценка обязательное поле"),
     date: yup
         .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата')
         .required("дата обязательное поле"),
 });
 
-const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, isCandidateMin}) => {
+const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) => {
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
         resolver: yupResolver(schema),
@@ -44,11 +51,11 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, isCandidateMin
         dictSubject.fetch();
     }, [])
 
-    const valuesToState = {tblFaceId: faceId, isCandidateMin};
+    const valuesToState1 = {tblFaceId: faceId, ...valuesToState};
 
     const renderSubject = dictSubject.dataset.map((i) => <MenuItem key={i.id}
                                                                    value={i.id}>{i.subject} </MenuItem>);
-    renderSubject.unshift(<MenuItem key='renderSubject-key' value=''> <em>не выбрано</em> </MenuItem>);
+    renderSubject.unshift(<MenuItem key='renderSubject-key' value={null}> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -60,7 +67,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, isCandidateMin
             modeEdit={modeEdit}
             setValue={setValue}
             updateRec={updateRec}
-            valuesToState={valuesToState}
+            valuesToState={valuesToState1}
         >
             <InputDate
                 control={control}
@@ -76,7 +83,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, isCandidateMin
                 control={control}
                 name='estimate'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label="оценка"
                 required
                 type='search'
@@ -89,7 +96,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, isCandidateMin
                 control={control}
                 name='tblDictSubjectId'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label='предмет'
                 required
                 renderItem={renderSubject}

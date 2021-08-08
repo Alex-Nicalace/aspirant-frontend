@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
-import {AspirantApiContext} from "../context/aspirant-api-context";
+import React from 'react';
 import TableEdit from "../table-edit";
 import FaceWorksEdit from "../face-works-edit";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
@@ -19,7 +19,7 @@ const FaceWorks = ({faceId}) => {
             fetch,
             deleteRec,
         },
-    } = useContext(AspirantApiContext);
+    } = useAspirantApiContext();
 
     const fetchForCurrentId = () => {
         fetch(faceId);

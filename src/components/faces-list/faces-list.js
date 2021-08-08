@@ -1,11 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {AspirantApiContext} from "../context/aspirant-api-context";
+import React, {useState} from 'react';
 import TableEdit from "../table-edit";
 import FacesEdit from "../faces-edit";
 import Button from "@material-ui/core/Button";
 import Popover from "@material-ui/core/Popover";
 import {Container} from "@material-ui/core";
 import FaceAllData from "../face-all-data";
+import {useHistory} from "react-router-dom";
+import {FACES_LIST_ROUTE} from "../../utils/consts";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
@@ -15,21 +17,27 @@ const headCells = [
     {id: 'birthdate', disablePadding: false, label: 'дата рождения', dataType: 'date'},
 ];
 
-const Faces = () => {
+const FacesList = ({
+                       changeSelected = () => {
+                       },
+                       selected
+                   }) => {
+    const history = useHistory();
     const {
         faces: {
             dataset, isLoading, error,
             fetch,
             deleteRec,
         },
-    } = useContext(AspirantApiContext);
+    } = useAspirantApiContext();
     const [faceId, setFaceId] = useState(null);
     const [isOpenPopover, setIsOpenPopover] = useState(false);
     const idPopover = isOpenPopover ? 'simple-popover' : undefined;
 
     const changeFaceIdHandle = (id) => {
-        //console.log(`comp - Faces, id=${faceId}`);
+        //console.log(`comp - FacesList, id=${faceId}`);
         setFaceId(id);
+        changeSelected(id) ;
     }
 
     const openPopoverHandler = () => {
@@ -52,8 +60,10 @@ const Faces = () => {
                 FormEdit={FacesEdit}
                 initialOrderBy='lastname'
                 onGetKeyValue={changeFaceIdHandle}
+                currentRecInitial={selected}
             />
             <Button onClick={openPopoverHandler}>редактировать</Button>
+            <Button onClick={() => history.push(`${FACES_LIST_ROUTE}${faceId}`)} >карточка</Button>
 
             <Popover
                 id={idPopover}
@@ -78,4 +88,4 @@ const Faces = () => {
     );
 };
 
-export default Faces;
+export default FacesList;

@@ -4,11 +4,10 @@ import {
     FAILURE_FACE_ACADEMIC_ADVISOR_ACTION, INS_FACE_ACADEMIC_ADVISOR_ACTION, DEL_FACE_ACADEMIC_ADVISOR_ACTION, UPD_FACE_ACADEMIC_ADVISOR_ACTION,
 } from "../utils/consts";
 
-const faceAcademicAdvisorReducer = (state, action) => {
+const facesAcademicAdvisorReducer = (state, action) => {
     if (state === undefined) {
         return {
             dataset: [],
-            datasetDependsOnId: null, // загруженный датасет для указанного ИД
             isLoading: false,
             error: null,
         }
@@ -65,4 +64,4 @@ const faceAcademicAdvisorReducer = (state, action) => {
     }
 };
 
-export default faceAcademicAdvisorReducer;
+export default facesAcademicAdvisorReducer;

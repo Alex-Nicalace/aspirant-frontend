@@ -9,7 +9,8 @@ import {DropdownList, Input} from "../controls";
 
 const schema = yup.object().shape({
     tblDictContactTypeId: yup
-        .string()
+        .number()
+        .nullable()
         .required("тип контакта обязательное поле"),
     contact: yup
         .string()
@@ -45,7 +46,7 @@ const FaceContactsEdit = ({closeEdit, modeEdit, currentRec}) => {
 
     const renderContactType = dictContactType.dataset.map((i) => <MenuItem key={i.id}
                                                                            value={i.id}>{i.contactType} </MenuItem>);
-    renderContactType.unshift(<MenuItem key='dictContactType-key' value=''> <em>не выбрано</em> </MenuItem>);
+    renderContactType.unshift(<MenuItem key='dictContactType-key' value={null}> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -64,7 +65,7 @@ const FaceContactsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictContactTypeId'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label='тип контакта'
                 required
                 renderItem={renderContactType}

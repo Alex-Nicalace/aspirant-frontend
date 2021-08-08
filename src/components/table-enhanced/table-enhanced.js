@@ -9,7 +9,10 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
-import {IconButton, Link, useTheme} from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import Link from "@material-ui/core/Link";
+import {useTheme} from "@material-ui/core";
 import LastPageIcon from '@material-ui/icons/LastPage';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
@@ -138,6 +141,8 @@ function EnhancedTableHead({classes, order, orderBy, onRequestSort, headCells}) 
 }
 
 function formatingOnType(value, dataType) {
+    if ((typeof value === 'boolean') && !dataType)
+        dataType = 'boolean';
     switch (dataType) {
         case 'date':
             return value && new Date(value).toLocaleDateString();
@@ -145,6 +150,8 @@ function formatingOnType(value, dataType) {
             return value && new Date(value).toLocaleTimeString()
         case 'datetime':
             return value && new Date(value).toLocaleString()
+        case 'boolean':
+            return <Checkbox size='small' color='default' checked={value} /> //value && 'да'
         default:
             return value;
     }

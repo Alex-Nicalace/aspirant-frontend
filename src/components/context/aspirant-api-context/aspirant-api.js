@@ -100,7 +100,14 @@ import {
     getErrorFacesSelector,
     getIsLoadingFacesSelector
 } from "../../../selectors/faces-selectors";
-import {deleteFaces, fetchFaces, insertFaces, refreshRecordFaces, updateFaces} from "../../../actions/faces-actions";
+import {
+    deleteFaces,
+    fetchFaces,
+    fetchOneFace,
+    insertFaces,
+    refreshRecordFaces,
+    updateFaces
+} from "../../../actions/faces-actions";
 import {
     getDatasetDependsOnIdFaceNamesSelector,
     getDatasetFaceNamesSelector,
@@ -191,7 +198,7 @@ import {
 } from "../../../actions/face-entrance-examin-actions";
 import {
     getDatasetDependsOnIdFaceAspirantSelector,
-    getDatasetFaceAspirantSelector, getErrorFaceAspirantSelector,
+    getDatasetFaceAspirantSelector, getDatasetToFlatFaceAspirantSelector, getErrorFaceAspirantSelector,
     getIsLoadingFaceAspirantSelector
 } from "../../../selectors/face-aspirant-selectors";
 import {
@@ -201,15 +208,16 @@ import {
     updateFaceAspirant
 } from "../../../actions/face-aspirant-actions";
 import {
-    getDatasetDependsOnIdFaceAcademicAdvisorSelector, getDatasetFaceAcademicAdvisorSelector,
-    getErrorFaceAcademicAdvisorSelector,
-    getIsLoadingFaceAcademicAdvisorSelector
-} from "../../../selectors/face-academic-advisor-selectors";
+    getDatasetFacesAcademicAdvisorSelector,
+    getDatasetToFlatFacesAcademicAdvisorSelector,
+    getErrorFacesAcademicAdvisorSelector,
+    getIsLoadingFacesAcademicAdvisorSelector
+} from "../../../selectors/faces-academic-advisor-selectors";
 import {
     deleteFaceAcademicAdvisor,
     fetchFaceAcademicAdvisor,
     insertFaceAcademicAdvisor, updateFaceAcademicAdvisor
-} from "../../../actions/face-academic-advisor-actions";
+} from "../../../actions/faces-academic-advisor-actions";
 import {
     getDatasetDependsOnIdFaceScientificPublSelector,
     getDatasetFaceScientificPublSelector, getErrorFaceScientificPublSelector,
@@ -250,6 +258,43 @@ import {
     fetchFaceExaminations,
     insertFaceExaminations, updateFaceExaminations
 } from "../../../actions/face-examinations-actions";
+import {
+    getDatasetOrdersSelector,
+    getErrorOrdersSelector,
+    getIsLoadingOrdersSelector
+} from "../../../selectors/orders-selectors";
+import {deleteOrders, fetchOneOrder, fetchOrders, insertOrders, updateOrders} from "../../../actions/orders-actions";
+import {
+    getDatasetDependsOnIdOrderFacesSelector,
+    getDatasetOrderFacesSelector, getDatasetToFlatOrderFacesSelector,
+    getErrorOrderFacesSelector,
+    getIsLoadingOrderFacesSelector
+} from "../../../selectors/order-faces-selectors";
+import {
+    deleteOrderFaces, fetchOrderFaces,
+    insertOrderFaces,
+    updateOrderFaces
+} from "../../../actions/order-faces-actions";
+import {
+    getDatasetDictDirectionSelector, getErrorDictDirectionSelector,
+    getIsLoadingDictDirectionSelector
+} from "../../../selectors/dict-direction-selectors";
+import {
+    deleteDictDirection,
+    fetchDictDirection,
+    insertDictDirection,
+    updateDictDirection
+} from "../../../actions/dict-direction-actions";
+import {
+    getDatasetDictAllSelector,
+    getDatasetDictDirectionalitySelector, getDatasetDictSpecialtySelector, getErrorDictDirectionalitySelector,
+    getIsLoadingDictDirectionalitySelector
+} from "../../../selectors/dict-directionality-selectors";
+import {
+    deleteDictDirectionalityAndSpecialty,
+    fetchDictDirectionalityAndSpecialty,
+    insertDictDirectionalityAndSpecialty, updateDictDirectionalityAndSpecialty
+} from "../../../actions/dict-directionality-and-specialty-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -437,6 +482,46 @@ export const AspirantApi = ({children}) => {
         }
     }
 
+    const dictDirection = {
+        dataset: useSelector(getDatasetDictDirectionSelector),
+        isLoading: useSelector(getIsLoadingDictDirectionSelector),
+        error: useSelector(getErrorDictDirectionSelector),
+
+        fetch: async () => {
+            await fetchDictDirection(aspirantApiService.dictDirectionAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictDirection(rec)(aspirantApiService.dictDirectionAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictDirection(id)(aspirantApiService.dictDirectionAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictDirection(rec)(aspirantApiService.dictDirectionAPI, dispatch);
+        }
+    }
+
+    const dictDirectionalityAndSpecialty = {
+        datasetAll: useSelector(getDatasetDictAllSelector),
+        datasetDirectionality: useSelector(getDatasetDictDirectionalitySelector),
+        datasetSpecialty: useSelector(getDatasetDictSpecialtySelector),
+        isLoading: useSelector(getIsLoadingDictDirectionalitySelector),
+        error: useSelector(getErrorDictDirectionalitySelector),
+
+        fetch: async () => {
+            await fetchDictDirectionalityAndSpecialty(aspirantApiService.dictDirectionalityAndSpecialtyAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertDictDirectionalityAndSpecialty(rec)(aspirantApiService.dictDirectionalityAndSpecialtyAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteDictDirectionalityAndSpecialty(id)(aspirantApiService.dictDirectionalityAndSpecialtyAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateDictDirectionalityAndSpecialty(rec)(aspirantApiService.dictDirectionalityAndSpecialtyAPI, dispatch);
+        }
+    }
+
     const dictEnterprise = {
         dataset: useSelector(getDatasetDictEnterpriseSelector),
         datasetAsTree: useSelector(getDatasetAsTreeDictEnterpriseSelector),
@@ -464,6 +549,9 @@ export const AspirantApi = ({children}) => {
 
         fetch: async () => {
             await fetchFaces(aspirantApiService.facesAPI, dispatch)
+        },
+        fetchOne: async (id) => {
+            await fetchOneFace(id)(aspirantApiService.facesAPI, dispatch)
         },
         insertRec: async (rec) => {
             await insertFaces(rec)(aspirantApiService.facesAPI, dispatch);
@@ -742,6 +830,7 @@ export const AspirantApi = ({children}) => {
 
     const faceAspirant = {
         dataset: useSelector(getDatasetFaceAspirantSelector),
+        datasetModify: useSelector(getDatasetToFlatFaceAspirantSelector),
         isLoading: useSelector(getIsLoadingFaceAspirantSelector),
         error: useSelector(getErrorFaceAspirantSelector),
         faceId: useSelector(getDatasetDependsOnIdFaceAspirantSelector),
@@ -769,32 +858,23 @@ export const AspirantApi = ({children}) => {
         },
     }
 
-    const faceAcademicAdvisor = {
-        dataset: useSelector(getDatasetFaceAcademicAdvisorSelector),
-        isLoading: useSelector(getIsLoadingFaceAcademicAdvisorSelector),
-        error: useSelector(getErrorFaceAcademicAdvisorSelector),
-        faceId: useSelector(getDatasetDependsOnIdFaceAcademicAdvisorSelector),
+    const facesAcademicAdvisor = {
+        dataset: useSelector(getDatasetFacesAcademicAdvisorSelector),
+        datasetModify: useSelector(getDatasetToFlatFacesAcademicAdvisorSelector),
+        isLoading: useSelector(getIsLoadingFacesAcademicAdvisorSelector),
+        error: useSelector(getErrorFacesAcademicAdvisorSelector),
 
-        fetch: async (faceId) => {
-            await fetchFaceAcademicAdvisor(faceId)(aspirantApiService.faceAcademicAdvisorAPI, dispatch)
+        fetch: async () => {
+            await fetchFaceAcademicAdvisor(aspirantApiService.faceAcademicAdvisorAPI, dispatch)
         },
         insertRec: async (rec) => {
-            await insertFaceAcademicAdvisor(rec)({
-                faceAcademicAdvisorAPI: aspirantApiService.faceAcademicAdvisorAPI,
-                facesAPI: aspirantApiService.facesAPI
-            }, dispatch);
+            await insertFaceAcademicAdvisor(rec)(aspirantApiService.faceAcademicAdvisorAPI, dispatch);
         },
         deleteRec: async (id) => {
-            await deleteFaceAcademicAdvisor(id)({
-                faceAcademicAdvisorAPI: aspirantApiService.faceAcademicAdvisorAPI,
-                facesAPI: aspirantApiService.facesAPI
-            }, dispatch);
+            await deleteFaceAcademicAdvisor(id)(aspirantApiService.faceAcademicAdvisorAPI, dispatch);
         },
         updateRec: async (rec) => {
-            await updateFaceAcademicAdvisor(rec)({
-                faceAcademicAdvisorAPI: aspirantApiService.faceAcademicAdvisorAPI,
-                facesAPI: aspirantApiService.facesAPI
-            }, dispatch);
+            await updateFaceAcademicAdvisor(rec)(aspirantApiService.faceAcademicAdvisorAPI, dispatch);
         },
     }
 
@@ -913,6 +993,49 @@ export const AspirantApi = ({children}) => {
             }, dispatch);
         },
     }
+
+    const orders = {
+        dataset: useSelector(getDatasetOrdersSelector),
+        isLoading: useSelector(getIsLoadingOrdersSelector),
+        error: useSelector(getErrorOrdersSelector),
+
+        fetch: async () => {
+            await fetchOrders(aspirantApiService.ordersAPI, dispatch)
+        },
+        fetchOne: async (id) => {
+            await fetchOneOrder(id)(aspirantApiService.ordersAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertOrders(rec)(aspirantApiService.ordersAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteOrders(id)(aspirantApiService.ordersAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateOrders(rec)(aspirantApiService.ordersAPI, dispatch);
+        }
+    }
+
+    const orderFaces = {
+        dataset: useSelector(getDatasetOrderFacesSelector),
+        datasetModify: useSelector(getDatasetToFlatOrderFacesSelector),
+        isLoading: useSelector(getIsLoadingOrderFacesSelector),
+        error: useSelector(getErrorOrderFacesSelector),
+        orderId: useSelector(getDatasetDependsOnIdOrderFacesSelector),
+
+        fetch: async (orderId) => {
+            await fetchOrderFaces(orderId)(aspirantApiService.faceOrdersAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertOrderFaces(rec)(aspirantApiService.faceOrdersAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteOrderFaces(id)(aspirantApiService.faceOrdersAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateOrderFaces(rec)(aspirantApiService.faceOrdersAPI, dispatch);
+        }
+    }
     
     return (
         <AspirantApiContext.Provider value={{
@@ -930,6 +1053,8 @@ export const AspirantApi = ({children}) => {
             dictEducationForm,
             dictCertificationResult,
             dictEnterprise,
+            dictDirection,
+            dictDirectionalityAndSpecialty,
             //-----------------------
             faces,
             faceNames,
@@ -939,14 +1064,18 @@ export const AspirantApi = ({children}) => {
             faceWorks,
             faceResidences,
             faceContacts,
-            faceOrders, //-
+            faceOrders,
             faceEntranceExamin,
             faceAspirant,
-            faceAcademicAdvisor,
             faceScientificPubl,
             faceCertificationResult,
             faceBusinessTrip,
             faceExaminations,
+            //--------------------------
+            orders,
+            orderFaces,
+            //--------------------------
+            facesAcademicAdvisor,
         }}>
             {children}
         </AspirantApiContext.Provider>

@@ -9,17 +9,27 @@ import * as yup from "yup";
 
 const schema = yup.object().shape({
     tblDictDocId: yup
-        .string()
+        .number()
+        .nullable()
+        .default(null)
         .required("тип документа обязательное поле"),
     tblDictCountryId: yup
-        .string()
+        .number()
+        .nullable()
+        .default(null)
         .required("страна обязательное поле"),
     numDocument: yup
         .string(),
     dateOn: yup
-        .date(),
+        .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата'),
     dateOff: yup
         .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата')
 });
 
 const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
@@ -51,10 +61,10 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
     }, [])
 
     const renderDocsKind = dictDoc.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.document} </MenuItem>);
-    renderDocsKind.unshift(<MenuItem key='dictDoc-key' value=''> <em>не выбрано</em> </MenuItem>);
+    renderDocsKind.unshift(<MenuItem key='dictDoc-key' value={null}> <em>не выбрано</em> </MenuItem>);
 
     const renderCountry = dictCountry.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.country} </MenuItem>);
-    renderCountry.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
+    renderCountry.unshift(<MenuItem key='dictCountry-key' value={null}> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -73,7 +83,7 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictDocId'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label='документ'
                 required
                 renderItem={renderDocsKind}
@@ -87,7 +97,7 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictCountryId'
                 rules={{required: true}}
-                defaultValue=''
+                defaultValue={null}
                 label='страна'
                 required
                 renderItem={renderCountry}

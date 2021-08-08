@@ -21,6 +21,9 @@ const schema = yup.object().shape({
         .matches(/^([^0-9]*)$/, "отчество не может содержать цифры"),
     birthdate: yup
         .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата')
         .required('дата обязательное поле'),
     sex: yup
         .boolean()

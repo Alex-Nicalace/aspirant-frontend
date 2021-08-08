@@ -23,15 +23,21 @@ import faceContactsReducer from "./reducers/face-contacts-reducers";
 import faceOrdersReducer from "./reducers/face-orders-reducers";
 import faceEntranceExaminReducer from "./reducers/face-entrance-examin-reducers";
 import faceAspirantReducer from "./reducers/face-aspirant-reducers";
-import faceAcademicAdvisorReducer from "./reducers/face-academic-advisor-reducers";
 import faceScientificPublReducer from "./reducers/face-scientific-publ-reducers";
 import faceCertificationResultReducer from "./reducers/face-certification-result-reducers";
 import faceBusinessTripReducer from "./reducers/face-business-trip-reducers";
 import faceExaminationsReducer from "./reducers/face-examinations-reducers";
+import ordersReducer from "./reducers/orders-reducers";
+import orderFacesReducer from "./reducers/order-faces-reducers";
+import facesAcademicAdvisorReducer from "./reducers/faces-academic-advisor-reducers";
+import dictDirectionReducer from "./reducers/dict-direction-reducers";
+import dictDirectionalityAndSpecialtyReducer from "./reducers/dict-directionality-and-specialty-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
+
     messages: messagesReducer,
+
     dictDoc: dictDocReducer,
     dictCountry: dictCountryReducer,
     dictEducationLevels: dictEducationLevelsReducer,
@@ -42,6 +48,9 @@ const reducer = combineReducers({
     dictEducationForm: dictEducationFormReducer,
     dictCertificationResult: dictCertificationResultReducer,
     dictEnterprise: dictEnterpriseReducer,
+    dictDirection: dictDirectionReducer,
+    dictDirectionality: dictDirectionalityAndSpecialtyReducer,
+
     faces: facesReducer,
     faceNames: faceNamesReducer,
     faceDocuments: faceDocumentsReducer,
@@ -53,11 +62,15 @@ const reducer = combineReducers({
     faceOrders: faceOrdersReducer,
     faceEntranceExamin: faceEntranceExaminReducer,
     faceAspirant: faceAspirantReducer,
-    faceAcademicAdvisor: faceAcademicAdvisorReducer,
     faceScientificPubl: faceScientificPublReducer,
     faceCertificationResult: faceCertificationResultReducer,
     faceBusinessTrip: faceBusinessTripReducer,
     faceExaminations: faceExaminationsReducer,
+
+    orders: ordersReducer,
+    orderFaces: orderFacesReducer,
+
+    facesAcademicAdvisor: facesAcademicAdvisorReducer,
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

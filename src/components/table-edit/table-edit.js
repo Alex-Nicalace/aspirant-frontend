@@ -5,6 +5,7 @@ import ButtonsPanel from "../buttons-panel";
 import Popover from "@material-ui/core/Popover";
 import {Container} from "@material-ui/core";
 import DialogAlert from "../dialog-alert";
+import ErrorIndicator from "../error-indicator";
 
 // const headCells = [
 //     {id: 'id', disablePadding: false, key: true},
@@ -14,12 +15,14 @@ import DialogAlert from "../dialog-alert";
 const TableEdit = ({
                        headCells,
                        dataset, isLoading, error,
-                       fetch,
+                       fetch = () => {},
                        deleteRec,
                        FormEdit,
                        initialOrderBy,
                        onGetKeyValue = () => {
                        },
+                       valuesToState, // какието переменные которые нужно вставить при добавлении новых записей
+                       currentRecInitial
                    }) => {
 
     const [modeEdit, setModeEdit] = useState(null)
@@ -29,6 +32,10 @@ const TableEdit = ({
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
+
+    useEffect(() => {
+        setCurrentRec(currentRecInitial)
+    }, [currentRecInitial])
 
     useEffect(() => {
         fetch();
@@ -75,6 +82,9 @@ const TableEdit = ({
         setIsShowDialog(false);
     };
 
+    if (error)
+        return <ErrorIndicator error={error}  />
+
     if (isLoading)
         return <CircularProgress/>
 
@@ -120,6 +130,7 @@ const TableEdit = ({
                         closeEdit={closeEditHandle}
                         modeEdit={modeEdit}
                         currentRec={currentRec}
+                        valuesToState={valuesToState}
                     />
                 </Container>
             </Popover>
