@@ -49,9 +49,9 @@ const TableEdit = ({
 
     }, [dataset])
 
-    useEffect(() => {
-        onGetKeyValue(currentRec)
-    }, [currentRec])
+    // useEffect(() => {
+    //     onGetKeyValue(currentRec)
+    // }, [currentRec])
 
     const setModeEditHandle = (modeEdit, event) => {
         if (modeEdit === 'update' && !currentRec)
@@ -82,6 +82,11 @@ const TableEdit = ({
         setIsShowDialog(false);
     };
 
+    const handleSetCurrentRec= (id) => {
+        setCurrentRec(id);
+        onGetKeyValue(id)
+    }
+
     if (error)
         return <ErrorIndicator error={error}  />
 
@@ -100,7 +105,7 @@ const TableEdit = ({
                 dataset={dataset}
                 headCells={headCells}
                 initialOrderBy={initialOrderBy}
-                onGetKeyValue={setCurrentRec}
+                onGetKeyValue={handleSetCurrentRec}
                 selectedKey={currentRec}
             />
             <DialogAlert

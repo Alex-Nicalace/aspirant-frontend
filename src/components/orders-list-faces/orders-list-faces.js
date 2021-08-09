@@ -9,7 +9,7 @@ const OrdersListFaces = () => {
     return (
         <Grid container>
             <Grid item>
-                <OrdersList changeOrderId={setOrderId}/>
+                <OrdersList changeSelected={setOrderId} />
             </Grid>
             <Grid item>
                 <OrderFaces orderId={orderId} />

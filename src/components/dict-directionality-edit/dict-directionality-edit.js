@@ -11,6 +11,7 @@ import DictEnterpriseAsTree from "../dict-enterprise-as-tree";
 const schema = yup.object().shape({
     tblDictNameDirectionId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("'наименование направления' обязательное поле"),
     DirectionalityOrSpecialty: yup
@@ -18,6 +19,7 @@ const schema = yup.object().shape({
         .required("'наименование направленности' обязательное поле"),
     tblDictEnterpriseId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("'кафедра' обязательное поле"),
 
@@ -50,7 +52,7 @@ const DictDirectionalityEdit = ({closeEdit, modeEdit, currentRec}) => {
     }, [])
 
     const renderDictDirection = dictDirection.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.nameDirection} </MenuItem>);
-    renderDictDirection.unshift(<MenuItem key='dictCountry-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderDictDirection.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     const changeEnterpriseIdHandle = (id) => {
         setValue('tblDictEnterpriseId', id)
@@ -73,7 +75,7 @@ const DictDirectionalityEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictNameDirectionId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='направление'
                 required
                 renderItem={renderDictDirection}

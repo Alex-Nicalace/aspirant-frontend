@@ -10,11 +10,13 @@ import * as yup from "yup";
 const schema = yup.object().shape({
     tblDictDocId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .default(null)
         .required("тип документа обязательное поле"),
     tblDictCountryId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .default(null)
         .required("страна обязательное поле"),
@@ -61,10 +63,10 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
     }, [])
 
     const renderDocsKind = dictDoc.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.document} </MenuItem>);
-    renderDocsKind.unshift(<MenuItem key='dictDoc-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderDocsKind.unshift(<MenuItem key='dictDoc-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     const renderCountry = dictCountry.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.country} </MenuItem>);
-    renderCountry.unshift(<MenuItem key='dictCountry-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderCountry.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -83,7 +85,7 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictDocId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='документ'
                 required
                 renderItem={renderDocsKind}
@@ -97,7 +99,7 @@ const FaceDocumentsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictCountryId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='страна'
                 required
                 renderItem={renderCountry}

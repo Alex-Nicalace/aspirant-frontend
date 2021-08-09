@@ -10,6 +10,7 @@ import ChoiseOrderFromTable from "../controls/choise-order-from-table";
 const schema = yup.object().shape({
     tblOrderId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("приказ обязательное поле"),
     note: yup
@@ -49,6 +50,7 @@ const FaceOrdersEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblOrderId'
                 label='выберите приказ'
+                defaultValue=''
                 error={!!errors.tblOrderId}
                 helperText={errors?.tblOrderId?.message}
             />

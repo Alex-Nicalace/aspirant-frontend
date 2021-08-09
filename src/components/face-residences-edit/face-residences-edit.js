@@ -10,14 +10,17 @@ import {DropdownList, Input, InputDate} from "../controls";
 const schema = yup.object().shape({
     tblDictCountryId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("страна обязательное поле"),
     tblDictCityId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("населенный пункт обязательное поле"),
     tblDictStreetId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable(),
     dateOn: yup
         .date()
@@ -58,13 +61,13 @@ const FaceResidencesEdit = ({closeEdit, modeEdit, currentRec}) => {
     const valuesToState = {tblFaceId: faceId};
 
     const renderCountry = dictCountry.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.country} </MenuItem>);
-    renderCountry.unshift(<MenuItem key='dictCountry-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderCountry.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     const renderCity = dictCity.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.city} </MenuItem>);
-    renderCity.unshift(<MenuItem key='dictCity-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderCity.unshift(<MenuItem key='dictCity-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     const renderStreet = dictStreet.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.street} </MenuItem>);
-    renderStreet.unshift(<MenuItem key='dictStreet-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderStreet.unshift(<MenuItem key='dictStreet-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -83,7 +86,7 @@ const FaceResidencesEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictCountryId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='страна'
                 required
                 renderItem={renderCountry}
@@ -96,7 +99,7 @@ const FaceResidencesEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictCityId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='населенный пункт'
                 required
                 renderItem={renderCity}
@@ -109,7 +112,7 @@ const FaceResidencesEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictStreetId'
                 //rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='улица'
                 //required
                 renderItem={renderStreet}

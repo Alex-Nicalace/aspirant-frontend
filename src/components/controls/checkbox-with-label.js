@@ -33,7 +33,7 @@ const CheckboxWithLabel = ({
                             <Checkbox
                                 // color='primary'
                                 inputProps={{'aria-label': 'primary checkbox'}}
-                                {...props}
+                                //{...props}
                                 {...field}
                                 checked={field.value}
                                 onChange={(e) => {

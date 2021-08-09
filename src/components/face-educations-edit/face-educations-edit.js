@@ -10,6 +10,7 @@ import {CheckboxWithLabel, DropdownList, Input, InputDate} from "../controls";
 const schema = yup.object().shape({
     tblDictEducationLevelId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("уровень образования обязательное поле"),
     specialty: yup
@@ -23,6 +24,7 @@ const schema = yup.object().shape({
     quantitySatisfactory: yup
         .number()
         .min(0, 'не может быть отрицательным')
+        .transform(value => (isNaN(value) ? undefined : value))
         .typeError('некорректные данные'),
 });
 
@@ -55,7 +57,7 @@ const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
 
     const renderEducationLevel = dictEducationLevels.dataset.map((i) => <MenuItem key={i.id}
                                                                                   value={i.id}>{i.educationLevel} </MenuItem>);
-    renderEducationLevel.unshift(<MenuItem key='dictEducationLevel-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderEducationLevel.unshift(<MenuItem key='dictEducationLevel-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -121,7 +123,7 @@ const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblDictEducationLevelId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='уровень образования'
                 required
                 renderItem={renderEducationLevel}

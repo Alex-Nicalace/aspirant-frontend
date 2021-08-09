@@ -10,6 +10,7 @@ import ChoiseFaceFromTable from "../controls/choise-face-from-table";
 const schema = yup.object().shape({
     tblFaceId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("лицо обязательное поле"),
     note: yup
@@ -19,7 +20,7 @@ const schema = yup.object().shape({
 const OrderFacesEdit = ({closeEdit, modeEdit, currentRec}) => {
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
-        defaultValues: { tblFaceId: null, note: '' },
+        //defaultValues: { tblFaceId: null, note: '' },
         resolver: yupResolver(schema),
     });
     const {
@@ -49,6 +50,7 @@ const OrderFacesEdit = ({closeEdit, modeEdit, currentRec}) => {
                 control={control}
                 name='tblFaceId'
                 label='выберите лицо'
+                defaultValue=''
                 error={!!errors.tblFaceId}
                 helperText={errors?.tblFaceId?.message}
             />

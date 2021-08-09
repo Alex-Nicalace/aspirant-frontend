@@ -10,12 +10,15 @@ import {DropdownList, Input} from "../controls";
 const schema = yup.object().shape({
     tblDictCertificationResultId: yup
         .number()
-        .nullable()
-        .required("результат аттестации обязательное поле"),
+        .required("результат аттестации обязательное поле")
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable(),
     year: yup
         .number()
         .min(1, 'мин. зн. 1')
-        .required("год обязательное поле"),
+        .transform(value => (isNaN(value) ? undefined : value))
+        .required("год обязательное поле")
+        .nullable(),
 });
 
 const FaceCertificationResultEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) => {
@@ -46,8 +49,8 @@ const FaceCertificationResultEdit = ({closeEdit, modeEdit, currentRec, valuesToS
     valuesToState = {...valuesToState, tblFaceId: faceId};
 
     const renderSubject = dictCertificationResult.dataset.map((i) => <MenuItem key={i.id}
-                                                                   value={i.id}>{i.result} </MenuItem>);
-    renderSubject.unshift(<MenuItem key='renderSubject-key' value={null}> <em>не выбрано</em> </MenuItem>);
+                                                                               value={i.id}>{i.result} </MenuItem>);
+    renderSubject.unshift(<MenuItem key='renderSubject-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -78,7 +81,7 @@ const FaceCertificationResultEdit = ({closeEdit, modeEdit, currentRec, valuesToS
                 control={control}
                 name='tblDictCertificationResultId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='результат аттестации'
                 required
                 renderItem={renderSubject}

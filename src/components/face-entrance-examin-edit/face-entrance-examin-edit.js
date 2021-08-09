@@ -10,11 +10,13 @@ import {DropdownList, Input, InputDate} from "../controls";
 const schema = yup.object().shape({
     tblDictSubjectId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("предмет обязательное поле"),
     estimate: yup
         .number()
         .nullable()
+        .transform(value => (isNaN(value) ? undefined : value))
         .min(1, 'мин. зн. 1')
         .max(5, 'макс. зн. 5')
         .required("оценка обязательное поле"),
@@ -55,7 +57,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}
 
     const renderSubject = dictSubject.dataset.map((i) => <MenuItem key={i.id}
                                                                    value={i.id}>{i.subject} </MenuItem>);
-    renderSubject.unshift(<MenuItem key='renderSubject-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderSubject.unshift(<MenuItem key='renderSubject-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     return (
         <FormWrapField
@@ -83,7 +85,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}
                 control={control}
                 name='estimate'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label="оценка"
                 required
                 type='search'
@@ -96,7 +98,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}
                 control={control}
                 name='tblDictSubjectId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='предмет'
                 required
                 renderItem={renderSubject}

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import TableEdit from "../table-edit";
 import OrdersEdit from "../orders-edit";
@@ -22,11 +22,8 @@ const OrdersList = ({
             deleteRec,
         },
     } = useAspirantApiContext();
-    //const [orderId, setOrderId] = useState(null);
 
     const changeOrderIdHandle = (id) => {
-        //console.log(`comp - FacesList, id=${faceId}`);
-        //setOrderId(id);
         changeSelected(id) ;
     }
 

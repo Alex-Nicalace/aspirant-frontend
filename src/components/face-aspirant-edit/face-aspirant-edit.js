@@ -10,6 +10,7 @@ import {CheckboxWithLabel, ChoiseAcademicAdvisorFromTable, DropdownList, Input} 
 const schema = yup.object().shape({
     tblFaceId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("лицо обязательное поле"),
     isRecommendation: yup
@@ -24,14 +25,17 @@ const schema = yup.object().shape({
         .boolean(),
     tblDictSubjectId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("предмет обязательное поле"),
     tblDictEducationFormId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("форма обучения обязательное поле"),
     tblDictDirectionalityAndSpecialtyId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("направленность/спец. обязательное поле"),
     dissertationTheme: yup
@@ -39,6 +43,7 @@ const schema = yup.object().shape({
         .required("тема диссертации обязательное поле"),
     tblAcademicAdvisorId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("научный руководитель обязательное поле"),
 
@@ -76,11 +81,11 @@ const FaceAspirantEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) => {
 
     const renderSubject = dictSubject.dataset.map((i) => <MenuItem key={i.id}
                                                                    value={i.id}>{i.subject} </MenuItem>);
-    renderSubject.unshift(<MenuItem key='renderSubject-key' value={null}> <em>не выбрано</em> </MenuItem>);
+    renderSubject.unshift(<MenuItem key='renderSubject-key' value=''> <em>не выбрано</em> </MenuItem>);
 
     const renderDictEducationForm = dictEducationForm.dataset.map((i) => <MenuItem key={i.id}
                                                                                    value={i.id}>{i.educationForm} </MenuItem>);
-    renderDictEducationForm.unshift(<MenuItem key='renderDictEducationForm-key' value={null}> <em>не выбрано</em>
+    renderDictEducationForm.unshift(<MenuItem key='renderDictEducationForm-key' value=''> <em>не выбрано</em>
     </MenuItem>);
 
     return (
@@ -133,7 +138,7 @@ const FaceAspirantEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) => {
                 control={control}
                 name='tblDictSubjectId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='предмет'
                 required
                 renderItem={renderSubject}
@@ -146,7 +151,7 @@ const FaceAspirantEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) => {
                 control={control}
                 name='tblDictEducationFormId'
                 rules={{required: true}}
-                defaultValue={null}
+                defaultValue=''
                 label='форма обучения'
                 required
                 renderItem={renderDictEducationForm}
@@ -170,6 +175,8 @@ const FaceAspirantEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) => {
             <ChoiseAcademicAdvisorFromTable
                 control={control}
                 name='tblAcademicAdvisorId'
+                rules={{required: true}}
+                defaultValue=''
                 label='выберите научного руководителя'
                 error={!!errors.tblAcademicAdvisorId}
                 helperText={errors?.tblAcademicAdvisorId?.message}
