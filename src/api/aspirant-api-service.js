@@ -499,6 +499,10 @@ export default class AspirantApiService {
             return await _instance.get(`${_pathFaceOrderAPI}/orderId/${orderId}`)
             //.then(response => response.data)
         },
+        async getAllOneRecFaceAspirant(faceAspirantId) {
+            return await _instance.get(`${_pathFaceOrderAPI}/faceAspirantId/${faceAspirantId}`)
+            //.then(response => response.data)
+        },
         async getOne(id) {
             return await _instance.get(`${_pathFaceOrderAPI}/${id}`)
             //.then(response => response.data)
@@ -539,6 +543,10 @@ export default class AspirantApiService {
         },
         async getAllOneFace(faceId) {
             return await _instance.get(`${_pathFaceAspirantAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getAllAspirants() {
+            return await _instance.get(`${_pathFaceAspirantAPI}`)
             //.then(response => response.data)
         },
         async getOne(id) {

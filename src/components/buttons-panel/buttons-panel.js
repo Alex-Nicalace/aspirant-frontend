@@ -8,15 +8,19 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import EditIcon from '@material-ui/icons/Edit';
 import {makeStyles} from '@material-ui/core/styles'
+import Grid from "@material-ui/core/Grid";
 
-const useStyles  = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({
     root: {
-        textAlign:'right',
-        '& button': {
-            marginLeft: theme.spacing(1),
+       //margin: `${theme.spacing(1)}px 0px`,
+        '& div': {
+            margin: theme.spacing(1),
             //color: green[500]
-
+            //border:'1px solid red'
         },
+        '& div:last-child': {
+            marginRight: 0,
+        }
     },
     btnAdd: {
         color: green[500]
@@ -32,45 +36,53 @@ const useStyles  = makeStyles(theme => ({
 const ButtonsPanel = ({deleteRec, setModeEdit, currentRec}) => {
     const styles = useStyles();
     return (
-        <Box className={styles.root}
-            p={1}
+        <Grid
+            container
+            justifyContent='flex-end'
+            className={styles.root}
         >
-            <Button
-                variant='outlined'
-                //className={styles.btnUpd}
-                color='primary'
-                size='small'
-                startIcon={<AddCircleOutlineIcon  />}
-                onClick={(e) => setModeEdit('insert', e)}
-            >
-                добавить
-            </Button>
+            <Grid item className='btn'>
+                <Button
+                    variant='outlined'
+                    //className={styles.btnUpd}
+                    color='primary'
+                    size='small'
+                    startIcon={<AddCircleOutlineIcon/>}
+                    onClick={(e) => setModeEdit('insert', e)}
+                >
+                    добавить
+                </Button>
+            </Grid>
 
-            <Button
-                variant='outlined'
-                //classes={styles.btnDel}
-                size='small'
-                color='secondary'
-                startIcon={<DeleteOutlineIcon />}
-                onClick={deleteRec}
-                disabled={!currentRec}
-            >
-                удалить
-            </Button>
+            <Grid item>
+                <Button
+                    variant='outlined'
+                    //classes={styles.btnDel}
+                    size='small'
+                    color='secondary'
+                    startIcon={<DeleteOutlineIcon/>}
+                    onClick={deleteRec}
+                    disabled={!currentRec}
+                >
+                    удалить
+                </Button>
+            </Grid>
 
-            <Button
-                variant='outlined'
-                //className={styles.btnUpd}
-                //color='secondary'
-                size='small'
-                startIcon={<EditIcon />}
-                onClick={(e) => setModeEdit('update', e)}
-                disabled={!currentRec}
-            >
-                редактировать
-            </Button>
+            <Grid item>
+                <Button
+                    variant='outlined'
+                    //className={styles.btnUpd}
+                    //color='secondary'
+                    size='small'
+                    startIcon={<EditIcon/>}
+                    onClick={(e) => setModeEdit('update', e)}
+                    disabled={!currentRec}
+                >
+                    редактировать
+                </Button>
+            </Grid>
 
-        </Box>
+        </Grid>
     );
 };
 

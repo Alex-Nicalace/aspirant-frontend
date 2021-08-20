@@ -4,48 +4,45 @@ import green from "@material-ui/core/colors/green";
 import yellow from "@material-ui/core/colors/yellow";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles(theme => ({
-    root: {
+    btnGrid: {
         '& button': {
-            margin: '1em'
+            margin: theme.spacing(1),
         }
     },
-    // btnSave: {
-    //     background: green["300"],
-    // },
-    // btnCancel: {
-    //     background: yellow.A100,
-    // },
 }));
 
 const FormButtons = ({children, saveBtn, closeEdit}) => {
     const classes = useStyles();
     return (
-        <form onSubmit={saveBtn} className={classes.root}>
+        <form /*onSubmit={saveBtn} */ >
             <Box>
-            {children}
+                {children}
             </Box>
-            <Box m={1} style={{textAlign:'right'}}>
-                <Button
-                    variant='contained'
-                    //className={classes.btnSave}
-                    type='submit'
-                    color='primary'
-                    size='small'
-                >
-                    Сохранить
-                </Button>
-                <Button
-                    variant='contained'
-                    //className={classes.btnCancel}
-                    onClick={closeEdit }
-                    color='secondary'
-                    size='small'
-                >
-                    Отмена
-                </Button>
-            </Box>
+            <Grid container justifyContent='flex-end' className={classes.btnGrid}>
+                <Grid item>
+                    <Button
+                            variant='contained'
+                            color='primary'
+                            size='small'
+                            onClick={saveBtn}
+                    >
+                        Сохранить
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Button
+                        variant='contained'
+                        onClick={closeEdit}
+                        color='secondary'
+                        size='small'
+                    >
+                        Отмена
+                    </Button>
+                </Grid>
+            </Grid>
         </form>
     );
 };

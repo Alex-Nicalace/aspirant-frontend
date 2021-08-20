@@ -195,7 +195,7 @@ export default function TableEnhanced({
                                           error,
                                           isLoading,
                                           headCells,
-                                          maxHeight = 300,
+                                          maxHeight = '300px',
                                           initialOrderBy,
                                           onGetKeyValue = () => {
                                           },
@@ -240,6 +240,8 @@ export default function TableEnhanced({
     const [rowsPerPage, setRowsPerPage] = React.useState(15);
     const keyField = headCells.find(item => item.key).id;
     const visibleFields = headCells.filter(item => item.label);
+
+   // console.log(maxHeight);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';

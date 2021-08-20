@@ -5,6 +5,12 @@ import FaceAspirantEdit from "../face-aspirant-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
+    {id: 'dateOn', disablePadding: false, label: 'зачислен', dataType: 'date'},
+    {id: 'dateOff', disablePadding: false, label: 'отчислен', dataType: 'date'},
+    {id: 'orderIn', disablePadding: false, label: 'пр. о зачислении'},
+    //{id: 'orderIn_tblFace_tblOrderId', disablePadding: false, label: 'id'},
+    {id: 'orderOut', disablePadding: false, label: 'пр. о отчислении'},
+    //{id: 'orderOut_tblFace_tblOrderId', disablePadding: false, label: 'id'},
     {id: 'isRecommendation', disablePadding: false, label: 'реком. сов. фак.'},
     {id: 'isProtocol', disablePadding: false, label: 'выписка из протокола'},
     {id: 'isAgree', disablePadding: false, label: 'согласие на науч. рук.'},
@@ -12,10 +18,11 @@ const headCells = [
     {id: 'dissertationTheme', disablePadding: false, label: 'тема диссертации'},
     {id: 'educationForm', disablePadding: false, label: 'форма обучения'},
     {id: 'nameDirection', disablePadding: false, label: 'направление обучения'},
-    {id: 'subject', disablePadding: false, label: 'ин. яз'},
     {id: 'DirectionalityOrSpecialty', disablePadding: false, label: 'направленность/специальность'},
+    {id: 'subject', disablePadding: false, label: 'ин. яз'},
     {id: 'subDiv', disablePadding: false, label: 'кафедра'},
     {id: 'academicAdvisor', disablePadding: false, label: 'научный руководитель'},
+
 ];
 
 const FaceAspirant = ({faceId}) => {

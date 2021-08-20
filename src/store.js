@@ -32,6 +32,8 @@ import orderFacesReducer from "./reducers/order-faces-reducers";
 import facesAcademicAdvisorReducer from "./reducers/faces-academic-advisor-reducers";
 import dictDirectionReducer from "./reducers/dict-direction-reducers";
 import dictDirectionalityAndSpecialtyReducer from "./reducers/dict-directionality-and-specialty-reducers";
+import aspirantOrdersReducer from "./reducers/face-aspirant-orders-reducers";
+import facesAspirantsReducer from "./reducers/faces-aspirants-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
@@ -66,11 +68,14 @@ const reducer = combineReducers({
     faceCertificationResult: faceCertificationResultReducer,
     faceBusinessTrip: faceBusinessTripReducer,
     faceExaminations: faceExaminationsReducer,
+    faceAspirantOrders: aspirantOrdersReducer,
 
     orders: ordersReducer,
     orderFaces: orderFacesReducer,
 
     facesAcademicAdvisor: facesAcademicAdvisorReducer,
+
+    facesAspirants: facesAspirantsReducer,
 });
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));

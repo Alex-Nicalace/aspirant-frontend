@@ -22,6 +22,7 @@ import FaceCertificationResult from "../face-certification-result";
 import Typography from "@material-ui/core/Typography";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FaceOrders from "../face-orders";
+import FaceAspirant from "../face-aspirant";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -77,6 +78,15 @@ const tabs = [
     },
     {
         id: 1,
+        label: 'аспирант',
+        content: (faceId) => <>
+            <FacesDataWrap head='аспирант'>
+                <FaceAspirant faceId={faceId}/>
+            </FacesDataWrap>
+        </>
+    },
+    {
+        id: 2,
         label: 'документы, гражданство',
         content: (faceId) => <>
             <FacesDataWrap head='документы'>
@@ -88,7 +98,7 @@ const tabs = [
         </>
     },
     {
-        id: 2,
+        id: 3,
         label: 'образование',
         content: (faceId) => <>
             <FacesDataWrap head='образование'>
@@ -97,7 +107,7 @@ const tabs = [
         </>
     },
     {
-        id: 3,
+        id: 4,
         label: 'трудавая деятельность',
         content: (faceId) => <>
             <FacesDataWrap head='образование'>
@@ -106,7 +116,7 @@ const tabs = [
         </>
     },
     {
-        id: 4,
+        id: 5,
         label: 'кандидатский минимум',
         content: (faceId) => <>
             <FacesDataWrap head='кандидатский минимум'>
@@ -115,7 +125,7 @@ const tabs = [
         </>
     },
     {
-        id: 5,
+        id: 6,
         label: 'вступительные экзамены',
         content: (faceId) => <>
             <FacesDataWrap head='вступительные экзамены'>
@@ -124,7 +134,7 @@ const tabs = [
         </>
     },
     {
-        id: 6,
+        id: 7,
         label: 'научные публикации',
         content: (faceId) => <>
             <FacesDataWrap head='научные публикации'>
@@ -133,7 +143,7 @@ const tabs = [
         </>
     },
     {
-        id: 7,
+        id: 8,
         label: 'коммандировки',
         content: (faceId) => <>
             <FacesDataWrap head='коммандировки'>
@@ -142,7 +152,7 @@ const tabs = [
         </>
     },
     {
-        id: 8,
+        id: 9,
         label: 'экзамены',
         content: (faceId) => <>
             <FacesDataWrap head='экзамены'>
@@ -151,7 +161,7 @@ const tabs = [
         </>
     },
     {
-        id: 9,
+        id: 10,
         label: 'аттестация',
         content: (faceId) => <>
             <FacesDataWrap head='аттестация'>
@@ -160,7 +170,7 @@ const tabs = [
         </>
     },
     {
-        id: 10,
+        id: 11,
         label: 'приказы',
         content: (faceId) => <>
             <FacesDataWrap head='фигурирует в приказах'>
@@ -187,30 +197,33 @@ const FaceAllDataTabs = ({faceId}) => {
 
     const classes = useStyles();
     return (
-        <div className={classes.root}>
+        <>
             <Typography align='center' variant='h5' color='textPrimary' gutterBottom>
                 {face && `${face.lastname} ${face.firstname} ${face.middleName}, ${new Date(face.birthdate).toLocaleDateString()} г.р.`}
-            </Typography >
-            <Paper elevation={3}>
-                <AppBar position="static" color="default">
-                    <Tabs
-                        value={value}
-                        defaultValue={tabs[0].id}
-                        onChange={handleChange}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        variant="scrollable"
-                        scrollButtons= "auto"
-                        aria-label="scrollable auto tabs example"
-                    >
-                        {tabs.map(i => <Tab key={i.id} value={i.id} label={i.label}/>)}
-                    </Tabs>
-                </AppBar>
-                {tabs.map(i => <TabPanel key={i.id} index={i.id} value={value}>
-                    {i.content(faceId)}
-                </TabPanel>)}
-            </Paper>
-        </div>
+            </Typography>
+
+            <div className={classes.root}>
+                <Paper elevation={3}>
+                    <AppBar position="static" color="default">
+                        <Tabs
+                            value={value}
+                            defaultValue={tabs[0].id}
+                            onChange={handleChange}
+                            indicatorColor="primary"
+                            textColor="primary"
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            aria-label="scrollable auto tabs example"
+                        >
+                            {tabs.map(i => <Tab key={i.id} value={i.id} label={i.label}/>)}
+                        </Tabs>
+                    </AppBar>
+                    {tabs.map(i => <TabPanel key={i.id} index={i.id} value={value}>
+                        {i.content(faceId)}
+                    </TabPanel>)}
+                </Paper>
+            </div>
+        </>
     )
 }
 

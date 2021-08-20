@@ -6,11 +6,18 @@ import Popover from "@material-ui/core/Popover";
 import {Container} from "@material-ui/core";
 import DialogAlert from "../dialog-alert";
 import ErrorIndicator from "../error-indicator";
+import {makeStyles} from "@material-ui/core/styles";
 
 // const headCells = [
 //     {id: 'id', disablePadding: false, key: true},
 //     {id: 'document', disablePadding: false, label: 'документ'},
 // ];
+
+const useStyles = makeStyles(theme => ({
+    popupContent: {
+        margin: theme.spacing(2)
+    },
+}));
 
 const TableEdit = ({
                        headCells,
@@ -22,9 +29,11 @@ const TableEdit = ({
                        onGetKeyValue = () => {
                        },
                        valuesToState, // какието переменные которые нужно вставить при добавлении новых записей
-                       currentRecInitial
+                       currentRecInitial,
+                       maxHeight
                    }) => {
 
+    const classes = useStyles();
     const [modeEdit, setModeEdit] = useState(null)
     const [currentRec, setCurrentRec] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -107,6 +116,7 @@ const TableEdit = ({
                 initialOrderBy={initialOrderBy}
                 onGetKeyValue={handleSetCurrentRec}
                 selectedKey={currentRec}
+                maxHeight={maxHeight}
             />
             <DialogAlert
                 message='Вы действительно хотите удалить запись?'
@@ -130,14 +140,14 @@ const TableEdit = ({
                     horizontal: 'center',
                 }}
             >
-                <Container>
+                <div className={classes.popupContent}>
                     <FormEdit
                         closeEdit={closeEditHandle}
                         modeEdit={modeEdit}
                         currentRec={currentRec}
                         valuesToState={valuesToState}
                     />
-                </Container>
+                </div>
             </Popover>
 
 

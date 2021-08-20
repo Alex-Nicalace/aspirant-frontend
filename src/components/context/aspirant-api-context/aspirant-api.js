@@ -295,6 +295,26 @@ import {
     fetchDictDirectionalityAndSpecialty,
     insertDictDirectionalityAndSpecialty, updateDictDirectionalityAndSpecialty
 } from "../../../actions/dict-directionality-and-specialty-actions";
+import {
+    getDatasetDependsOnIdFaceAspirantOrdersSelector,
+    getDatasetFaceAspirantOrdersSelector,
+    getErrorFaceAspirantOrdersSelector, getIsLoadingFaceAspirantOrdersSelector
+} from "../../../selectors/face-aspirant-orders-selectors";
+import {
+    deleteAspirantOrders,
+    fetchAspirantOrders,
+    insertAspirantOrders, updateAspirantOrders
+} from "../../../actions/face-aspirant-orders-actions";
+import {
+    getDatasetDependsOnIdFacesAspirantsSelector,
+    getDatasetFacesAspirantsSelector,
+    getDatasetToFlatFacesAspirantsSelector, getErrorFacesAspirantsSelector, getIsLoadingFacesAspirantsSelector
+} from "../../../selectors/faces-aspirants-selectors";
+import {
+    deleteFacesAspirants,
+    fetchFacesAspirants,
+    insertFacesAspirants, updateFacesAspirants
+} from "../../../actions/faces-aspirants-actions";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -1036,7 +1056,57 @@ export const AspirantApi = ({children}) => {
             await updateOrderFaces(rec)(aspirantApiService.faceOrdersAPI, dispatch);
         }
     }
-    
+
+    const faceAspirantOrders = {
+        dataset: useSelector(getDatasetFaceAspirantOrdersSelector),
+        isLoading: useSelector(getIsLoadingFaceAspirantOrdersSelector),
+        error: useSelector(getErrorFaceAspirantOrdersSelector),
+        faceAspirantId: useSelector(getDatasetDependsOnIdFaceAspirantOrdersSelector),
+
+        fetch: async (orderId) => {
+            await fetchAspirantOrders(orderId)(aspirantApiService.faceOrdersAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertAspirantOrders(rec)({
+                aspirantOrderApi: aspirantApiService.faceOrdersAPI,
+                aspirantApi: aspirantApiService.faceAspirantAPI
+            }, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteAspirantOrders(id)({
+                aspirantOrderApi: aspirantApiService.faceOrdersAPI,
+                aspirantApi: aspirantApiService.faceAspirantAPI
+            }, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateAspirantOrders(rec)({
+                aspirantOrderApi: aspirantApiService.faceOrdersAPI,
+                aspirantApi: aspirantApiService.faceAspirantAPI
+            }, dispatch);
+        }
+    }
+
+    const facesAspirants = {
+        dataset: useSelector(getDatasetFacesAspirantsSelector),
+        datasetModify: useSelector(getDatasetToFlatFacesAspirantsSelector),
+        isLoading: useSelector(getIsLoadingFacesAspirantsSelector),
+        error: useSelector(getErrorFacesAspirantsSelector),
+        faceId: useSelector(getDatasetDependsOnIdFacesAspirantsSelector),
+
+        fetch: async () => {
+            await fetchFacesAspirants(aspirantApiService.faceAspirantAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertFacesAspirants(rec)(aspirantApiService.faceAspirantAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteFacesAspirants(id)(aspirantApiService.faceAspirantAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateFacesAspirants(rec)(aspirantApiService.faceAspirantAPI, dispatch);
+        },
+    }
+
     return (
         <AspirantApiContext.Provider value={{
             isAuth,
@@ -1071,11 +1141,14 @@ export const AspirantApi = ({children}) => {
             faceCertificationResult,
             faceBusinessTrip,
             faceExaminations,
+            faceAspirantOrders,
             //--------------------------
             orders,
             orderFaces,
             //--------------------------
             facesAcademicAdvisor,
+            //--------------------------
+            facesAspirants,
         }}>
             {children}
         </AspirantApiContext.Provider>

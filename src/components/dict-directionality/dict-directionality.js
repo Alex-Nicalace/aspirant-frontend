@@ -10,7 +10,11 @@ const headCells = [
     {id: 'nameSubDiv', disablePadding: false, label: 'кафедра'},
 ];
 
-const DictDirectionality = () => {
+const DictDirectionality = ({
+                                changeSelected = () => {
+                                },
+                                selected
+                            }) => {
     const {
         dictDirectionalityAndSpecialty: {
             datasetDirectionality, isLoading, error,
@@ -28,6 +32,8 @@ const DictDirectionality = () => {
             fetch={fetch}
             FormEdit={DictDirectionalityEdit}
             initialOrderBy='nameDirection'
+            onGetKeyValue={changeSelected}
+            currentRecInitial={selected}
         />
     );
 };

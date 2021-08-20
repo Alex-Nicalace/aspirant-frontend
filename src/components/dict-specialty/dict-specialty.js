@@ -9,7 +9,11 @@ const headCells = [
     {id: 'nameSubDiv', disablePadding: false, label: 'кафедра'},
 ];
 
-const DictSpecialty = () => {
+const DictSpecialty = ({
+                           changeSelected = () => {
+                           },
+                           selected
+                       }) => {
     const {
         dictDirectionalityAndSpecialty: {
             datasetSpecialty, isLoading, error,
@@ -27,6 +31,8 @@ const DictSpecialty = () => {
             fetch={fetch}
             FormEdit={DictSpecialtyEdit}
             initialOrderBy='nameDirection'
+            onGetKeyValue={changeSelected}
+            currentRecInitial={selected}
         />
     );
 };

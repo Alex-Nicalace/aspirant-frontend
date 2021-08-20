@@ -105,3 +105,15 @@ export const updateFaceAspirant = (rec) => async ({faceAspirantAPI, facesAPI}, d
         dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));
     }
 }
+
+export const refreshRecordFaceAspirant  = (id) => async (api, dispatch) => {
+    dispatch(faceAspirantRequested());
+    try {
+        const response = await api.getOne(id);
+        dispatch(faceAspirantUpdated(response));
+        //dispatch(setDisappearingMessage('запись успешно обновлена', SUCCESS));
+    } catch (e) {
+        dispatch(faceAspirantError(e.response));
+        //dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));
+    }
+}

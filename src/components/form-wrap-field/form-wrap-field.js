@@ -21,11 +21,13 @@ const FormWrapField = ({
                 setValue(key, result[key]);
             }
         }
-    }, [])
+    }, []);
+    // console.log('FormWrapField');
+     //console.log(insertRec);
 
     const saveChangesHandle = async (data) => {
         closeEdit();
-        console.log(data);
+        //console.log(data);
 
         switch (modeEdit) {
             case 'insert':

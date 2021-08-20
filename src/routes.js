@@ -1,11 +1,10 @@
 import {
     ACADEMIC_ADVISOR_ROUTE,
-    ASPIRANT_ROUTE,
+    ASPIRANT_ROUTE, ASPIRANTS_ROUTE,
     DICTIONARIES_CERTIFICATION_RESULT_ROUTE,
     DICTIONARIES_CITY_ROUTE,
     DICTIONARIES_COUNTRY_ROUTE,
     DICTIONARIES_DIRECTION_ROUTE,
-    DICTIONARIES_DIRECTIONALITY_ROUTE,
     DICTIONARIES_EDUCATION_FORM_ROUTE,
     DICTIONARIES_EDUCATION_LEVEL_ROUTE,
     DICTIONARIES_ENTERPRISE_AS_TREE_ROUTE,
@@ -29,6 +28,7 @@ import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 import FaceIcon from "@material-ui/icons/Face";
 import OrderIcon from "@material-ui/icons/Description";
 import AcademicAdvisorIcon from "@material-ui/icons/SupervisorAccount";
+import AspirantIcon from "@material-ui/icons/School";
 import DictDoc from "./components/dict-doc";
 import DictEducationLevel from "./components/dict-education-level";
 import DictCountry from "./components/dict-country";
@@ -44,9 +44,8 @@ import FacesList from "./components/faces-list";
 import FaceAllDataChoiseView from "./components/face-all-data-choise-view";
 import OrdersListFaces from "./components/orders-list-faces";
 import FacesAcademicAdvisor from "./components/faces-academic-advisor";
-import DictDirection from "./components/dict-direction";
-import DictDirectionality from "./components/dict-directionality";
 import DictDirectionalityAndSpecialty from "./components/dict-directionality-and-specialty";
+import FacesAspirants from "./components/faces-aspirants";
 
 // список маршрутов для авторизированных пользователей
 export const authRoutes = [
@@ -62,6 +61,13 @@ export const authRoutes = [
         render: () => <FacesRoutes/>,
         label: 'лица',
         icon: <FaceIcon />,
+        //exact: true
+    },
+    {
+        path: ASPIRANTS_ROUTE ,
+        render: () => <FacesAspirants/>,
+        label: 'аспиранты',
+        icon: <AspirantIcon />,
         //exact: true
     },
     {
