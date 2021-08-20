@@ -1,37 +1,44 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {AspirantApiContext} from "../context/aspirant-api-context";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {makeStyles} from "@material-ui/core/styles" ;
 import ButtonsPanel from "../buttons-panel";
 import Popover from "@material-ui/core/Popover";
-import {Container, Paper} from "@material-ui/core";
+import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
 import DictEnterpriseEdit from "../dict-enterprise-edit";
 import ErrorIndicator from "../error-indicator";
 import DialogAlert from "../dialog-alert";
 import Button from "@material-ui/core/Button";
 import ShowMessage from "../show-message";
-import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import MovedIcon from '@material-ui/icons/SubdirectoryArrowRight';
+import CancelIcon from '@material-ui/icons/Cancel';
+import MoveIcon from '@material-ui/icons/AccountTree';
 
 const useStyles = makeStyles(theme => ({
     root: {
         //height: 216,
-        flexGrow: 1,
+        //flexGrow: 1,
         // maxWidth: 400,
     },
-    reParentBtns: {
-        textAlign: 'right',
+    buttonsMove: {
         '& button': {
-            marginLeft: theme.spacing(1)
-        }
+            margin: theme.spacing(1),
+            '&:last-child': {
+                marginRight: 0,
+            }
+        },
     }
 }));
 
 const DictEnterpriseAsTree = ({
-                                  changeEnterpriseId = () => {},
+                                  changeEnterpriseId = () => {
+                                  },
                                   currentRecInit
                               }) => {
     const {
@@ -41,7 +48,7 @@ const DictEnterpriseAsTree = ({
             deleteRec,
             updateRec,
         },
-    } = useContext(AspirantApiContext);
+    } = useAspirantApiContext();
     const classes = useStyles();
     const [expanded, setExpanded] = useState([1]); //контроль раскрытых веток
     const [selected, setSelected] = useState('1'); // контроль выделенных веток
@@ -166,7 +173,7 @@ const DictEnterpriseAsTree = ({
                 currentRec={selected}
 
             />
-            <Paper elevation={2}>
+            <Paper>
                 <TreeView
                     className={classes.root}
                     defaultCollapseIcon={<ExpandMoreIcon/>}
@@ -179,12 +186,40 @@ const DictEnterpriseAsTree = ({
                 >
                     {renderTreeMain(datasetAsTree)}
                 </TreeView>
+                {/*кнопки перемещения*/}
+                <Grid className={classes.buttonsMove} container justifyContent='flex-end'>
+                    <div hidden={!idForReParent}>
+                        <Grid item>
+                            <Button variant='outlined' size='small' onClick={reParentBranchHandler}
+                                    disabled={!idForReParent}
+
+                                    startIcon={<MovedIcon/>}
+                                    color='primary'
+                            >вставить
+                            </Button>
+
+                        </Grid>
+                    </div>
+                    <div hidden={!idForReParent}>
+                        <Grid item>
+                            <Button variant='outlined' size='small' onClick={cancelReParentBranch}
+                                    disabled={!idForReParent}
+                                    startIcon={<CancelIcon/>}
+                                    color='secondary'
+                            >отмена
+                            </Button>
+                        </Grid>
+                    </div>
+                    <Grid item>
+                        <Button variant='outlined' size='small'
+                                onClick={rememberIdForReParentHandler}
+                                startIcon={<MoveIcon/>}
+                        >переместить
+                        </Button>
+                    </Grid>
+                </Grid>
             </Paper>
-            <Box className={classes.reParentBtns} m={1}>
-                <Button variant='contained' onClick={rememberIdForReParentHandler}>вырезать</Button>
-                <Button variant='contained' onClick={reParentBranchHandler} disabled={!idForReParent}>вставить</Button>
-                <Button variant='contained' onClick={cancelReParentBranch} disabled={!idForReParent}>отмена</Button>
-            </Box>
+
 
             <Popover
                 id={id}

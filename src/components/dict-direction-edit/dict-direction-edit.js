@@ -48,7 +48,7 @@ const DictDirectionEdit = ({closeEdit, modeEdit, currentRec}) => {
                 name='nameDirection'
                 rules={{required: true}}
                 defaultValue=''
-                label="наименование направления"
+                label="направление"
                 required
                 type='search'
                 error={!!errors.nameDirection}
