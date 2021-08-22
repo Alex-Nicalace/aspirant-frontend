@@ -1,28 +1,19 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TableEdit from "../table-edit";
 import FacesEdit from "../faces-edit";
-import Button from "@material-ui/core/Button";
 import Popover from "@material-ui/core/Popover";
 import {Container} from "@material-ui/core";
-import FaceAllData from "../face-all-data";
-import {useHistory} from "react-router-dom";
 import {FACES_LIST_ROUTE} from "../../utils/consts";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
-
-const headCells = [
-    {id: 'id', disablePadding: false, key: true},
-    {id: 'lastname', disablePadding: false, label: 'фамилия'},
-    {id: 'firstname', disablePadding: false, label: 'имя'},
-    {id: 'middleName', disablePadding: false, label: 'отчество'},
-    {id: 'birthdate', disablePadding: false, label: 'дата рождения', dataType: 'date'},
-];
+import FaceAllDataChoiseView from "../face-all-data-choise-view";
 
 const FacesList = ({
                        changeSelected = () => {
                        },
-                       selected
+                       selected,
+                       viewCardMode = 'popover'
                    }) => {
-    const history = useHistory();
+    //const history = useHistory();
     const {
         faces: {
             dataset, isLoading, error,
@@ -30,14 +21,19 @@ const FacesList = ({
             deleteRec,
         },
     } = useAspirantApiContext();
+
+    useEffect(() => {
+        if (dataset.length === 0)
+            fetch();
+    }, [])
+
     const [faceId, setFaceId] = useState(null);
     const [isOpenPopover, setIsOpenPopover] = useState(false);
     const idPopover = isOpenPopover ? 'simple-popover' : undefined;
 
     const changeFaceIdHandle = (id) => {
-        //console.log(`comp - FacesList, id=${faceId}`);
         setFaceId(id);
-        changeSelected(id) ;
+        changeSelected(id);
     }
 
     const openPopoverHandler = () => {
@@ -48,6 +44,25 @@ const FacesList = ({
         setIsOpenPopover(false);
     }
 
+    const headCells = [
+        {id: 'id', disablePadding: false, key: true},
+        {id: 'lastname', disablePadding: false, label: 'фамилия'},
+        {id: 'firstname', disablePadding: false, label: 'имя'},
+        {id: 'middleName', disablePadding: false, label: 'отчество'},
+        {id: 'birthdate', disablePadding: false, label: 'дата рождения', dataType: 'date'},
+        {id: 'isAspirant', disablePadding: false, label: 'аспирант'},
+        {id: 'isWasAspirant', disablePadding: false, label: 'быв. аспирант'},
+        {id: 'isAcademicAdvisor', disablePadding: false, label: 'науч. рук.'},
+    ];
+
+    if (viewCardMode === 'popover')
+        headCells[1].onClick = openPopoverHandler;
+    if (viewCardMode === 'link') {
+        headCells[1].linkArgument = 'id';
+        headCells[1].link = `${FACES_LIST_ROUTE}`;
+    }
+    // headCells[2].onClick = openPopoverHandler;
+
     return (
         <>
             <TableEdit
@@ -56,14 +71,14 @@ const FacesList = ({
                 dataset={dataset}
                 error={error}
                 deleteRec={deleteRec}
-                fetch={fetch}
+                //fetch={fetchTst}
                 FormEdit={FacesEdit}
                 initialOrderBy='lastname'
                 onGetKeyValue={changeFaceIdHandle}
                 currentRecInitial={selected}
             />
-            <Button onClick={openPopoverHandler}>редактировать</Button>
-            <Button onClick={() => history.push(`${FACES_LIST_ROUTE}${faceId}`)} >карточка</Button>
+            {/*<Button onClick={openPopoverHandler}>редактировать</Button>*/}
+            {/*<Button onClick={() => history.push(`${FACES_LIST_ROUTE}${faceId}`)} >карточка</Button>*/}
 
             <Popover
                 id={idPopover}
@@ -80,7 +95,8 @@ const FacesList = ({
                 }}
             >
                 <Container>
-                    <FaceAllData faceId={faceId} />
+                    {/*<FaceAllData faceId={faceId} />*/}
+                    <FaceAllDataChoiseView faceId={faceId}/>
                 </Container>
             </Popover>
         </>

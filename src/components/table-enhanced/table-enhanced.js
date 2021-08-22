@@ -195,7 +195,7 @@ export default function TableEnhanced({
                                           error,
                                           isLoading,
                                           headCells,
-                                          maxHeight = '300px',
+                                          maxHeight = null,
                                           initialOrderBy,
                                           onGetKeyValue = () => {
                                           },
@@ -262,6 +262,8 @@ export default function TableEnhanced({
 
     masterFieldName = masterFieldName || keyField;
 
+    console.log(visibleFields)
+
     return (
         // <div className={classes.root}>
         <Paper className={classes.root}>
@@ -300,6 +302,7 @@ export default function TableEnhanced({
                                         {visibleFields.map((item, index) =>
                                             <TableCell
                                                 key={item.id}
+                                                onClick={item?.onClick}
                                             >
                                                 {formatingCell(row, item)}
                                             </TableCell>)}

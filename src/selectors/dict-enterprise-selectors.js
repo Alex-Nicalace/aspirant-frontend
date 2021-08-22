@@ -10,13 +10,15 @@ export const getDatasetDictEnterpriseSelector = createSelector([getDictEnterpris
 
 export const getDatasetAsTreeDictEnterpriseSelector = createSelector([getDatasetDictEnterpriseSelector], (dataset) => {
 
-    const getBranch = (id) => {
+    const getBranch = (id, parentsId = []) => {
         const res = dataset.filter(rec => rec.parentId === id);
+
 
         let m = [];
         for (let i = 0; i <= res.length - 1; i++) {
-            const children = getBranch(res[i].id)
-            m.push({...res[i], children})
+            const children = getBranch(res[i].id, [...parentsId, res[i].id])
+
+            m.push({...res[i], children, parentsId: [...parentsId, res[i].id]})
         }
         return m
     }

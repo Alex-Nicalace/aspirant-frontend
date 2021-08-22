@@ -23,7 +23,7 @@ import MoveIcon from '@material-ui/icons/AccountTree';
 const useStyles = makeStyles(theme => ({
     root: {
         //height: 216,
-        //flexGrow: 1,
+        flexGrow: 1,
         // maxWidth: 400,
     },
     buttonsMove: {
@@ -37,9 +37,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DictEnterpriseAsTree = ({
-                                  changeEnterpriseId = () => {
+                                  changeSelected = () => {
                                   },
-                                  currentRecInit
+                                  selected
                               }) => {
     const {
         dictEnterprise: {
@@ -50,8 +50,8 @@ const DictEnterpriseAsTree = ({
         },
     } = useAspirantApiContext();
     const classes = useStyles();
-    const [expanded, setExpanded] = useState([1]); //контроль раскрытых веток
-    const [selected, setSelected] = useState('1'); // контроль выделенных веток
+    const [expanded, setExpanded] = useState([2]); //контроль раскрытых веток
+    const [selectedBranch, setSelectedBranch] = useState(2); // контроль выделенных веток
     const [modeEdit, setModeEdit] = useState(null); // вставка или обновление
     const [anchorEl, setAnchorEl] = useState(null);
     const [isShowDialog, setIsShowDialog] = useState(false);
@@ -64,9 +64,9 @@ const DictEnterpriseAsTree = ({
 
     useEffect(() => {
         // полсе удаления записи затереть значение ИД
-        if (selected) {
-            const result = dataset.find(i => i.id === selected);
-            !result && setSelected(0);
+        if (selectedBranch) {
+            const result = dataset.find(i => +i.id === +selectedBranch);
+            !result && setSelectedBranch(0);
         }
 
     }, [dataset])
@@ -78,10 +78,23 @@ const DictEnterpriseAsTree = ({
         }
     }, [idForReParent]);
 
-    //
+    const getExpandedBySelected = (id, array=[]) => {
+        const record = dataset.find(i => +i.id === +id);
+        if (!record?.parentId)
+            return array;
+        //const m = [];
+        array.unshift(record.parentId);
+        //m.push(...getParentsId(res.parentId))
+        return getExpandedBySelected(record.parentId, array);
+        //return getParentsId(res.parentId) + ',' + res.parentId??''
+
+    }
+
     useEffect(() => {
-        setSelected(currentRecInit);
-    }, [currentRecInit])
+        setSelectedBranch(selected);
+        setExpanded(getExpandedBySelected(selected));
+        //console.log(getParentsId(selected))
+    }, [selected])
 
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
@@ -92,11 +105,11 @@ const DictEnterpriseAsTree = ({
     };
 
     const rememberIdForReParentHandler = () => {
-        setIdForReParent(selected);
+        setIdForReParent(selectedBranch);
     }
 
     const reParentBranchHandler = () => {
-        updateRec({id: idForReParent, parentId: selected});
+        updateRec({id: idForReParent, parentId: selectedBranch});
         setIdForReParent(null);
     }
 
@@ -106,8 +119,8 @@ const DictEnterpriseAsTree = ({
 
     const handleSelect = (event, nodeIds) => {
         // контроль выделенных веток
-        setSelected(nodeIds);
-        changeEnterpriseId(nodeIds);
+        setSelectedBranch(nodeIds);
+        changeSelected(nodeIds);
         //console.log(nodeIds)
     };
 
@@ -118,7 +131,7 @@ const DictEnterpriseAsTree = ({
         return <CircularProgress/>
 
     const setModeEditHandle = (modeEdit, event) => { // вставка или обновление
-        if (modeEdit === 'update' && !selected)
+        if (modeEdit === 'update' && !selectedBranch)
             return;
         setModeEdit(modeEdit);
         setAnchorEl(event.currentTarget);
@@ -132,15 +145,15 @@ const DictEnterpriseAsTree = ({
 
     const handleClickOpenDialog = () => {
         // открвть диалог удаления
-        if (selected) {
+        if (selectedBranch) {
             setIsShowDialog(true);
         }
     };
 
     const deleteRecHandle = async () => {
         // удалить запись
-        if (selected) {
-            await deleteRec(selected);
+        if (selectedBranch) {
+            await deleteRec(selectedBranch);
             setIsShowDialog(false);
         }
     }
@@ -152,6 +165,7 @@ const DictEnterpriseAsTree = ({
     const closeMessageAboutReParentHandle = () => {
         setMessageAboutReParent(false);
     }
+
 
     const renderTree = (nodes) => (
         <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}
@@ -165,12 +179,13 @@ const DictEnterpriseAsTree = ({
             {dataset.map(node => renderTree(node))}
         </>
     )
+    //console.log(datasetAsTree);
     return (
         <>
             <ButtonsPanel
                 setModeEdit={setModeEditHandle}
                 deleteRec={handleClickOpenDialog}
-                currentRec={selected}
+                currentRec={selectedBranch}
 
             />
             <Paper>
@@ -179,7 +194,7 @@ const DictEnterpriseAsTree = ({
                     defaultCollapseIcon={<ExpandMoreIcon/>}
                     defaultExpandIcon={<ChevronRightIcon/>}
                     expanded={expanded} //контролируемый компонент, раскрыты те ветки кот. в стейте
-                    selected={selected} // выделенные записи
+                    selected={selectedBranch} // выделенные записи
                     onNodeToggle={handleToggle} // контроль раскрытых веток
                     onNodeSelect={handleSelect} // контроль выделенных записей
                     // multiSelect
@@ -214,6 +229,7 @@ const DictEnterpriseAsTree = ({
                         <Button variant='outlined' size='small'
                                 onClick={rememberIdForReParentHandler}
                                 startIcon={<MoveIcon/>}
+                                disabled={!!!selectedBranch}
                         >переместить
                         </Button>
                     </Grid>
@@ -239,7 +255,7 @@ const DictEnterpriseAsTree = ({
                     <DictEnterpriseEdit
                         closeEdit={closeEditHandle}
                         modeEdit={modeEdit}
-                        currentRec={selected}
+                        currentRec={selectedBranch}
                     />
                 </Container>
             </Popover>

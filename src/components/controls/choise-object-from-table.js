@@ -16,7 +16,7 @@ const ChoiseObjectFromTable = ({
                                }) => {
     return (
         <>
-            <Box borderColor={error ? 'red' : 'grey.500'} border={1} borderRadius={10}>
+            <Box borderColor={error ? 'red' : 'grey.500'} border={1} borderRadius={10} p={1}>
                 <Typography
                     align='center'
                     color={error ? 'error' : 'textPrimary'}

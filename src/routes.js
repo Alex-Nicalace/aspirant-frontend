@@ -24,7 +24,7 @@ import Auth from "./page/auth";
 import Dictionaries from "./components/dictionaries";
 import Home from "@material-ui/icons/Home";
 import React from "react";
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import DictionaryIcon from '@material-ui/icons/FontDownload';
 import FaceIcon from "@material-ui/icons/Face";
 import OrderIcon from "@material-ui/icons/Description";
 import AcademicAdvisorIcon from "@material-ui/icons/SupervisorAccount";
@@ -90,7 +90,7 @@ export const authRoutes = [
         render: () => <Dictionaries />,
         exact: false,
         label: 'справочники',
-        icon: <LibraryBooksIcon />
+        icon: <DictionaryIcon />
     },
 ];
 
@@ -99,7 +99,7 @@ export const facesSubRoutes = [
         path: FACES_LIST_ROUTE,
         label: 'список лиц',
         exact: true,
-        render: () => <FacesList />
+        render: () => <FacesList viewCardMode='link' />
     },
     {
         path: FACE_CARD_ROUTE,

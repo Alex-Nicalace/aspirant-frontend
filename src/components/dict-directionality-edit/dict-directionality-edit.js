@@ -6,7 +6,7 @@ import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-ap
 import FormWrapField from "../form-wrap-field";
 import {DropdownList, Input} from "../controls";
 import MenuItem from "@material-ui/core/MenuItem";
-import DictEnterpriseAsTree from "../dict-enterprise-as-tree";
+import ChoiseDivision from "../controls/choise-division";
 
 const schema = yup.object().shape({
     tblDictNameDirectionId: yup
@@ -26,7 +26,7 @@ const schema = yup.object().shape({
 });
 
 const DictDirectionalityEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm({
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
         resolver: yupResolver(schema),
     });
@@ -45,18 +45,12 @@ const DictDirectionalityEdit = ({closeEdit, modeEdit, currentRec}) => {
         dictDirection
     } = useAspirantApiContext();
 
-    const currentRecInit = watch('tblDictEnterpriseId');
-
     useEffect(() => {
         dictDirection.fetch();
     }, [])
 
     const renderDictDirection = dictDirection.dataset.map((i) => <MenuItem key={i.id} value={i.id}>{i.nameDirection} </MenuItem>);
     renderDictDirection.unshift(<MenuItem key='dictCountry-key' value=''> <em>не выбрано</em> </MenuItem>);
-
-    const changeEnterpriseIdHandle = (id) => {
-        setValue('tblDictEnterpriseId', id)
-    }
 
     return (
         <FormWrapField
@@ -96,9 +90,18 @@ const DictDirectionalityEdit = ({closeEdit, modeEdit, currentRec}) => {
                 helperText={errors?.DirectionalityOrSpecialty?.message}
                 fullWidth
             />
-            <DictEnterpriseAsTree
-                changeEnterpriseId={changeEnterpriseIdHandle}
-                currentRecInit={currentRecInit}
+            {/*<DictEnterpriseAsTree*/}
+            {/*    changeSelected={changeEnterpriseIdHandle}*/}
+            {/*    selected={currentRecInit}*/}
+            {/*/>*/}
+            <ChoiseDivision
+                control={control}
+                name='tblDictEnterpriseId'
+                rules={{required: true}}
+                defaultValue=''
+                label='выберите кафедру'
+                error={!!errors.tblDictEnterpriseId}
+                helperText={errors?.tblDictEnterpriseId?.message}
             />
         </FormWrapField>
     );

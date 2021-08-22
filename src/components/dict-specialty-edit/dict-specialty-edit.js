@@ -5,7 +5,7 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
 import {Input} from "../controls";
-import DictEnterpriseAsTree from "../dict-enterprise-as-tree";
+import ChoiseDivision from "../controls/choise-division";
 
 const schema = yup.object().shape({
     DirectionalityOrSpecialty: yup
@@ -13,12 +13,13 @@ const schema = yup.object().shape({
         .required("'специальность' обязательное поле"),
     tblDictEnterpriseId: yup
         .number()
+        .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("'кафедра' обязательное поле"),
 });
 
 const DictSpecialtyEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm({
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
         resolver: yupResolver(schema),
     });
@@ -35,12 +36,6 @@ const DictSpecialtyEdit = ({closeEdit, modeEdit, currentRec}) => {
             datasetSpecialty,
         },
     } = useAspirantApiContext();
-
-    const tblOrderId = watch('tblDictEnterpriseId');
-
-    const changeEnterpriseIdHandle = (id) => {
-        setValue('tblDictEnterpriseId', id)
-    }
 
     return (
         <FormWrapField
@@ -67,9 +62,18 @@ const DictSpecialtyEdit = ({closeEdit, modeEdit, currentRec}) => {
                 helperText={errors?.DirectionalityOrSpecialty?.message}
                 fullWidth
             />
-            <DictEnterpriseAsTree
-                changeEnterpriseId={changeEnterpriseIdHandle}
-                currentRecInit={tblOrderId}
+            {/*<DictEnterpriseAsTree*/}
+            {/*    selected={tblDictEnterpriseId}*/}
+            {/*    changeSelected={changeEnterpriseIdHandle}*/}
+            {/*/>*/}
+            <ChoiseDivision
+                control={control}
+                name='tblDictEnterpriseId'
+                rules={{required: true}}
+                defaultValue=''
+                label='выберите кафедру'
+                error={!!errors.tblDictEnterpriseId}
+                helperText={errors?.tblDictEnterpriseId?.message}
             />
         </FormWrapField>
     );

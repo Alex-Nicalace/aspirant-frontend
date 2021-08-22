@@ -96,7 +96,7 @@ import {
     insertDictEnterprise, updateDictEnterprise
 } from "../../../actions/dict-enterprise-actions";
 import {
-    getDatasetFacesSelector,
+    getDatasetToFlatFacesSelector,
     getErrorFacesSelector,
     getIsLoadingFacesSelector
 } from "../../../selectors/faces-selectors";
@@ -105,7 +105,6 @@ import {
     fetchFaces,
     fetchOneFace,
     insertFaces,
-    refreshRecordFaces,
     updateFaces
 } from "../../../actions/faces-actions";
 import {
@@ -563,7 +562,8 @@ export const AspirantApi = ({children}) => {
     }
 
     const faces = {
-        dataset: useSelector(getDatasetFacesSelector),
+        // dataset: useSelector(getDatasetFacesSelector),
+        dataset: useSelector(getDatasetToFlatFacesSelector ),
         isLoading: useSelector(getIsLoadingFacesSelector),
         error: useSelector(getErrorFacesSelector),
 

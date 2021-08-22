@@ -27,6 +27,20 @@ const schema = yup.object().shape({
         .required('дата обязательное поле'),
     sex: yup
         .boolean()
+        .transform(value => (value === '' ? undefined : value))
+        .required("пол обязательное поле"),
+});
+
+const schemaUpd = yup.object().shape({
+    birthdate: yup
+        .date()
+        .nullable()
+        .default(null)
+        .typeError('некорректная дата')
+        .required('дата обязательное поле'),
+    sex: yup
+        .boolean()
+        .transform(value => (value === '' ? undefined : value))
         .required("пол обязательное поле"),
 });
 
@@ -39,7 +53,7 @@ const renderSex = [
 const FacesEdit = ({closeEdit, modeEdit, currentRec}) => {
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
         mode: "onBlur",
-        resolver: yupResolver(schema),
+        resolver: yupResolver(modeEdit === 'update' ? schemaUpd : schema),
     });
     const {
         faces: {
@@ -60,41 +74,43 @@ const FacesEdit = ({closeEdit, modeEdit, currentRec}) => {
             setValue={setValue}
             updateRec={updateRec}
         >
-            <Input
-                control={control}
-                name='lastname'
-                rules={{required: true}}
-                defaultValue=''
-                label="фамилия"
-                required
-                type='search'
-                error={!!errors.lastname}
-                helperText={errors?.lastname?.message}
-                fullWidth
-            />
+            <div hidden={modeEdit === 'update'}>
+                <Input
+                    control={control}
+                    name='lastname'
+                    rules={{required: true}}
+                    defaultValue=''
+                    label="фамилия"
+                    required
+                    type='search'
+                    error={!!errors.lastname}
+                    helperText={errors?.lastname?.message}
+                    fullWidth
+                />
 
-            <Input
-                control={control}
-                name='firstname'
-                rules={{required: true}}
-                defaultValue=''
-                label="имя"
-                required
-                type='search'
-                error={!!errors.firstname}
-                helperText={errors?.firstname?.message}
-                fullWidth
-            />
-            <Input
-                control={control}
-                name='middleName'
-                defaultValue=''
-                label="отчество"
-                type='search'
-                error={!!errors.middleName}
-                helperText={errors?.middleName?.message}
-                fullWidth
-            />
+                <Input
+                    control={control}
+                    name='firstname'
+                    rules={{required: true}}
+                    defaultValue=''
+                    label="имя"
+                    required
+                    type='search'
+                    error={!!errors.firstname}
+                    helperText={errors?.firstname?.message}
+                    fullWidth
+                />
+                <Input
+                    control={control}
+                    name='middleName'
+                    defaultValue=''
+                    label="отчество"
+                    type='search'
+                    error={!!errors.middleName}
+                    helperText={errors?.middleName?.message}
+                    fullWidth
+                />
+            </div>
             <InputDate
                 control={control}
                 name='birthdate'
@@ -114,8 +130,8 @@ const FacesEdit = ({closeEdit, modeEdit, currentRec}) => {
                 label='пол'
                 required
                 renderItem={renderSex}
-                error={!!errors.tblDictEducationLevelId}
-                helperText={errors?.tblDictEducationLevelId?.message}
+                error={!!errors.sex}
+                helperText={errors?.sex?.message}
                 fullWidth
             />
 
