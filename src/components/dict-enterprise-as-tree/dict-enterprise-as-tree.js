@@ -93,7 +93,6 @@ const DictEnterpriseAsTree = ({
     useEffect(() => {
         setSelectedBranch(selected);
         setExpanded(getExpandedBySelected(selected));
-        //console.log(getParentsId(selected))
     }, [selected])
 
     const open = Boolean(anchorEl);
@@ -121,7 +120,6 @@ const DictEnterpriseAsTree = ({
         // контроль выделенных веток
         setSelectedBranch(nodeIds);
         changeSelected(nodeIds);
-        //console.log(nodeIds)
     };
 
     if (error)
@@ -179,7 +177,6 @@ const DictEnterpriseAsTree = ({
             {dataset.map(node => renderTree(node))}
         </>
     )
-    //console.log(datasetAsTree);
     return (
         <>
             <ButtonsPanel

@@ -59,7 +59,6 @@ const FacesAspirants = ({
     // }, [academicAdvisorId]);
 
     const changeAcademicAdvisorIdHandle = (id) => {
-        //console.log(`comp - FacesList, id=${faceId}`);
         //setAcademicAdvisorId(id);
         changeSelected(id);
         // changeAcademicAdvisorId(id);

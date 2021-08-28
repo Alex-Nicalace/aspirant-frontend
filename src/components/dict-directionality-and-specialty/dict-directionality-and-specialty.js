@@ -13,7 +13,6 @@ const DictDirectionalityAndSpecialty = ({
                                             showSwitchDictDirection = false,
                                             showDictDirectionInit = true
                                         }) => {
-    //console.log(changeSelected);
     const [showDictDirection, setShowDictDirection] = useState(showDictDirectionInit);
 
     const handleChangeShowDictDirection = (e) => {

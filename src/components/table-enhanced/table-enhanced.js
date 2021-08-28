@@ -1,7 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
@@ -19,6 +18,8 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import {NavLink} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
+import './table-enhanced.scss';
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -263,8 +264,6 @@ export default function TableEnhanced({
 
     masterFieldName = masterFieldName || keyField;
 
-    console.log(visibleFields)
-
     return (
         // <div className={classes.root}>
         <Paper className={classes.root}>
@@ -291,38 +290,47 @@ export default function TableEnhanced({
                         rowCount={dataset.length}
                         headCells={headCells}
                     />
-                    <TableBody>
+                    {/*<TableBody>*/}
+                        <TransitionGroup component='tbody'>
                         {stableSort(dataset, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                                 return (
+                                    <CSSTransition
+                                        key={row[keyField]}
+                                        timeout={500}
+                                        classNames="row-table"
 
-                                    <TableRow
+                                    >
+
+                                    <TableRow component='tr'
                                         hover
                                         tabIndex={-1}
-                                        key={row[keyField]}
+                                        //key={row[keyField]}
                                         onClick={() => onGetKeyValue(row[masterFieldName])}
                                         selected={selectedKey && row[masterFieldName] === selectedKey}
                                         style={{cursor: "pointer"}}
                                     >
                                         {visibleFields.map((item, index) =>
-                                            <TableCell
+                                            <TableCell component='td'
                                                 key={item.id}
                                                 onClick={item?.onClick}
                                                 padding={item?.padding}
                                                 style={item?.style}
                                             >
-                                                {formatingCell(row, item)}
+                                                <div>{formatingCell(row, item)}</div>
                                             </TableCell>)}
                                     </TableRow>
+                                    </CSSTransition>
                                 );
                             })}
+                        </TransitionGroup>
                         {/*{emptyRows > 0 && (*/}
                         {/*    <TableRow style={{height: 33 * emptyRows}}>*/}
                         {/*        <TableCell colSpan={5}/>*/}
                         {/*    </TableRow>*/}
                         {/*)}*/}
-                    </TableBody>
+                    {/*</TableBody>*/}
                 </Table>
             </TableContainer>
             <TablePagination
