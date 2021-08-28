@@ -74,7 +74,7 @@ const useStyles = makeStyles(theme => ({
     btnClose: {
         textAlign: 'right',
         // margin: theme.spacing(1),
-        marginTop:  theme.spacing(1),
+        marginTop: theme.spacing(1),
     },
     popupContent: {
         margin: theme.spacing(2)
@@ -98,6 +98,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
             updateRec,
             datasetModify,
             faceId,
+            advisorId,
         },
         faces,
         facesAcademicAdvisor,
@@ -107,20 +108,27 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
         orders,
         dictDirectionalityAndSpecialty,
     } = aspirantApiContext;
+
     useEffect(() => {
+        facesAcademicAdvisor.fetch();
         dictSubject.fetch();
         dictEducationForm.fetch();
         faceAspirantOrders.fetch(currentRec)
+        faces.fetch();
+        dictDirectionalityAndSpecialty.fetch();
     }, []);
+
     const [face, setFace] = useState('');
     const [academicAdvisor, setAcademicAdvisor] = useState('');
     const [specialty, setSpecialty] = useState('');
-    const [compOfPopover, setCompOfPopover] = useState(null);
+    const [componentOfPopover, setComponentOfPopover] = useState(null);
 
     useEffect(() => {
         if (faceId)
             setValue('tblFaceId', faceId);
-    }, [faceId])
+        if (advisorId)
+            setValue('tblAcademicAdvisorId', advisorId);
+    }, [faceId, advisorId])
 
     // if (faceId)
     //     setValue('tblFaceId', faceId);
@@ -139,15 +147,15 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
 
     useEffect(() => {
         setFace(getFaceById(watch('tblFaceId')));
-    }, [watch('tblFaceId')]);
+    }, [watch('tblFaceId'), faces.dataset])
 
     useEffect(() => {
         setAcademicAdvisor(getAcademicAdvisorById(watch('tblAcademicAdvisorId')));
-    }, [watch('tblAcademicAdvisorId')]);
+    }, [watch('tblAcademicAdvisorId'), facesAcademicAdvisor.datasetModify]);
 
     useEffect(() => {
         setSpecialty(getSpecialtyById(watch('tblDictDirectionalityAndSpecialtyId')));
-    }, [watch('tblDictDirectionalityAndSpecialtyId')]);
+    }, [watch('tblDictDirectionalityAndSpecialtyId'), dictDirectionalityAndSpecialty.datasetAll]);
 
     const getFaceById = (id) => {
         const face = faces.dataset.find(i => +i.id === +id);
@@ -179,17 +187,17 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     }
 
     const showFaceSelectionHandle = (e) => {
-        setCompOfPopover('faces');
+        setComponentOfPopover('faces');
         setAnchorEl(e.currentTarget);
     }
 
     const showAcademicAdvisorSelectionHandle = (e) => {
-        setCompOfPopover('academicAdvisor');
+        setComponentOfPopover('academicAdvisor');
         setAnchorEl(e.currentTarget);
     }
 
     const showSpecialtySelectionHandle = (e) => {
-        setCompOfPopover('specialty');
+        setComponentOfPopover('specialty');
         setAnchorEl(e.currentTarget);
     }
 
@@ -211,12 +219,11 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
 
             }
         }
-        setCompOfPopover('order');
+        setComponentOfPopover('order');
         setAnchorEl(event.currentTarget);
     }
 
     const takeDataOrder = (order) => {
-        //console.log(tblFace_tblOrder);
         setTblFace_tblOrder(prev => {
             const temp = {...prev};
             temp.face_order.arr[typeOrder] = {...order};
@@ -249,10 +256,10 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                 modeEdit={modeEdit}
                 setValue={setValue}
                 updateRec={updateRec}
-                //valuesToState={tblFace_tblOrder}
+                valuesToState={tblFace_tblOrder} //приказы которые вставляются на этапе встаки
             >
                 <div hidden={!!faceId}>
-                    <Grid container >
+                    <Grid container>
                         <Grid item lg={10}>
                             <TextField
                                 id='face-aspirant'
@@ -268,7 +275,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item lg={2} className={classes.btnSelect } >
+                        <Grid item lg={2} className={classes.btnSelect}>
                             <Button
                                 variant='outlined'
                                 type='button'
@@ -376,7 +383,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 fullWidth
                             />
                         </Grid>
-                        <Grid item lg={2} className={classes.btnSelect }>
+                        <Grid item lg={2} className={classes.btnSelect}>
                             <Button
                                 type='button'
                                 onClick={(e) => showOrderSelectionHandle(e, 'out')}
@@ -425,32 +432,34 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                     helperText={errors?.dissertationTheme?.message}
                     fullWidth
                 />
-                <Grid container>
-                    <Grid item lg={10}>
-                        <TextField
-                            id='academic-advisor-id'
-                            label='научный руководитель'
-                            required
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            InputLabelProps={{shrink: !!academicAdvisor}}
-                            value={academicAdvisor}
-                            error={!!errors.tblAcademicAdvisorId}
-                            helperText={errors?.tblAcademicAdvisorId?.message}
-                            fullWidth
-                        />
+                <div hidden={!!advisorId}>
+                    <Grid container>
+                        <Grid item lg={10}>
+                            <TextField
+                                id='academic-advisor-id'
+                                label='научный руководитель'
+                                required
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                                InputLabelProps={{shrink: !!academicAdvisor}}
+                                value={academicAdvisor}
+                                error={!!errors.tblAcademicAdvisorId}
+                                helperText={errors?.tblAcademicAdvisorId?.message}
+                                fullWidth
+                            />
+                        </Grid>
+                        <Grid item lg={2} className={classes.btnSelect}>
+                            <Button
+                                variant='outlined'
+                                type='button'
+                                onClick={showAcademicAdvisorSelectionHandle}
+                            >
+                                выбрать
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item lg={2} className={classes.btnSelect }>
-                        <Button
-                            variant='outlined'
-                            type='button'
-                            onClick={showAcademicAdvisorSelectionHandle}
-                        >
-                            выбрать
-                        </Button>
-                    </Grid>
-                </Grid>
+                </div>
                 <Grid container>
                     <Grid item lg={10}>
                         <TextField
@@ -467,7 +476,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             fullWidth
                         />
                     </Grid>
-                    <Grid item lg={2} className={classes.btnSelect }>
+                    <Grid item lg={2} className={classes.btnSelect}>
                         <Button
                             variant='outlined'
                             type='button'
@@ -493,7 +502,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                     }}
                 >
                     <div className={classes.popupContent}>
-                        <div hidden={compOfPopover !== 'faces'}>
+                        <div hidden={componentOfPopover !== 'faces'}>
                             <ChoiseFaceFromTable
                                 control={control}
                                 name='tblFaceId'
@@ -504,7 +513,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             />
 
                         </div>
-                        <div hidden={compOfPopover !== 'academicAdvisor'}>
+                        <div hidden={componentOfPopover !== 'academicAdvisor'}>
                             <ChoiseAcademicAdvisorFromTable
                                 control={control}
                                 name='tblAcademicAdvisorId'
@@ -515,7 +524,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 helperText={errors?.tblAcademicAdvisorId?.message}
                             />
                         </div>
-                        <div hidden={compOfPopover !== 'specialty'}>
+                        <div hidden={componentOfPopover !== 'specialty'}>
                             <ChoiseDirectionalityOrSpecialtyFromTable
                                 control={control}
                                 name='tblDictDirectionalityAndSpecialtyId'
@@ -528,7 +537,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                         </div>
                         {/*--------button-----------*/}
                         <div
-                            hidden={compOfPopover === 'order'}
+                            hidden={componentOfPopover === 'order'}
                             className={classes.btnClose}
                             //style={{textAlign:'right'}}
                         >
@@ -543,7 +552,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             </Button>
                         </div>
 
-                        <div hidden={compOfPopover !== 'order'}>
+                        <div hidden={componentOfPopover !== 'order'}>
                             <FaceAspirantOrdersEdit
                                 closeEdit={closeEditHandle}
                                 modeEdit={!tblFace_tblOrderId ? 'insert' : modeEdit}

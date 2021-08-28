@@ -3,7 +3,7 @@ import DictDirection from "../dict-direction";
 import DictDirectionality from "../dict-directionality";
 import DictSpecialty from "../dict-specialty";
 import Grid from "@material-ui/core/Grid";
-import FacesDataWrap from "../faces-data-wrap";
+import FrameWithTitle from "../frame-with-title";
 import {FormControlLabel, Switch} from "@material-ui/core";
 
 const DictDirectionalityAndSpecialty = ({
@@ -41,20 +41,20 @@ const DictDirectionalityAndSpecialty = ({
             >
                 {
                     showDictDirection && <Grid item style={{flex: '1 1 50%'}}>
-                        <FacesDataWrap head='направления'>
+                        <FrameWithTitle head='направления'>
                             <DictDirection/>
-                        </FacesDataWrap>
+                        </FrameWithTitle>
                     </Grid>
                 }
                 <Grid item style={{flex: '1 1 50%'}}>
-                    <FacesDataWrap head='направленности'>
+                    <FrameWithTitle head='направленности'>
                         <DictDirectionality changeSelected={changeIdHandle} selected={selected}/>
-                    </FacesDataWrap>
+                    </FrameWithTitle>
                 </Grid>
                 <Grid item style={{flex: '1 1 50%'}}>
-                    <FacesDataWrap head='специальности'>
+                    <FrameWithTitle head='специальности'>
                         <DictSpecialty changeSelected={changeIdHandle} selected={selected}/>
-                    </FacesDataWrap>
+                    </FrameWithTitle>
                 </Grid>
             </Grid>
         </div>

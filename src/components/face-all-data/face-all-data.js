@@ -11,7 +11,7 @@ import FaceScientificPubl from "../face-scientific-publ";
 import FaceBusinessTrip from "../face-business-trip";
 import FaceExaminations from "../face-examinations";
 import FaceCertificationResult from "../face-certification-result";
-import FacesDataWrap from "../faces-data-wrap";
+import FrameWithTitle from "../frame-with-title";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import Typography from "@material-ui/core/Typography";
 import FaceOrders from "../face-orders";
@@ -32,49 +32,49 @@ const FaceAllData = ({faceId}) => {
             <Typography align='center' variant='h5' color='textPrimary' gutterBottom>
                 {face && `${face.lastname} ${face.firstname} ${face.middleName}, ${new Date(face.birthdate).toLocaleDateString()} г.р.`}
             </Typography >
-            <FacesDataWrap head='хронология ФИО'>
+            <FrameWithTitle head='хронология ФИО'>
                 <FaceNames faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='документы' >
+            </FrameWithTitle>
+            <FrameWithTitle head='документы' >
                 <FaceDocuments faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='гражданство'>
+            </FrameWithTitle>
+            <FrameWithTitle head='гражданство'>
                 <FaceCitizenships faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='образование'>
+            </FrameWithTitle>
+            <FrameWithTitle head='образование'>
                 <FaceEducations faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='трудовая деятельность'>
+            </FrameWithTitle>
+            <FrameWithTitle head='трудовая деятельность'>
                 <FaceWorks faceId={faceId} />
-            </FacesDataWrap>
-            <FacesDataWrap head='проживание'>
+            </FrameWithTitle>
+            <FrameWithTitle head='проживание'>
                 <FaceResidences faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='контакты'>
+            </FrameWithTitle>
+            <FrameWithTitle head='контакты'>
                 <FaceContacts faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='кандидатский минимум'>
+            </FrameWithTitle>
+            <FrameWithTitle head='кандидатский минимум'>
                 <FaceEntranceExamin faceId={faceId} isCandidateMin={true}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
             {/*<FaceEntranceExamin faceId={faceId} isCandidateMin={false} /> тот же стейт перзатирает предыдущий*/}
-            <FacesDataWrap head='научные публикации'>
+            <FrameWithTitle head='научные публикации'>
                 <FaceScientificPubl faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='коммандировки'>
+            </FrameWithTitle>
+            <FrameWithTitle head='коммандировки'>
                 <FaceBusinessTrip faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='экзамены'>
+            </FrameWithTitle>
+            <FrameWithTitle head='экзамены'>
                 <FaceExaminations faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='аттестация'>
+            </FrameWithTitle>
+            <FrameWithTitle head='аттестация'>
                 <FaceCertificationResult faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='фигурирует в приказах'>
+            </FrameWithTitle>
+            <FrameWithTitle head='фигурирует в приказах'>
                 <FaceOrders faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='аспирант'>
+            </FrameWithTitle>
+            <FrameWithTitle head='аспирант'>
                 <FaceAspirant faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </div>
     );
 };

@@ -5,10 +5,13 @@ import OrderFacesEdit from "../order-faces-edit";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
+    {id: 'action', disablePadding: false, label: 'суть'},
+    {id: 'date', disablePadding: false, label: 'дата', dataType: 'date'},
     {id: 'lastname', disablePadding: false, label: 'фамилия'},
     {id: 'firstname', disablePadding: false, label: 'имя'},
     {id: 'middleName', disablePadding: false, label: 'отчество'},
     {id: 'birthdate', disablePadding: false, label: 'дата рождения', dataType: 'date'},
+    {id: 'sex', disablePadding: false, label: 'пол'},
 ];
 
 const OrderFaces = ({orderId}) => {
@@ -23,15 +26,6 @@ const OrderFaces = ({orderId}) => {
     useEffect(() => {
         fetch(orderId);
     }, [orderId])
-
-    // useEffect(() => {
-    //     console.log(dataset);
-    //     console.log(datasetModify);
-    // }, [datasetModify])
-
-    // const fetchForCurrentId = () => {
-    //     fetch(orderId);
-    // }
 
     return (
         <TableEdit

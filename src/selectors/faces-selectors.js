@@ -14,7 +14,7 @@ export const getDatasetToFlatFacesSelector = createSelector([getDatasetFacesSele
         if (aspirant.length === 0)
             return {isAspirant: false, isWasAspirant: false};
         const isAspirant = !aspirant[0].dateOff || new Date(aspirant[0].dateOff) >= now;
-        const isWasAspirant = new Date(aspirant[0].dateOff) <= now;
+        const isWasAspirant = !!aspirant[0].dateOff && new Date(aspirant[0].dateOff) <= now;
         return {
             isAspirant,
             isWasAspirant,
@@ -25,7 +25,7 @@ export const getDatasetToFlatFacesSelector = createSelector([getDatasetFacesSele
         return {
             id: i.id,
             birthdate: i.birthdate,
-            sex: i.sex,
+            sex: i.sex ? 'мужской' : 'женский',
             lastname: i.tblFaceNames[0].lastname,
             firstname: i.tblFaceNames[0].firstname,
             middleName: i.tblFaceNames[0].middleName,

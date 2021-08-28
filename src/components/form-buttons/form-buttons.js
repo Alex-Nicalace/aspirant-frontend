@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
 
 const FormButtons = ({children, saveBtn, closeEdit}) => {
     const classes = useStyles();
+
     return (
         <form /*onSubmit={saveBtn} */ >
             <Box>

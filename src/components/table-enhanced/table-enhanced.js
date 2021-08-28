@@ -18,6 +18,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import {NavLink} from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
@@ -151,7 +152,7 @@ function formatingOnType(value, dataType) {
         case 'datetime':
             return value && new Date(value).toLocaleString()
         case 'boolean':
-            return <Checkbox size='small' color='default' checked={value} /> //value && 'да'
+            return <Checkbox size='small' color='default' checked={value}/> //value && 'да'
         default:
             return value;
     }
@@ -241,7 +242,7 @@ export default function TableEnhanced({
     const keyField = headCells.find(item => item.key).id;
     const visibleFields = headCells.filter(item => item.label);
 
-   // console.log(maxHeight);
+    // console.log(maxHeight);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -267,7 +268,11 @@ export default function TableEnhanced({
     return (
         // <div className={classes.root}>
         <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
+            <TableContainer
+                className={classes.container}
+                aria-describedby={CircularProgress}
+                aria-busy={isLoading}
+            >
                 <Table
                     stickyHeader
                     className={classes.table}
@@ -291,6 +296,7 @@ export default function TableEnhanced({
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => {
                                 return (
+
                                     <TableRow
                                         hover
                                         tabIndex={-1}
@@ -303,6 +309,8 @@ export default function TableEnhanced({
                                             <TableCell
                                                 key={item.id}
                                                 onClick={item?.onClick}
+                                                padding={item?.padding}
+                                                style={item?.style}
                                             >
                                                 {formatingCell(row, item)}
                                             </TableCell>)}

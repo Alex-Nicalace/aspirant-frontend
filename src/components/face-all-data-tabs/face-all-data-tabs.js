@@ -6,7 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import FacesDataWrap from "../faces-data-wrap";
+import FrameWithTitle from "../frame-with-title";
 import FaceNames from "../face-names";
 import FaceResidences from "../face-residences";
 import FaceContacts from "../face-contacts";
@@ -65,117 +65,117 @@ const tabs = [
         id: 0,
         label: 'данные о лице',
         content: (faceId) => <>
-            <FacesDataWrap head='хронология ФИО'>
+            <FrameWithTitle head='хронология ФИО'>
                 <FaceNames faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='проживание'>
+            </FrameWithTitle>
+            <FrameWithTitle head='проживание'>
                 <FaceResidences faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='контакты'>
+            </FrameWithTitle>
+            <FrameWithTitle head='контакты'>
                 <FaceContacts faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 1,
         label: 'аспирант',
         content: (faceId) => <>
-            <FacesDataWrap head='аспирант'>
+            <FrameWithTitle head='аспирант'>
                 <FaceAspirant faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 2,
         label: 'документы, гражданство',
         content: (faceId) => <>
-            <FacesDataWrap head='документы'>
+            <FrameWithTitle head='документы'>
                 <FaceDocuments faceId={faceId}/>
-            </FacesDataWrap>
-            <FacesDataWrap head='гражданство'>
+            </FrameWithTitle>
+            <FrameWithTitle head='гражданство'>
                 <FaceCitizenships faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 3,
         label: 'образование',
         content: (faceId) => <>
-            <FacesDataWrap head='образование'>
+            <FrameWithTitle head='образование'>
                 <FaceEducations faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 4,
         label: 'трудавая деятельность',
         content: (faceId) => <>
-            <FacesDataWrap head='образование'>
+            <FrameWithTitle head='образование'>
                 <FaceWorks faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 5,
         label: 'кандидатский минимум',
         content: (faceId) => <>
-            <FacesDataWrap head='кандидатский минимум'>
+            <FrameWithTitle head='кандидатский минимум'>
                 <FaceEntranceExamin faceId={faceId} isCandidateMin={true}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 6,
         label: 'вступительные экзамены',
         content: (faceId) => <>
-            <FacesDataWrap head='вступительные экзамены'>
+            <FrameWithTitle head='вступительные экзамены'>
                 <FaceEntranceExamin faceId={faceId} isCandidateMin={false}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 7,
         label: 'научные публикации',
         content: (faceId) => <>
-            <FacesDataWrap head='научные публикации'>
+            <FrameWithTitle head='научные публикации'>
                 <FaceScientificPubl faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 8,
         label: 'коммандировки',
         content: (faceId) => <>
-            <FacesDataWrap head='коммандировки'>
+            <FrameWithTitle head='коммандировки'>
                 <FaceBusinessTrip faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 9,
         label: 'экзамены',
         content: (faceId) => <>
-            <FacesDataWrap head='экзамены'>
+            <FrameWithTitle head='экзамены'>
                 <FaceExaminations faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 10,
         label: 'аттестация',
         content: (faceId) => <>
-            <FacesDataWrap head='аттестация'>
+            <FrameWithTitle head='аттестация'>
                 <FaceCertificationResult faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
     {
         id: 11,
         label: 'приказы',
         content: (faceId) => <>
-            <FacesDataWrap head='фигурирует в приказах'>
+            <FrameWithTitle head='фигурирует в приказах'>
                 <FaceOrders faceId={faceId}/>
-            </FacesDataWrap>
+            </FrameWithTitle>
         </>
     },
 ]

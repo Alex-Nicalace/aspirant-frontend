@@ -55,6 +55,7 @@ const OrdersEdit = ({closeEdit, modeEdit, currentRec}) => {
                 error={!!errors.numOrder}
                 helperText={errors?.numOrder?.message}
                 fullWidth
+                autoFocus
             />
             <InputDate
                 control={control}
@@ -71,12 +72,15 @@ const OrdersEdit = ({closeEdit, modeEdit, currentRec}) => {
                 name='text'
                 //rules={{required: true}}
                 defaultValue=''
-                label="выдержка из приказа"
+                label="содержание приказа"
                 //required
                 type='search'
                 error={!!errors.text}
                 helperText={errors?.text?.message}
                 fullWidth
+                multiline
+                minRows={4}
+                maxRows={30}
             />
         </FormWrapField>
     );

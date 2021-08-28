@@ -1,15 +1,14 @@
 import {
-    ACADEMIC_ADVISOR_ROUTE,
-    ASPIRANT_ROUTE, ASPIRANTS_ROUTE,
+    ACADEMIC_ADVISOR_CARD_ROUTE,
+    ACADEMIC_ADVISOR_LIST_ROUTE,
+    ACADEMIC_ADVISOR_ROUTE, ASPIRANT_CARD_ROUTE,
+    ASPIRANT_ROUTE, ASPIRANTS_LIST_ROUTE, ASPIRANTS_ROUTE, DICTIONARIES_ADDRESS,
     DICTIONARIES_CERTIFICATION_RESULT_ROUTE,
-    DICTIONARIES_CITY_ROUTE,
-    DICTIONARIES_COUNTRY_ROUTE,
     DICTIONARIES_DIRECTION_ROUTE,
     DICTIONARIES_EDUCATION_FORM_ROUTE,
     DICTIONARIES_EDUCATION_LEVEL_ROUTE,
     DICTIONARIES_ENTERPRISE_AS_TREE_ROUTE,
     DICTIONARIES_ROUTE,
-    DICTIONARIES_STREET_ROUTE,
     DICTIONARIES_SUBJECT_ROUTE,
     DICTIONARIES_TYPE_CONTACT_ROUTE,
     DICTIONARIES_TYPE_DOCUMENT_ROUTE,
@@ -43,9 +42,12 @@ import FacesRoutes from "./components/faces-routes";
 import FacesList from "./components/faces-list";
 import FaceAllDataChoiseView from "./components/face-all-data-choise-view";
 import OrdersListFaces from "./components/orders-list-faces";
-import FacesAcademicAdvisor from "./components/faces-academic-advisor";
 import DictDirectionalityAndSpecialty from "./components/dict-directionality-and-specialty";
 import FacesAspirants from "./components/faces-aspirants";
+import AspirantRoutes from "./components/aspirant-routes";
+import AcademicAdvisorRoutes from "./components/academic-advisor-routes";
+import AcademicAdvisorAndAspirants from "./components/academic-advisor-and-aspirants";
+import DictAddress from "./components/dict-address";
 
 // список маршрутов для авторизированных пользователей
 export const authRoutes = [
@@ -58,21 +60,21 @@ export const authRoutes = [
     },
     {
         path: FACES_ROUTE,
-        render: () => <FacesRoutes/>,
+        render: () => <FacesRoutes />,
         label: 'лица',
         icon: <FaceIcon />,
         //exact: true
     },
     {
         path: ASPIRANTS_ROUTE ,
-        render: () => <FacesAspirants/>,
+        render: () => <AspirantRoutes />,
         label: 'аспиранты',
         icon: <AspirantIcon />,
         //exact: true
     },
     {
         path: ACADEMIC_ADVISOR_ROUTE,
-        render: () => <FacesAcademicAdvisor />,
+        render: () => <AcademicAdvisorRoutes />,
         label: 'научные руковод.',
         icon: <AcademicAdvisorIcon />,
         //exact: true
@@ -113,12 +115,52 @@ export const facesSubRoutes = [
     }
 ]
 
+export const aspirantsSubRoutes = [
+    {
+        path: ASPIRANTS_LIST_ROUTE,
+        label: 'список аспирантов',
+        exact: true,
+        render: () => <FacesAspirants />
+    },
+    {
+        path: ASPIRANT_CARD_ROUTE ,
+        label: 'данные об аспиранте',
+        exact: false,
+        render: ({match}) => {
+            const {id} = match.params;
+            // return <FaceAllData faceId={id}/>
+            return <FaceAllDataChoiseView faceId={id}/>
+        }
+    }
+]
+
+export const academicAdvisorSubRoutes = [
+    {
+        path: ACADEMIC_ADVISOR_LIST_ROUTE,
+        label: 'список научн. руковод.',
+        exact: true,
+        render: () => <AcademicAdvisorAndAspirants />
+        // render: () => <FacesAcademicAdvisor viewCardMode='link' />
+    },
+    {
+        path: ACADEMIC_ADVISOR_CARD_ROUTE ,
+        label: 'данные об научн. руковод.',
+        exact: false,
+        render: ({match}) => {
+            const {id} = match.params;
+            // return <FaceAllData faceId={id}/>
+            return <FaceAllDataChoiseView faceId={id}/>
+        }
+    }
+]
+
 export const dictionariesSubRoutes = [
     {path: DICTIONARIES_TYPE_DOCUMENT_ROUTE, label: 'документы', component: <DictDoc/>},
     {path: DICTIONARIES_EDUCATION_LEVEL_ROUTE, label: 'уровни образования', component: <DictEducationLevel/>},
-    {path: DICTIONARIES_COUNTRY_ROUTE, label: 'страны', component: <DictCountry/>},
-    {path: DICTIONARIES_CITY_ROUTE, label: 'города', component: <DictCity/>},
-    {path: DICTIONARIES_STREET_ROUTE, label: 'улицы', component: <DictStreet/>},
+    // {path: DICTIONARIES_COUNTRY_ROUTE, label: 'страны', component: <DictCountry/>},
+    // {path: DICTIONARIES_CITY_ROUTE, label: 'города', component: <DictCity/>},
+    // {path: DICTIONARIES_STREET_ROUTE, label: 'улицы', component: <DictStreet/>},
+    {path: DICTIONARIES_ADDRESS, label: 'адрес', component: <DictAddress />},
     {path: DICTIONARIES_TYPE_CONTACT_ROUTE, label: 'типы контактов', component: <DictContactType/>},
     {path: DICTIONARIES_SUBJECT_ROUTE, label: 'предметы', component: <DictSubject/>},
     {path: DICTIONARIES_EDUCATION_FORM_ROUTE, label: 'форма обучения', component: <DictEducationForm/>},

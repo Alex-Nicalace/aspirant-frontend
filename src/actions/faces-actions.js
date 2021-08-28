@@ -59,10 +59,10 @@ export const facesUpdated = (data) => {
 //     }
 // }
 
-export const fetchFaces = async (api, dispatch) => {
+export const fetchFaces = async (params = null, api, dispatch ) => {
     dispatch(facesRequested());
     try{
-        const response = await api.getAll();
+        const response = await api.getAll(params);
         dispatch(facesLoaded(response));
     }catch (e) {
         dispatch(facesError(e.response))

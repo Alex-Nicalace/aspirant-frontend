@@ -52,10 +52,10 @@ export const facesAspirantsUpdated = (data) => {
     }
 }
 
-export const fetchFacesAspirants = async (api, dispatch) => {
+export const fetchFacesAspirants = async (params, api, dispatch) => {
     dispatch(facesAspirantsRequested());
     try {
-        const response = await api.getAllAspirants();
+        const response = await api.getAllAspirants(params);
         dispatch(facesAspirantsLoaded(response));
     } catch (e) {
         dispatch(facesAspirantsError(e.response))

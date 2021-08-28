@@ -1,7 +1,5 @@
 import React, {useContext, useState} from "react";
-import DictDoc from "../dict-doc";
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@material-ui/core";
-import MenuIcon from '@material-ui/icons/Menu';
+import Container from "@material-ui/core/Container";
 import {makeStyles} from '@material-ui/core/styles';
 import AppHeader from "../app-header";
 import AppDrawer from "../app-drawer";
@@ -24,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
         flexGrow: 1,
-        padding: theme.spacing(3),
+        padding: theme.spacing(2),
     },
 }));
 
@@ -56,8 +54,8 @@ const App = () => {
                 isVisibleAppDrawer={isVisibleAppDrawer}
                 toggleAppDrawer={toggleAppDrawerHandler}
             />
-            <Container>
-                <main className={classes.content}>
+            <Container maxWidth='xl' >
+                <main className={classes.content} >
                     <div className={classes.toolbar}/>
                     <AppRouter/>
 

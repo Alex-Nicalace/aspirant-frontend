@@ -40,6 +40,6 @@ const DropdownList = ({control, name, defaultValue, rules, renderItem, label, he
             <FormHelperText>{helperText}</FormHelperText>
         </FormControl>
     );
-};
+}
 
 export default DropdownList;

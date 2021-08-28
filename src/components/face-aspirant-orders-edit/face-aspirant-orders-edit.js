@@ -43,8 +43,6 @@ const FaceAspirantOrdersEdit = ({closeEdit, modeEdit, currentRec, valuesToState,
     } = useAspirantApiContext();
 
     setValue('tblFaceAspirantId', valuesToState?.tblFaceAspirantId ?? faceAspirantId);
-    // console.log('FaceAspirantOrdersEdit');
-    //console.log(insertRecProp);
 
     const typeRel = [
         <MenuItem disabled={0 !== whatRel} key='in' value='in'>зачислен</MenuItem>,

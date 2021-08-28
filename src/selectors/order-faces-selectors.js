@@ -9,18 +9,35 @@ export const getDatasetOrderFacesSelector = createSelector([getOrderFacesSelecto
 });
 
 export const getDatasetToFlatOrderFacesSelector = createSelector([getDatasetOrderFacesSelector], (dataset) => {
-    return dataset.map(i => ({
-        id: i.id,
-        tblOrderId: i.tblOrderId,
-        tblFaceId: i.tblFaceId,
-        note: i.note,
-        birthdate: i.tblFace.birthdate,
-        sex: i.tblFace.sex,
-        lastname: i.tblFace.tblFaceNames[0].lastname,
-        firstname: i.tblFace.tblFaceNames[0].firstname,
-        middleName: i.tblFace.tblFaceNames[0].middleName,
-
-    }))
+    return dataset.map(i => {
+        const getActionInOrder = (rec) => {
+            switch (rec.typeRel) {
+                case 'in':
+                    return {action: 'зачислен', date: i.tblFaceAspirant?.dateOn}
+                case 'out':
+                    return {action: 'отчислен', date: i.tblFaceAspirant?.dateOff}
+                case 'reIn':
+                    return {action: 'переведен', date: i.tblFaceAspirant?.dateOff}
+                default:
+                    return {action: 'ERROR', date: null}
+            }
+        }
+        const {action, date} = getActionInOrder(i);
+        return {
+            id: i.id,
+            tblOrderId: i.tblOrderId,
+            tblFaceId: i.tblFaceId,
+            note: i.note,
+            birthdate: i.tblFace.birthdate,
+            sex: i.tblFace.sex ? 'мужской' : 'женский',
+            lastname: i.tblFace.tblFaceNames[0].lastname,
+            firstname: i.tblFace.tblFaceNames[0].firstname,
+            middleName: i.tblFace.tblFaceNames[0].middleName,
+            typeRel: i.typeRel,
+            action: action,
+            date: date
+        }
+    })
     // const newArr = [];
     // const toTable = (arr, obj = {}, nameObj = null, canPush = true) => {
     //

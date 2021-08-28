@@ -34,6 +34,7 @@ import dictDirectionReducer from "./reducers/dict-direction-reducers";
 import dictDirectionalityAndSpecialtyReducer from "./reducers/dict-directionality-and-specialty-reducers";
 import aspirantOrdersReducer from "./reducers/face-aspirant-orders-reducers";
 import facesAspirantsReducer from "./reducers/faces-aspirants-reducers";
+import aspirantsByAdvisorReducer from "./reducers/faces-aspirants-by-advisor-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
@@ -74,6 +75,7 @@ const reducer = combineReducers({
     orderFaces: orderFacesReducer,
 
     facesAcademicAdvisor: facesAcademicAdvisorReducer,
+    aspirantsByAdvisor: aspirantsByAdvisorReducer,
 
     facesAspirants: facesAspirantsReducer,
 });

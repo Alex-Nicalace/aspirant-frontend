@@ -3,7 +3,6 @@ import TableEnhanced from "../table-enhanced";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonsPanel from "../buttons-panel";
 import Popover from "@material-ui/core/Popover";
-import {Container} from "@material-ui/core";
 import DialogAlert from "../dialog-alert";
 import ErrorIndicator from "../error-indicator";
 import {makeStyles} from "@material-ui/core/styles";
@@ -99,8 +98,8 @@ const TableEdit = ({
     if (error)
         return <ErrorIndicator error={error}  />
 
-    if (isLoading)
-        return <CircularProgress/>
+    // if (isLoading)
+    //     return <CircularProgress/>
 
     return (
         <>

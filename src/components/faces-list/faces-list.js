@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import TableEdit from "../table-edit";
 import FacesEdit from "../faces-edit";
-import Popover from "@material-ui/core/Popover";
-import {Container} from "@material-ui/core";
 import {FACES_LIST_ROUTE} from "../../utils/consts";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
-import FaceAllDataChoiseView from "../face-all-data-choise-view";
+import PopoverFaceAllData from "../popover-face-all-data";
+import FrameWithTitle from "../frame-with-title";
+import FaceFindForm from "../UI/face-find-form";
 
 const FacesList = ({
                        changeSelected = () => {
@@ -13,7 +13,6 @@ const FacesList = ({
                        selected,
                        viewCardMode = 'popover'
                    }) => {
-    //const history = useHistory();
     const {
         faces: {
             dataset, isLoading, error,
@@ -23,8 +22,8 @@ const FacesList = ({
     } = useAspirantApiContext();
 
     useEffect(() => {
-        if (dataset.length === 0)
-            fetch();
+        //if (dataset.length === 0)
+        fetch();
     }, [])
 
     const [faceId, setFaceId] = useState(null);
@@ -50,13 +49,16 @@ const FacesList = ({
         {id: 'firstname', disablePadding: false, label: 'имя'},
         {id: 'middleName', disablePadding: false, label: 'отчество'},
         {id: 'birthdate', disablePadding: false, label: 'дата рождения', dataType: 'date'},
-        {id: 'isAspirant', disablePadding: false, label: 'аспирант'},
-        {id: 'isWasAspirant', disablePadding: false, label: 'быв. аспирант'},
-        {id: 'isAcademicAdvisor', disablePadding: false, label: 'науч. рук.'},
+        {id: 'sex', disablePadding: false, label: 'пол'},
+        {id: 'isAspirant', disablePadding: false, label: 'аспирант', padding: 'checkbox'},
+        {id: 'isWasAspirant', disablePadding: false, label: 'быв. аспирант', padding: 'checkbox'},
+        {id: 'isAcademicAdvisor', disablePadding: false, label: 'науч. рук.', padding: 'checkbox'},
     ];
 
-    if (viewCardMode === 'popover')
+    if (viewCardMode === 'popover') {
         headCells[1].onClick = openPopoverHandler;
+        headCells[1].style = {color: 'blue', textDecoration: 'underline'};
+    }
     if (viewCardMode === 'link') {
         headCells[1].linkArgument = 'id';
         headCells[1].link = `${FACES_LIST_ROUTE}`;
@@ -64,7 +66,10 @@ const FacesList = ({
     // headCells[2].onClick = openPopoverHandler;
 
     return (
-        <>
+        <FrameWithTitle head='Лица, имеющиеся в базе данных'>
+            <FaceFindForm
+                fetch={fetch}
+            />
             <TableEdit
                 headCells={headCells}
                 isLoading={isLoading}
@@ -77,30 +82,14 @@ const FacesList = ({
                 onGetKeyValue={changeFaceIdHandle}
                 currentRecInitial={selected}
             />
-            {/*<Button onClick={openPopoverHandler}>редактировать</Button>*/}
-            {/*<Button onClick={() => history.push(`${FACES_LIST_ROUTE}${faceId}`)} >карточка</Button>*/}
 
-            <Popover
-                id={idPopover}
-                open={isOpenPopover}
-                //anchorEl={anchorEl}
-                onClose={closePopoverHandler}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-            >
-                <Container>
-                    {/*<FaceAllData faceId={faceId} />*/}
-                    <FaceAllDataChoiseView faceId={faceId}/>
-                </Container>
-            </Popover>
-        </>
-
+            <PopoverFaceAllData
+                faceId={faceId}
+                closePopoverHandler={closePopoverHandler}
+                idPopover={idPopover}
+                isOpenPopover={isOpenPopover}
+            />
+        </FrameWithTitle>
     );
 };
 

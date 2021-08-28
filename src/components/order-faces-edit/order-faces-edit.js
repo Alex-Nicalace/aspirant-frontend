@@ -4,8 +4,9 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import FormWrapField from "../form-wrap-field";
-import {Input} from "../controls";
+import {DropdownList, Input} from "../controls";
 import ChoiseFaceFromTable from "../controls/choise-face-from-table";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const schema = yup.object().shape({
     tblFaceId: yup
@@ -13,8 +14,16 @@ const schema = yup.object().shape({
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("лицо обязательное поле"),
+    tblOrderId: yup
+        .number()
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable()
+        .required("приказ обязательное поле"),
     note: yup
+        .string(),
+    typeRel: yup
         .string()
+        .required("приказ обязательное поле"),
 });
 
 const OrderFacesEdit = ({closeEdit, modeEdit, currentRec}) => {
@@ -32,7 +41,14 @@ const OrderFacesEdit = ({closeEdit, modeEdit, currentRec}) => {
         }
     } = useAspirantApiContext();
 
-    const valuesToState = {tblOrderId: orderId};
+    //const valuesToState = {tblOrderId: orderId};
+    setValue('tblOrderId', orderId);
+
+    const typeRel = [
+        <MenuItem key='in' value='in'>зачислен</MenuItem>,
+        <MenuItem key='out' value='out'>отчислен</MenuItem>,
+        <MenuItem key='reIn' value='reIn'>переведен</MenuItem>,
+    ]
 
     return (
         <FormWrapField
@@ -44,8 +60,21 @@ const OrderFacesEdit = ({closeEdit, modeEdit, currentRec}) => {
             modeEdit={modeEdit}
             setValue={setValue}
             updateRec={updateRec}
-            valuesToState={valuesToState}
+            //valuesToState={valuesToState}
         >
+            <DropdownList
+                style={{minWidth: "200px"}}
+                control={control}
+                name='typeRel'
+                rules={{required: true}}
+                defaultValue=''
+                label='о чем приказ'
+                required
+                renderItem={typeRel}
+                error={!!errors.typeRel}
+                helperText={errors?.typeRel?.message}
+                fullWidth
+            />
             <ChoiseFaceFromTable
                 control={control}
                 name='tblFaceId'

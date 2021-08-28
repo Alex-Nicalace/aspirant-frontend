@@ -314,6 +314,17 @@ import {
     fetchFacesAspirants,
     insertFacesAspirants, updateFacesAspirants
 } from "../../../actions/faces-aspirants-actions";
+import {
+    getDatasetAspirantsByAdvisorSelector, getDatasetDependsOnIdAspirantsByAdvisorSelector,
+    getDatasetToFlatAspirantsByAdvisorSelector,
+    getErrorAspirantsByAdvisorSelector,
+    getIsLoadingAspirantsByAdvisorSelector
+} from "../../../selectors/faces-aspirants-by-advisor-selectors";
+import {
+    deleteAspirantsByAdvisor,
+    fetchAspirantsByAdvisor,
+    insertAspirantsByAdvisor, updateAspirantsByAdvisor
+} from "../../../actions/faces-aspirants-by-advisor-action";
 
 export const AspirantApi = ({children}) => {
     const aspirantApiService = new AspirantApiService();
@@ -567,8 +578,8 @@ export const AspirantApi = ({children}) => {
         isLoading: useSelector(getIsLoadingFacesSelector),
         error: useSelector(getErrorFacesSelector),
 
-        fetch: async () => {
-            await fetchFaces(aspirantApiService.facesAPI, dispatch)
+        fetch: async (params = null) => {
+            await fetchFaces(params, aspirantApiService.facesAPI, dispatch)
         },
         fetchOne: async (id) => {
             await fetchOneFace(id)(aspirantApiService.facesAPI, dispatch)
@@ -1093,8 +1104,8 @@ export const AspirantApi = ({children}) => {
         error: useSelector(getErrorFacesAspirantsSelector),
         faceId: useSelector(getDatasetDependsOnIdFacesAspirantsSelector),
 
-        fetch: async () => {
-            await fetchFacesAspirants(aspirantApiService.faceAspirantAPI, dispatch)
+        fetch: async (params = null) => {
+            await fetchFacesAspirants(params, aspirantApiService.faceAspirantAPI, dispatch)
         },
         insertRec: async (rec) => {
             await insertFacesAspirants(rec)(aspirantApiService.faceAspirantAPI, dispatch);
@@ -1104,6 +1115,27 @@ export const AspirantApi = ({children}) => {
         },
         updateRec: async (rec) => {
             await updateFacesAspirants(rec)(aspirantApiService.faceAspirantAPI, dispatch);
+        },
+    }
+
+    const aspirantsByAdvisor = {
+        dataset: useSelector(getDatasetAspirantsByAdvisorSelector),
+        datasetModify: useSelector(getDatasetToFlatAspirantsByAdvisorSelector),
+        isLoading: useSelector(getIsLoadingAspirantsByAdvisorSelector),
+        error: useSelector(getErrorAspirantsByAdvisorSelector),
+        advisorId: useSelector(getDatasetDependsOnIdAspirantsByAdvisorSelector),
+
+        fetch: async (advisorId) => {
+            await fetchAspirantsByAdvisor(advisorId)(aspirantApiService.faceAspirantAPI, dispatch)
+        },
+        insertRec: async (rec) => {
+            await insertAspirantsByAdvisor(rec)(aspirantApiService.faceAspirantAPI, dispatch);
+        },
+        deleteRec: async (id) => {
+            await deleteAspirantsByAdvisor(id)(aspirantApiService.faceAspirantAPI, dispatch);
+        },
+        updateRec: async (rec) => {
+            await updateAspirantsByAdvisor(rec)(aspirantApiService.faceAspirantAPI, dispatch);
         },
     }
 
@@ -1147,6 +1179,7 @@ export const AspirantApi = ({children}) => {
             orderFaces,
             //--------------------------
             facesAcademicAdvisor,
+            aspirantsByAdvisor,
             //--------------------------
             facesAspirants,
         }}>
