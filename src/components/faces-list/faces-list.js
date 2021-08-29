@@ -49,7 +49,7 @@ const FacesList = ({
         {id: 'firstname', disablePadding: false, label: 'имя'},
         {id: 'middleName', disablePadding: false, label: 'отчество'},
         {id: 'birthdate', disablePadding: false, label: 'дата рождения', dataType: 'date'},
-        {id: 'sex', disablePadding: false, label: 'пол'},
+        {id: 'sexStr', disablePadding: false, label: 'пол'},
         {id: 'isAspirant', disablePadding: false, label: 'аспирант', padding: 'checkbox'},
         {id: 'isWasAspirant', disablePadding: false, label: 'быв. аспирант', padding: 'checkbox'},
         {id: 'isAcademicAdvisor', disablePadding: false, label: 'науч. рук.', padding: 'checkbox'},

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import TableEdit from "../table-edit";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FacesAspirantsEdit from "../faces-aspirants-edit";

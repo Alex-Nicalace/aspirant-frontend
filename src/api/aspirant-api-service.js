@@ -3,6 +3,7 @@ import * as axios from "axios";
 const _instance = axios.create({
     //withCredentials: true,
     baseURL: 'http://localhost:8080/api/'
+    //baseURL: 'http://aspirant.ddns.net:3000/api/'
 })
 
 const _pathDictDocAPI = 'dict-doc';

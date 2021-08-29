@@ -16,10 +16,10 @@ const useStyles = makeStyles(theme => ({
 
 const DictAddress = () => {
     const classes = useStyles();
-    const lg = 4
+    const lg = true
     return (
-        <Grid className={classes.root} container spacing={lg}>
-            <Grid item lg={lg} alignContent='stretch'><DictCountry/></Grid>
+        <Grid className={classes.root} container spacing={1}>
+            <Grid item lg={lg}><DictCountry/></Grid>
             <Grid item lg={lg}><DictCity/> </Grid>
             <Grid item lg={lg}><DictStreet/> </Grid>
         </Grid>

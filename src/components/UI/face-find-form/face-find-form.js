@@ -58,8 +58,8 @@ const FaceFindForm = ({fetch}) => {
         resolver: yupResolver(schema),
     });
 
-    const submitHandle = (data, e) => {
-        e.preventDefault();
+    const submitHandle = (data, e = null) => {
+        e && e.preventDefault();
         fetch(data);
     }
 
@@ -84,7 +84,10 @@ const FaceFindForm = ({fetch}) => {
                 </Grid>
                 <Grid item className={classes.button}>
                     <Button
-                        type='submit'
+                        //type='submit'
+                        // закрывает окно в случае когда на форме надо найти лицо => закоментил
+                        type='button'
+                        onClick={handleSubmit(submitHandle)}
                         variant='outlined'
                         color='primary'>
                         найти

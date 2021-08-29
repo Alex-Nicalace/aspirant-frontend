@@ -38,6 +38,10 @@ const DictEnterpriseEdit = ({closeEdit, modeEdit, currentRec}) => {
             dataset,
         }
     } = useAspirantApiContext();
+
+    if (modeEdit === 'insert')
+        setValue('parentId', currentRec);
+
     return (
         <FormWrapField
             dataset={dataset}

@@ -10,25 +10,25 @@ import {DropdownList, Input, InputDate} from "../controls";
 const schema = yup.object().shape({
     firstname: yup
         .string()
-        .matches(/^([^0-9]*)$/, "имя не может содержать цифры")
-        .required("имя обязательное поле"),
+        .matches(/^([^0-9]*)$/, "не может содержать цифры")
+        .required("обязательное поле"),
     lastname: yup
         .string()
-        .matches(/^([^0-9]*)$/, "фамилия не может содержать цифры")
-        .required("фамилия обязательное поле"),
+        .matches(/^([^0-9]*)$/, "не может содержать цифры")
+        .required("обязательное поле"),
     middleName: yup
         .string()
-        .matches(/^([^0-9]*)$/, "отчество не может содержать цифры"),
+        .matches(/^([^0-9]*)$/, "не может содержать цифры"),
     birthdate: yup
         .date()
         .nullable()
         .default(null)
         .typeError('некорректная дата')
-        .required('дата обязательное поле'),
+        .required('обязательное поле'),
     sex: yup
         .boolean()
         .transform(value => (value === '' ? undefined : value))
-        .required("пол обязательное поле"),
+        .required("обязательное поле"),
 });
 
 const schemaUpd = yup.object().shape({
@@ -37,11 +37,11 @@ const schemaUpd = yup.object().shape({
         .nullable()
         .default(null)
         .typeError('некорректная дата')
-        .required('дата обязательное поле'),
+        .required('обязательное поле'),
     sex: yup
         .boolean()
         .transform(value => (value === '' ? undefined : value))
-        .required("пол обязательное поле"),
+        .required("обязательное поле"),
 });
 
 const renderSex = [

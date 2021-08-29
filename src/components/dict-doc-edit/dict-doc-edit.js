@@ -1,15 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import TextField from "@material-ui/core/TextField";
-import FormButtons from "../form-buttons";
-import {AspirantApiContext} from "../context/aspirant-api-context";
 import FormFields from "../form-fields";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 
 const recInit = {
     document: ''
 }
 
 const DictDocEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {dictDoc} = useContext(AspirantApiContext);
+    const {dictDoc} = useAspirantApiContext();
     return (
         <FormFields
             data={dictDoc}

@@ -141,7 +141,7 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
         }
 
         return (
-            <FormButtons saveBtn={saveChangesHandle} closeEdit={closeEdit}>
+            <FormButtons saveBtn={saveChangesHandle} closeEdit={closeEdit} isSubMit>
 
                 {rec && addToCompPropValueAndEventOnChange(children)
                     //     React.Children.map(children, ((child, index) => {

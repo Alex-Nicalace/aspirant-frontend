@@ -82,6 +82,9 @@ const useStyles = makeStyles(theme => ({
     btnSelect: {
         alignSelf: 'flex-end',
         textAlign: 'right'
+    },
+    btnSelect__spec: {
+        alignSelf: 'center',
     }
 }));
 
@@ -121,6 +124,8 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     const [face, setFace] = useState('');
     const [academicAdvisor, setAcademicAdvisor] = useState('');
     const [specialty, setSpecialty] = useState('');
+    const [direction, setDirection] = useState('');
+    const [division, setDivision] = useState('');
     const [componentOfPopover, setComponentOfPopover] = useState(null);
 
     useEffect(() => {
@@ -154,7 +159,10 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     }, [watch('tblAcademicAdvisorId'), facesAcademicAdvisor.datasetModify]);
 
     useEffect(() => {
-        setSpecialty(getSpecialtyById(watch('tblDictDirectionalityAndSpecialtyId')));
+        const {direction, division, specialty} = getSpecialtyById(watch('tblDictDirectionalityAndSpecialtyId'));
+        setSpecialty(specialty);
+        setDirection(direction ?? '');
+        setDivision(division);
     }, [watch('tblDictDirectionalityAndSpecialtyId'), dictDirectionalityAndSpecialty.datasetAll]);
 
     const getFaceById = (id) => {
@@ -174,7 +182,13 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
 
     const getSpecialtyById = (id) => {
         const specialty = dictDirectionalityAndSpecialty.datasetAll.find(i => +i.id === +id)
-        return specialty && `${specialty.nameDirection} - ${specialty.DirectionalityOrSpecialty} - ${specialty.nameSubDiv} `
+        //console.log(dictDirectionalityAndSpecialty.datasetAll)
+        //return specialty && `${specialty.nameDirection || ''} ${specialty.nameDirection ? 'направленность' : 'специальность'}: - ${specialty.DirectionalityOrSpecialty} - ${specialty.nameSubDiv} `
+        return {
+            direction: specialty?.nameDirection,
+            specialty: specialty?.DirectionalityOrSpecialty,
+            division:  specialty?.joinedName,
+        }
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -245,6 +259,13 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     const orderInValue = orderIn || getOrderById(tblFace_tblOrder.face_order.arr[0]?.tblOrderId)
     const orderOutValue = orderOut || getOrderById(tblFace_tblOrder.face_order.arr[1]?.tblOrderId)
 
+    let labelSpec = '';
+    if (!specialty)
+        labelSpec = 'специальность/направленность'
+    if (direction)
+        labelSpec = 'направленность'
+    if (!direction && specialty)
+        labelSpec = 'специальность'
     return (
         <>
             <FormWrapField
@@ -464,7 +485,20 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                     <Grid item lg={10}>
                         <TextField
                             id='specialty-id'
-                            label='специальность/направленность'
+                            label='направление'
+                            //required
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            InputLabelProps={{shrink: !!direction}}
+                            value={direction}
+                            error={!!errors.tblDictDirectionalityAndSpecialtyId}
+                            helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                            fullWidth
+                        />
+                        <TextField
+                            id='specialty-id'
+                            label={labelSpec}
                             required
                             InputProps={{
                                 readOnly: true,
@@ -475,8 +509,21 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
                             fullWidth
                         />
+                        <TextField
+                            id='specialty-id'
+                            label='кафедра'
+                            required
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            InputLabelProps={{shrink: !!division}}
+                            value={division}
+                            error={!!errors.tblDictDirectionalityAndSpecialtyId}
+                            helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                            fullWidth
+                        />
                     </Grid>
-                    <Grid item lg={2} className={classes.btnSelect}>
+                    <Grid item lg={2} className={`${classes.btnSelect} ${classes.btnSelect__spec}`}>
                         <Button
                             variant='outlined'
                             type='button'

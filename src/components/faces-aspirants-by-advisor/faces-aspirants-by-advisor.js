@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import TableEdit from "../table-edit";
-import OrderFacesEdit from "../order-faces-edit";
 import {ASPIRANTS_LIST_ROUTE} from "../../utils/consts";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FacesAspirantsByAdvisorEdit from "../faces-aspirants-by-advisor-edit";

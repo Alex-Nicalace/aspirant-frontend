@@ -12,11 +12,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const FormButtons = ({children, saveBtn, closeEdit}) => {
+const FormButtons = ({children, saveBtn, closeEdit, isSubMit = false}) => {
     const classes = useStyles();
 
     return (
-        <form /*onSubmit={saveBtn} */ >
+        <form onSubmit={isSubMit ? saveBtn : undefined}  >
             <Box>
                 {children}
             </Box>
@@ -26,7 +26,8 @@ const FormButtons = ({children, saveBtn, closeEdit}) => {
                             variant='contained'
                             color='primary'
                             size='small'
-                            onClick={saveBtn}
+                            onClick={!isSubMit ? saveBtn : undefined}
+                            type={isSubMit ? 'submit' : 'button'}
                     >
                         Сохранить
                     </Button>

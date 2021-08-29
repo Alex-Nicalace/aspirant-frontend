@@ -25,7 +25,8 @@ export const getDatasetToFlatFacesSelector = createSelector([getDatasetFacesSele
         return {
             id: i.id,
             birthdate: i.birthdate,
-            sex: i.sex ? 'мужской' : 'женский',
+            sex: i.sex,
+            sexStr: i.sex ? 'мужской' : 'женский',
             lastname: i.tblFaceNames[0].lastname,
             firstname: i.tblFaceNames[0].firstname,
             middleName: i.tblFaceNames[0].middleName,

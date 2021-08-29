@@ -24,6 +24,7 @@ const DictSubjectEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='subject'
+
             />
         </FormFields>
     );

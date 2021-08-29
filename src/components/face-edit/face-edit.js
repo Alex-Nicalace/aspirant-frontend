@@ -1,5 +1,4 @@
-import React, {useContext} from 'react';
-import {AspirantApiContext} from "../context/aspirant-api-context";
+import React from 'react';
 import TextField from "@material-ui/core/TextField";
 import FormFields from "../form-fields";
 import {KeyboardDatePicker} from "@material-ui/pickers";
@@ -7,6 +6,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 
 const recInit = {
     lastname: '',
@@ -17,7 +17,7 @@ const recInit = {
 }
 
 const FaceEdit = ({closeEdit, modeEdit, currentRec}) => {
-    const {faces} = useContext(AspirantApiContext);
+    const {faces} = useAspirantApiContext();
     return (
         <FormFields
             data={faces}
