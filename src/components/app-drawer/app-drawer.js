@@ -1,15 +1,13 @@
-import React, {useState} from "react";
+import React from "react";
 import {Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, useTheme} from "@material-ui/core";
-import Home from "@material-ui/icons/Home";
-import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {makeStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
 import {useHistory, useLocation} from "react-router-dom";
-import {ASPIRANT_ROUTE, DICTIONARIES_ROUTE} from "../../utils/consts";
 import {authRoutes} from "../../routes";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 
 const drawerWidth = 240;
 
@@ -48,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AppDrawer = ({isVisibleAppDrawer, toggleAppDrawer}) => {
+    const {user: {usersData}} = useAspirantApiContext();
     const classes = useStyles();
     const theme = useTheme();
     const history = useHistory();
@@ -55,7 +54,9 @@ const AppDrawer = ({isVisibleAppDrawer, toggleAppDrawer}) => {
 
     const list = () => (
         <List >
-            {authRoutes.map((i, index) => (
+            {authRoutes
+                .filter(item => !item?.isAdmin || item?.isAdmin === usersData?.isAdmin )
+                .map((i) => (
                 <ListItem
                     button
                     key={i.path}
