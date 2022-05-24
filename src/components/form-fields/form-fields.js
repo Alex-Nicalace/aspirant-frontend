@@ -70,7 +70,6 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
                     [name]: value
                 }
             });
-            //console.log(`name comp - ${name} value - ${value} state - ${rec}`)
 
         }
 
@@ -92,13 +91,11 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
         }
 
         const addToCompPropValueAndEventOnChange = (childrenMy) => {
-            //console.log(childrenMy);
             return (
                 //  в циуле перебераю всех чилов
                 React.Children.map(childrenMy, ((child) => {
                     let childrenModify = null;
                     let controlModify = null;
-                    //console.log(`----  ${child.type.name}`)
 
                     if (Array.isArray(child.props?.children)) {
                         // если масив значит имется чилдрены
@@ -142,31 +139,7 @@ const FormFields = ({closeEdit, modeEdit, currentRec, data, children, recInit, v
 
         return (
             <FormButtons saveBtn={saveChangesHandle} closeEdit={closeEdit} isSubMit>
-
-                {rec && addToCompPropValueAndEventOnChange(children)
-                    //     React.Children.map(children, ((child, index) => {
-                    //     return React.cloneElement(child, {
-                    //         ...child.props,
-                    //         onChange: (
-                    //             !child.props.isDataPicker // у DataPicker другой интерфейс
-                    //                 ? ({target: {value, name}}) => changeValueHandle(value, name )
-                    //                 : (date) => changeValueHandle(date, child.props.name)
-                    //         ),
-                    //         value: rec[child.props.name]
-                    //     });
-                    // }))
-                }
-
-                {/*<TextField*/}
-                {/*    id="country"*/}
-                {/*    label="страна"*/}
-                {/*    required*/}
-                {/*    type='search'*/}
-                {/*    value={rec.country}*/}
-                {/*    onChange={changeValueHandle}*/}
-                {/*    fullWidth*/}
-                {/*    name='country'*/}
-                {/*/>*/}
+                {rec && addToCompPropValueAndEventOnChange(children)}
             </FormButtons>
         );
     }
