@@ -37,6 +37,7 @@ const OrderFaces = ({orderId}) => {
             //fetch={fetchForCurrentId}
             FormEdit={OrderFacesEdit}
             initialOrderBy='dateOn'
+            tableName='orders-list-faces'
         />
     );
 };
