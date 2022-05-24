@@ -19,18 +19,27 @@ import {AspirantApi} from "./components/context/aspirant-api-context";
 import ErrorBoundary from "./components/error-boundry";
 
 const theme = createTheme({
-    palette: {
-        //primary: {main: '#1976d2'}
-    }
+    // palette: {
+    //     //primary: {main: '#8276d1'}
+    // },
+    // breakpoints: {
+    //     values: {
+    //         xs: '0px',
+    //         sm: '600px',
+    //         md: '900px',
+    //         lg: '1200px',
+    //         xl: '1800px'
+    //     }
+    // }
 }, ruRU)
 
 class RuLocalizedUtils extends DateFnsUtils {
     getCalendarHeaderText(date) {
-        return format(date, "LLLL", { locale: ruLocale });
+        return format(date, "LLLL", {locale: ruLocale});
     }
 
     getDatePickerHeaderText(date) {
-        return format(date, "dd MMMM", { locale: ruLocale });
+        return format(date, "dd MMMM", {locale: ruLocale});
     }
 }
 
