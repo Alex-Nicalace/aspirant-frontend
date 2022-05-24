@@ -1,10 +1,19 @@
 import * as axios from "axios";
+import {BASE_URL} from "../utils/consts";
+import jwtDecode from "jwt-decode";
 
 const _instance = axios.create({
     //withCredentials: true,
-    baseURL: 'http://localhost:8080/api/'
+    baseURL: `${BASE_URL}api/`
     //baseURL: 'http://aspirant.ddns.net:3000/api/'
 })
+
+const authInterceptor = config => {
+    config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+    return config;
+};
+
+_instance.interceptors.request.use(authInterceptor);
 
 const _pathDictDocAPI = 'dict-doc';
 const _pathDictCountryAPI = 'dict-country';
@@ -31,19 +40,46 @@ const _pathFaceContactAPI = 'face-contact';
 const _pathFaceOrderAPI = 'face-order';
 const _pathFaceEntranceExaminAPI = 'face-entrance-examin';
 const _pathFaceAspirantAPI = 'face-aspirant';
+const _pathFaceAspirantAcademAPI = 'face-aspirant-academ';
 const _pathFaceScientificPublAPI = 'face-scientific-publ';
 const _pathFaceCertificationResultAPI = 'face-certification-result';
 const _pathFaceBusinessTripAPI = 'face-business-trip';
 const _pathFaceExaminationsTripAPI = 'face-examinations';
+const _pathFacePhotoAPI = 'face-photo';
 
 const _pathOrdersAPI = 'order';
 
 const _pathFaceAcademicAdvisorAPI = 'face-academic-advisor';
 
+const _userAPI = 'user';
+
 export default class AspirantApiService {
     userApi = {
-        async checkUser() {
-            return await _instance.post(`user/auth`);
+        async auth() {
+            const {data: {token}} = await _instance.post(`${_userAPI}/auth`);
+            localStorage.setItem('token', token);
+            return jwtDecode(token)
+        },
+        async login(data) {
+            const {data: {token}} = await _instance.post(`${_userAPI}/login`, data);
+            localStorage.setItem('token', token);
+            return jwtDecode(token);
+        },
+
+        async getAll() {
+            return await _instance.get(_userAPI)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_userAPI}/${id}`)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_userAPI}/${id}`)
+        },
+        async post(data) {
+            return await _instance.post(`${_userAPI}/registration`, data);
+        },
+        async put(data) {
+            return await _instance.put(_userAPI, data)
         }
     }
 
@@ -523,8 +559,8 @@ export default class AspirantApiService {
             return await _instance.post(_pathFaceEntranceExaminAPI, data)
             //.then(response => response.data)
         },
-        async getAllOneFace(faceId, isCandidateMin) {
-            return await _instance.get(`${_pathFaceEntranceExaminAPI}/faceId/${faceId}/${isCandidateMin}`)
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceEntranceExaminAPI}/faceId/${faceId}`)
             //.then(response => response.data)
         },
         async getOne(id) {
@@ -567,6 +603,27 @@ export default class AspirantApiService {
         },
         async put(data) {
             return await _instance.put(_pathFaceAspirantAPI, data)
+        }
+    }
+
+    faceAspirantAcademAPI = {
+        async post(data) {
+            return await _instance.post(_pathFaceAspirantAcademAPI, data)
+            //.then(response => response.data)
+        },
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFaceAspirantAcademAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFaceAspirantAcademAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFaceAspirantAcademAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFaceAspirantAcademAPI, data)
         }
     }
 
@@ -679,13 +736,46 @@ export default class AspirantApiService {
         }
     }
 
-    ordersAPI = {
+    facePhotoAPI = {
         async post(data) {
-            return await _instance.post(_pathOrdersAPI, data)
+            const {dateOn, tblFaceId, file} = data;
+            // чтобы отправить и файл оформляю в виде formData
+            const formData = new FormData();
+            formData.append('dateOn', dateOn)
+            formData.append('tblFaceId', tblFaceId)
+            formData.append('file', file)
+            return await _instance.post(_pathFacePhotoAPI, formData)
             //.then(response => response.data)
         },
-        async getAll() {
-            return await _instance.get(_pathOrdersAPI)
+        async getAllOneFace(faceId) {
+            return await _instance.get(`${_pathFacePhotoAPI}/faceId/${faceId}`)
+            //.then(response => response.data)
+        },
+        async getOne(id) {
+            return await _instance.get(`${_pathFacePhotoAPI}/${id}`)
+            //.then(response => response.data)
+        },
+        async delete(id) {
+            return await _instance.delete(`${_pathFacePhotoAPI}/${id}`)
+        },
+        async put(data) {
+            return await _instance.put(_pathFacePhotoAPI, data)
+        }
+    }
+
+    ordersAPI = {
+        async post(data) {
+            const {numOrder, dateOrder, text, file} = data;
+            const formData = new FormData();
+            formData.append('numOrder', numOrder);
+            formData.append('dateOrder', dateOrder);
+            formData.append('text', text);
+            formData.append('file', file);
+            return await _instance.post(_pathOrdersAPI, formData);
+            //.then(response => response.data)
+        },
+        async getAll(params = null) {
+            return await _instance.get(_pathOrdersAPI, {params})
             //.then(response => response.data)
         },
         async getOne(id) {
@@ -696,7 +786,15 @@ export default class AspirantApiService {
             return await _instance.delete(`${_pathOrdersAPI}/${id}`)
         },
         async put(data) {
-            return await _instance.put(_pathOrdersAPI, data)
+            const {id, numOrder, dateOrder, text, file, isDeleteFile} = data;
+            const formData = new FormData();
+            formData.append('numOrder', numOrder);
+            formData.append('id', id);
+            formData.append('dateOrder', dateOrder);
+            formData.append('text', text);
+            formData.append('file', file);
+            formData.append('isDeleteFile', isDeleteFile);
+            return await _instance.put(_pathOrdersAPI, formData);
         }
     }
 
