@@ -58,8 +58,6 @@ const DictEnterpriseAsTree = ({
     const [idForReParent, setIdForReParent] = useState(null);
     const [messageAboutReParent, setMessageAboutReParent] = useState(false);
 
-    console.log(selectedBranch);
-
     useEffect(() => {
         fetch();
     }, []);
@@ -272,6 +270,7 @@ const DictEnterpriseAsTree = ({
                 title='ИЗМЕНЕНИЕ ИЕРАРХИИ'
                 handleClose={closeMessageAboutReParentHandle}
                 open={messageAboutReParent}
+                buttons={[{label: 'Ok', onClick: closeMessageAboutReParentHandle, color: 'primary'}]}
             />
         </>
 

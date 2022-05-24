@@ -4,7 +4,7 @@ import DictDirectionality from "../dict-directionality";
 import DictSpecialty from "../dict-specialty";
 import Grid from "@material-ui/core/Grid";
 import FrameWithTitle from "../frame-with-title";
-import {FormControlLabel, Switch} from "@material-ui/core";
+import SwitchWithLabel from "../controls/switch-with-label";
 
 const DictDirectionalityAndSpecialty = ({
                                             changeSelected = () => {
@@ -24,15 +24,12 @@ const DictDirectionalityAndSpecialty = ({
     }
     return (
         <div>
-            {showSwitchDictDirection && <FormControlLabel
-                control={
-                    <Switch
-                        checked={showDictDirection}
-                        onChange={handleChangeShowDictDirection}
-                    />
-                }
-                label='направления'
-            />
+            {
+                showSwitchDictDirection && <SwitchWithLabel
+                    label='направления'
+                    onChange={handleChangeShowDictDirection}
+                    checked={showDictDirection}
+                />
             }
             <Grid
                 container justifyContent='space-between'

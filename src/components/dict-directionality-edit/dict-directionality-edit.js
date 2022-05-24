@@ -4,9 +4,9 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList, Input} from "../controls";
+import {DropdownList, Input} from "../controls/react-hook-form";
 import MenuItem from "@material-ui/core/MenuItem";
-import ChoiseDivision from "../controls/choise-division";
+import ChoiseDivision from "../controls/react-hook-form/choise-division";
 
 const schema = yup.object().shape({
     tblDictNameDirectionId: yup
