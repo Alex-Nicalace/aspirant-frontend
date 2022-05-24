@@ -54,7 +54,8 @@ const App = () => {
                 isVisibleAppDrawer={isVisibleAppDrawer}
                 toggleAppDrawer={toggleAppDrawerHandler}
             />
-            <Container maxWidth='xl' >
+            <Container style={{maxWidth:'97%'}}
+            >
                 <main className={classes.content} >
                     <div className={classes.toolbar}/>
                     <AppRouter/>
