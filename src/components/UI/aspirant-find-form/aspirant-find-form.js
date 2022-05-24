@@ -6,11 +6,11 @@ import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import InputBirthdateFioSex from "../input-birthdate-fio-sex";
-import {DropdownList, Input} from "../../controls";
+import {DropdownList, Input} from "../../controls/react-hook-form";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputParsedDate from "../input-parsed-date";
-import FormWrapField from "../../form-wrap-field";
 import {useAspirantApiContext} from "../../context/aspirant-api-context/aspirant-api-context";
+import {useSortedArray} from "../../../hooks/use-sorted-array";
 
 const schema = yup.object().shape({
     dd: yup
@@ -111,13 +111,38 @@ const schema = yup.object().shape({
         .number()
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable(),
-
+    tblDictDirectionalityAndSpecialtyId: yup
+        .number()
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable(),
+    facultyId: yup
+        .number()
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable(),
+    departmentId: yup
+        .number()
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable(),
+    tblDictSubjectId: yup
+        .number()
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable(),
+    tblAcademicAdvisorId: yup
+        .number()
+        .transform(value => (isNaN(value) ? undefined : value))
+        .nullable(),
 });
 
 const useStyles = makeStyles(theme => ({
     button: {
         //alignSelf: 'flex-end',
         marginTop: `${theme.spacing(2)}px`,
+        textAlign: 'center'
+    },
+    flexContainer:{
+        '& div': {
+            flexGrow: 1
+        }
     }
 }))
 
@@ -127,12 +152,34 @@ const AspirantFindForm = ({fetch}) => {
         mode: "onBlur",
         resolver: yupResolver(schema),
     });
-    const {dictEducationForm, dictDirection} = useAspirantApiContext();
+    const {
+        dictEducationForm,
+        dictDirection,
+        dictDirectionalityAndSpecialty: dictDirAndSpec,
+        dictEnterprise,
+        dictSubject,
+        facesAcademicAdvisor,
+    } = useAspirantApiContext();
 
     useEffect(() => {
         dictEducationForm.fetch();
         dictDirection.fetch();
+        dictDirAndSpec.fetch();
+        dictEnterprise.fetch();
+        dictSubject.fetch();
+        facesAcademicAdvisor.fetch();
     }, [])
+
+    const dictDirAndSpecDatasetSorted = useSortedArray(dictDirAndSpec.datasetAll, 'DirectionalityOrSpecialty');
+    const subjects =  useSortedArray(dictSubject.dataset, 'subject');
+    const directions = useSortedArray(dictDirection.dataset, 'nameDirection');
+    const advisors = useSortedArray(facesAcademicAdvisor.datasetModify, 'lastname')
+        .map(({id, lastname, firstname, middleName, birthdate}) => ({id, name: `${lastname} ${firstname} ${middleName}, ${new Date(birthdate).toLocaleDateString()} г.р.`}))
+
+    const dictEnterpriseSorted = useSortedArray(dictEnterprise.dataset, 'name');
+    const faculties = dictEnterpriseSorted.filter(({whatIsIt}) => whatIsIt === 'faculty');
+    const departments = dictEnterpriseSorted.filter(({whatIsIt}) => whatIsIt === 'department');
+
 
     const submitHandle = (data, e = null) => {
         e && e.preventDefault();
@@ -140,40 +187,47 @@ const AspirantFindForm = ({fetch}) => {
     }
 
     const renderBoolean = [
-        <MenuItem value=''><em>пусто</em></MenuItem>,
-        <MenuItem value={true}>да</MenuItem>,
-        <MenuItem value={false}>нет</MenuItem>
+        <MenuItem key='1' value=''><em>пусто</em></MenuItem>,
+        <MenuItem key='2' value={true}>да</MenuItem>,
+        <MenuItem key='3' value={false}>нет</MenuItem>
     ]
 
-    const renderDictEducationForm = dictEducationForm.dataset.map((i) => <MenuItem key={i.id}
-                                                                                   value={i.id}>{i.educationForm} </MenuItem>);
-    renderDictEducationForm.unshift(<MenuItem key='renderDictEducationForm-key' value=''> <em>не выбрано</em>
-    </MenuItem>);
+    const renderDictEducationForm = dictEducationForm.dataset.map((i) =>
+        <MenuItem key={i.id} value={i.id}>{i.educationForm} </MenuItem>);
+    renderDictEducationForm.unshift(
+        <MenuItem key='renderDictEducationForm-key' value=''>
+            <em>не выбрано</em>
+        </MenuItem>);
 
-    const renderDictNameDirection = dictDirection.dataset.map((i) => <MenuItem key={i.id}
-                                                                                   value={i.id}>{i.nameDirection} </MenuItem>);
-    renderDictNameDirection.unshift(<MenuItem key='renderDictEducationForm-key' value=''> <em>не выбрано</em>
-    </MenuItem>);
+    const renderDictDirAndSpec = dictDirAndSpecDatasetSorted.map(({
+                                                                      DirectionalityOrSpecialty: name,
+                                                                      id,
+                                                                      tblDictNameDirectionId
+                                                                  }) =>
+        <MenuItem key={id}
+                  value={id}>{`${name} (${tblDictNameDirectionId ? 'направленность' : 'специальность'})`}</MenuItem>);
+    renderDictDirAndSpec.unshift(
+        <MenuItem key='renderDictDirAndSpec-key' value=''>
+            <em>не выбрано</em>
+        </MenuItem>);
 
     return (
         <form /*onSubmit={handleSubmit(submitHandle)}*/>
-            <Grid
-                container
-                spacing={2}
-            >
-                <Grid item>
-                    <InputBirthdateFioSex
-                        control={control}
-                        errors={errors}
-                        lastname='lastname'
-                        firstname='firstname'
-                        middleName='middleName'
-                        dd='dd'
-                        mm='mm'
-                        yyyy='yyyy'
-                        sex='sex'
-                    />
-                </Grid>
+            <div>
+                <InputBirthdateFioSex
+                    control={control}
+                    errors={errors}
+                    lastname='lastname'
+                    firstname='firstname'
+                    middleName='middleName'
+                    dd='dd'
+                    mm='mm'
+                    yyyy='yyyy'
+                    sex='sex'
+                />
+            </div>
+
+            <Grid className={classes.flexContainer} container spacing={1}>
                 <Grid item>
                     <DropdownList
                         style={{minWidth: "200px"}}
@@ -186,7 +240,7 @@ const AspirantFindForm = ({fetch}) => {
                         renderItem={renderBoolean}
                         error={!!errors.isRecommendation}
                         helperText={errors?.isRecommendation?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
                 <Grid item>
@@ -201,7 +255,7 @@ const AspirantFindForm = ({fetch}) => {
                         renderItem={renderBoolean}
                         error={!!errors.isProtocol}
                         helperText={errors?.isProtocol?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
                 <Grid item>
@@ -216,7 +270,7 @@ const AspirantFindForm = ({fetch}) => {
                         renderItem={renderBoolean}
                         error={!!errors.isAgree}
                         helperText={errors?.isAgree?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
                 <Grid item>
@@ -231,9 +285,12 @@ const AspirantFindForm = ({fetch}) => {
                         renderItem={renderBoolean}
                         error={!!errors.isHeadDepartment}
                         helperText={errors?.isHeadDepartment?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
+            </Grid>
+
+            <Grid container>
                 <Grid item>
                     <InputParsedDate
                         control={control}
@@ -254,7 +311,10 @@ const AspirantFindForm = ({fetch}) => {
                         label='исключен:'
                     />
                 </Grid>
-                <Grid item>
+            </Grid>
+
+            <Grid className={classes.flexContainer} container spacing={1}>
+                <Grid item lg={3}>
                     <Input
                         control={control}
                         name='dissertationTheme'
@@ -265,47 +325,134 @@ const AspirantFindForm = ({fetch}) => {
                         type='search'
                         error={!!errors.dissertationTheme}
                         helperText={errors?.dissertationTheme?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
-                <Grid item>
+                <Grid item lg={3}>
                     <DropdownList
                         style={{minWidth: "200px"}}
                         control={control}
                         name='tblDictEducationFormId'
                         defaultValue=''
                         label='форма обучения'
-                        renderItem={renderDictEducationForm}
+                        items={dictEducationForm.dataset}
+                        itemKey='id'
+                        itemVisibleName='educationForm'
                         error={!!errors.tblDictEducationFormId}
                         helperText={errors?.tblDictEducationFormId?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
-                <Grid item>
+                <Grid item lg={3}>
                     <DropdownList
                         style={{minWidth: "200px"}}
                         control={control}
                         name='tblDictNameDirectionId'
                         defaultValue=''
                         label='направление'
-                        renderItem={renderDictNameDirection}
+                        //renderItem={renderDictNameDirection}
+                        items={directions}
+                        itemKey='id'
+                        //itemValue='id'
+                        itemVisibleName='nameDirection'
                         error={!!errors.tblDictNameDirectionId}
                         helperText={errors?.tblDictNameDirectionId?.message}
-                        //fullWidth
+                        fullWidth
                     />
                 </Grid>
-                <Grid item className={classes.button}>
-                    <Button
-                        //type='submit'
-                        // закрывает окно в случае когда на форме надо найти лицо => закоментил
-                        type='button'
-                        onClick={handleSubmit(submitHandle)}
-                        variant='outlined'
-                        color='primary'>
-                        найти
-                    </Button>
+                <Grid item lg={3}>
+                    <DropdownList
+                        style={{minWidth: "400px"}}
+                        control={control}
+                        name='tblDictDirectionalityAndSpecialtyId'
+                        defaultValue=''
+                        label='направленностьть/специальность'
+                        renderItem={renderDictDirAndSpec}
+                        error={!!errors.tblDictDirectionalityAndSpecialtyId}
+                        helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item lg={3}>
+                    <DropdownList
+                        style={{minWidth: "200px"}}
+                        control={control}
+                        name='departmentId'
+                        defaultValue=''
+                        label='кафедра'
+                        //renderItem={renderDepartment}
+                        items={departments}
+                        itemKey='id'
+                        //itemValue='id'
+                        itemVisibleName='name'
+                        error={!!errors.departmentId}
+                        helperText={errors?.departmentId?.message}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item lg={3}>
+                    <DropdownList
+                        style={{minWidth: "200px"}}
+                        control={control}
+                        name='facultyId'
+                        defaultValue=''
+                        label='факультет'
+                        //renderItem={renderFaculty}
+                        items={faculties}
+                        itemKey='id'
+                        //itemValue='id'
+                        itemVisibleName='name'
+                        error={!!errors.facultyId}
+                        helperText={errors?.facultyId?.message}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item lg={3}>
+                    <DropdownList
+                        style={{minWidth: "200px"}}
+                        control={control}
+                        name='tblDictSubjectId'
+                        defaultValue=''
+                        label='ин. яз'
+                        items={subjects}
+                        itemKey='id'
+                        //itemValue='id'
+                        itemVisibleName='subject'
+                        error={!!errors.tblDictSubjectId}
+                        helperText={errors?.tblDictSubjectId?.message}
+                        fullWidth
+                    />
+                </Grid>
+                <Grid item lg={3}>
+                    <DropdownList
+                        style={{minWidth: "300px"}}
+                        control={control}
+                        name='tblAcademicAdvisorId'
+                        defaultValue=''
+                        label='научный руководитель'
+                        items={advisors}
+                        itemKey='id'
+                        //itemValue='id'
+                        itemVisibleName='name'
+                        error={!!errors.tblAcademicAdvisorId}
+                        helperText={errors?.tblAcademicAdvisorId?.message}
+                        fullWidth
+                    />
                 </Grid>
             </Grid>
+
+            <div className={classes.button}>
+                <Button
+                    //type='submit'
+                    // закрывает окно в случае когда на форме надо найти лицо => закоментил
+                    type='button'
+                    onClick={handleSubmit(submitHandle)}
+                    variant='contained'
+                    size='small'
+                    color='primary'>
+                    найти
+                </Button>
+            </div>
         </form>
     );
 };

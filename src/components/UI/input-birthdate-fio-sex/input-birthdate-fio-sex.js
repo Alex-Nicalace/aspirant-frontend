@@ -1,13 +1,13 @@
 import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import InputParsedDate from "../input-parsed-date";
-import {DropdownList, Input} from "../../controls";
+import {DropdownList, Input} from "../../controls/react-hook-form";
 import MenuItem from "@material-ui/core/MenuItem";
 
 const renderSex = [
-    <MenuItem value=''><em>пусто</em></MenuItem>,
-    <MenuItem value={true}>мужской</MenuItem>,
-    <MenuItem value={false}>женский</MenuItem>
+    <MenuItem key={1} value=''><em>пусто</em></MenuItem>,
+    <MenuItem key={2} value={true}>мужской</MenuItem>,
+    <MenuItem key={3} value={false}>женский</MenuItem>
 ]
 
 const InputBirthdateFioSex = ({control, errors, dd, mm, yyyy, lastname, firstname, middleName, sex}) => {

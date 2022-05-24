@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import {Input} from "../../controls";
+import {Input} from "../../controls/react-hook-form";
 
 const useStyles = makeStyles(theme => ({
     date: {
