@@ -23,6 +23,9 @@ import Typography from "@material-ui/core/Typography";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FaceOrders from "../face-orders";
 import FaceAspirant from "../face-aspirant";
+import FacePhoto from "../face-photo";
+import Grid from "@material-ui/core/Grid";
+import FaceAspirantAcadem from "../face-aspirant-academ";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -64,17 +67,29 @@ const tabs = [
     {
         id: 0,
         label: 'данные о лице',
-        content: (faceId) => <>
-            <FrameWithTitle head='хронология ФИО'>
-                <FaceNames faceId={faceId}/>
-            </FrameWithTitle>
-            <FrameWithTitle head='проживание'>
-                <FaceResidences faceId={faceId}/>
-            </FrameWithTitle>
-            <FrameWithTitle head='контакты'>
-                <FaceContacts faceId={faceId}/>
-            </FrameWithTitle>
-        </>
+        content: (faceId) =>
+            <Grid container>
+                <Grid item>
+                    <FrameWithTitle head='Фото'>
+                        <FacePhoto faceId={faceId}/>
+                    </FrameWithTitle>
+                </Grid>
+                <Grid style={{flexGrow: '1'}} item>
+                    <FrameWithTitle head='хронология ФИО'>
+                        <FaceNames faceId={faceId}/>
+                    </FrameWithTitle>
+                </Grid>
+                <Grid style={{flexGrow: '1'}} item>
+                    <FrameWithTitle head='проживание'>
+                        <FaceResidences faceId={faceId}/>
+                    </FrameWithTitle>
+                </Grid>
+                <Grid style={{flexGrow: '1'}} item>
+                    <FrameWithTitle head='контакты'>
+                        <FaceContacts faceId={faceId}/>
+                    </FrameWithTitle>
+                </Grid>
+            </Grid>
     },
     {
         id: 1,
@@ -82,6 +97,9 @@ const tabs = [
         content: (faceId) => <>
             <FrameWithTitle head='аспирант'>
                 <FaceAspirant faceId={faceId}/>
+            </FrameWithTitle>
+            <FrameWithTitle head='академический отпуск'>
+                <FaceAspirantAcadem faceId={faceId}/>
             </FrameWithTitle>
         </>
     },
@@ -108,7 +126,7 @@ const tabs = [
     },
     {
         id: 4,
-        label: 'трудавая деятельность',
+        label: 'трудовая деятельность',
         content: (faceId) => <>
             <FrameWithTitle head='образование'>
                 <FaceWorks faceId={faceId}/>
