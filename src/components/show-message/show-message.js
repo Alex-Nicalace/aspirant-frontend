@@ -6,7 +6,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
-const ShowMessage = ({open, title, message, handleClose}) => {
+/*const buttons = [
+    {label: 'Ok', onClick: () => {}, color: 'primary'}
+]*/
+
+const ShowMessage = ({open, title, message, handleClose, buttons}) => {
     return (
         <Dialog
             open={open}
@@ -21,9 +25,11 @@ const ShowMessage = ({open, title, message, handleClose}) => {
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                    OK
-                </Button>
+                {buttons.map(({label, onClick, color}) => (
+                    <Button onClick={onClick} color={color}>
+                        {label}
+                    </Button>
+                ))}
             </DialogActions>
         </Dialog>
     );
