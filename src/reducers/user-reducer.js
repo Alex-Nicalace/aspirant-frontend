@@ -8,33 +8,29 @@ const userReducer = (state, action) => {
     if (state === undefined) {
         return {
             data: null,
-            isLoading: false,
+            isLoading: true,
             error: null,
-            isAuth: true,
         }
-    };
+    }
 
     switch (action.type) {
         case FETCH_USER_ACTION:
             return {
-                data: action.payload.data,
+                data: action.payload,
                 isLoading: false,
                 error: null,
-                isAuth: true,
             }
         case REQUEST_USER_ACTION:
             return {
                 data: null,
                 isLoading: true,
                 error: null,
-                isAuth: false,
             }
         case FAILURE_USER_ACTION:
             return {
                 data: null,
                 isLoading: false,
                 error: action.payload,
-                isAuth: false,
             }
         default:
             return state
