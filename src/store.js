@@ -35,9 +35,13 @@ import dictDirectionalityAndSpecialtyReducer from "./reducers/dict-directionalit
 import aspirantOrdersReducer from "./reducers/face-aspirant-orders-reducers";
 import facesAspirantsReducer from "./reducers/faces-aspirants-reducers";
 import aspirantsByAdvisorReducer from "./reducers/faces-aspirants-by-advisor-reducers";
+import facePhotoReducer from "./reducers/face-photo-reducers";
+import faceAspirantAcademReducer from "./reducers/face-aspirant-academ-reducers";
+import usersListReducer from "./reducers/users-list-reducers";
 
 const reducer = combineReducers({
     user: userReducer,
+    usersList: usersListReducer,
 
     messages: messagesReducer,
 
@@ -70,6 +74,8 @@ const reducer = combineReducers({
     faceBusinessTrip: faceBusinessTripReducer,
     faceExaminations: faceExaminationsReducer,
     faceAspirantOrders: aspirantOrdersReducer,
+    facePhoto: facePhotoReducer,
+    faceAspirantAcadem: faceAspirantAcademReducer,
 
     orders: ordersReducer,
     orderFaces: orderFacesReducer,
