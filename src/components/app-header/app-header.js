@@ -7,9 +7,11 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from '@material-ui/icons/Menu';
 import {makeStyles} from "@material-ui/core/styles";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import MenuItem from "@material-ui/core/MenuItem";
 import {CssBaseline} from "@material-ui/core";
+import AccountIcon from "@material-ui/icons/AccountCircle";
+import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
+import Button from "@material-ui/core/Button";
 
 
 const drawerWidth = 240;
@@ -36,10 +38,28 @@ const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: 36,
     },
+    title: {
+        flexGrow: 1,
+    }
 }));
 
 const AppHeader = ({toggleAppDrawer, isVisibleAppDrawer}) => {
     const classes = useStyles();
+    const [anchorEl, setAnchorEl] = useState(null);
+    const {user: {logout, usersData, isAuth}} = useAspirantApiContext()
+    const open = Boolean(anchorEl);
+    const handleMenu = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogOut = () => {
+        logout();
+        handleClose();
+    }
 
     return (
         <div className={classes.root}>
@@ -68,6 +88,31 @@ const AppHeader = ({toggleAppDrawer, isVisibleAppDrawer}) => {
                     >
                         Аспирант
                     </Typography>
+                    {isAuth &&
+                    <Button
+                        color="inherit"
+                        onClick={handleMenu}
+                        startIcon={<AccountIcon/>}
+                    >
+                        {usersData?.login}
+                    </Button>}
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleLogOut}>Выход</MenuItem>
+                    </Menu>
                 </Toolbar>
             </AppBar>
         </div>
