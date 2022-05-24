@@ -11,6 +11,8 @@ import {
 } from "../utils/consts";
 import {setDisappearingMessage} from "./messages-actions";
 import {refreshRecordFaceAspirant} from "./face-aspirant-actions";
+import {refreshRecordFacesAspirants} from "./faces-aspirants-actions";
+import {refreshRecordAspirantAcadem} from "./face-aspirant-academ-actions";
 //import {refreshRecordFaces} from "./faces-list-actions";
 
 export const aspirantOrdersLoaded = (data) => {
@@ -65,42 +67,49 @@ export const fetchAspirantOrders = (faceAspirantId) => async (api, dispatch) => 
     }
 }
 
-export const insertAspirantOrders = (rec) => async ({aspirantOrderApi, aspirantApi}, dispatch) => {
+export const insertAspirantOrders = (rec) => async ({aspirantOrderApi, aspirantApi, aspirantAcademApi}, dispatch) => {
     dispatch(aspirantOrdersRequested());
     try {
         const response = await aspirantOrderApi.post(rec);
         dispatch(aspirantOrdersInserted(response));
         dispatch(setDisappearingMessage('запись успешно добавлена', SUCCESS));
-        // фамилия добавлена теперь надо обновить запись из свобной таблицы
-        await refreshRecordFaceAspirant(rec.tblFaceAspirantId)(aspirantApi, dispatch);
+        // запись добавлена теперь надо обновить запис
+        rec.tblFaceAspirantId && await refreshRecordFaceAspirant(rec.tblFaceAspirantId)(aspirantApi, dispatch);
+        rec.tblFaceAspirantId && await refreshRecordFacesAspirants(rec.tblFaceAspirantId)(aspirantApi, dispatch);
+        rec.tblFaceAspirantAcademId && await refreshRecordAspirantAcadem(rec.tblFaceAspirantAcademId)(aspirantAcademApi, dispatch);
+        return response;
     } catch (e) {
         dispatch(aspirantOrdersError(e.response));
         dispatch(setDisappearingMessage(`запись не добавлена... ${e.response.data.message}`, ERROR));
     }
 }
 
-export const deleteAspirantOrders = (id) => async ({aspirantOrderApi, aspirantApi}, dispatch) => {
+export const deleteAspirantOrders = (id) => async ({aspirantOrderApi, aspirantApi, aspirantAcademApi}, dispatch) => {
     dispatch(aspirantOrdersRequested());
     try {
         const deleted = await aspirantOrderApi.delete(id);
         dispatch(aspirantOrdersDeleted(id));
         dispatch(setDisappearingMessage('запись удалена', WARNING));
         // обновить зависящие таблицы
-        await refreshRecordFaceAspirant(deleted.data.tblFaceAspirantId)(aspirantApi, dispatch);
+        deleted.data?.tblFaceAspirantId && await refreshRecordFaceAspirant(deleted.data.tblFaceAspirantId)(aspirantApi, dispatch);
+        deleted.data?.tblFaceAspirantId && await refreshRecordFacesAspirants(deleted.data.tblFaceAspirantId)(aspirantApi, dispatch);
+        deleted.data?.tblFaceAspirantAcademId && await refreshRecordAspirantAcadem(deleted.data?.tblFaceAspirantAcademId)(aspirantAcademApi, dispatch);
     } catch (e) {
         dispatch(aspirantOrdersError(e.response));
         dispatch(setDisappearingMessage(`запись не удалена... ${e.response.data.message}`, ERROR));
     }
 }
 
-export const updateAspirantOrders = (rec) => async ({aspirantOrderApi, aspirantApi}, dispatch) => {
+export const updateAspirantOrders = (rec) => async ({aspirantOrderApi, aspirantApi, aspirantAcademApi}, dispatch) => {
     dispatch(aspirantOrdersRequested());
     try {
         const response = await aspirantOrderApi.put(rec);
         dispatch(aspirantOrdersUpdated(response));
         dispatch(setDisappearingMessage('запись успешно обновлена', SUCCESS));
         // обновить зависящие таблицы
-        await refreshRecordFaceAspirant(rec.tblFaceAspirantId)(aspirantApi, dispatch);
+        rec.tblFaceAspirantId && await refreshRecordFaceAspirant(rec.tblFaceAspirantId)(aspirantApi, dispatch);
+        rec.tblFaceAspirantId && await refreshRecordFacesAspirants(rec.tblFaceAspirantId)(aspirantApi, dispatch);
+        rec.tblFaceAspirantAcademId && await refreshRecordAspirantAcadem(rec.tblFaceAspirantAcademId)(aspirantAcademApi, dispatch);
     } catch (e) {
         dispatch(aspirantOrdersError(e.response));
         dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));

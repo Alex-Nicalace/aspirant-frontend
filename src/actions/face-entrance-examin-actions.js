@@ -53,10 +53,10 @@ export const faceEntranceExaminUpdated = (data) => {
     }
 }
 
-export const fetchFaceEntranceExamin = (faceId, isCandidateMin) => async (api, dispatch) => {
+export const fetchFaceEntranceExamin = (faceId) => async (api, dispatch) => {
     dispatch(faceEntranceExaminRequested());
     try {
-        const response = await api.getAllOneFace(faceId, isCandidateMin);
+        const response = await api.getAllOneFace(faceId);
         response.datasetDependsOnId = faceId;
         dispatch(faceEntranceExaminLoaded(response));
     } catch (e) {
@@ -81,7 +81,7 @@ export const insertFaceEntranceExamin = (rec) => async ({faceEntranceExaminAPI, 
 export const deleteFaceEntranceExamin = (id) => async ({faceEntranceExaminAPI, facesAPI}, dispatch) => {
     dispatch(faceEntranceExaminRequested());
     try {
-        const deleted = await faceEntranceExaminAPI.delete(id);
+        // const deleted = await faceEntranceExaminAPI.delete(id);
         dispatch(faceEntranceExaminDeleted(id));
         dispatch(setDisappearingMessage('запись удалена', WARNING));
         // фамилия добавлена теперь надо обновить запись из свобной таблицы

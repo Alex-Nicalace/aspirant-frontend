@@ -24,9 +24,9 @@ export const userError = (error) => {
     }
 }
 
-export const fetchUser = (api, dispatch) => {
+export const fetchLogin = (params, api, dispatch) => {
     dispatch(userRequested());
-    api.checkUser()
+    api.login(params)
         .then(response => {
             dispatch(userLoaded(response));
         })
@@ -34,4 +34,21 @@ export const fetchUser = (api, dispatch) => {
             dispatch(userError(error.response.data))
 
         })
+}
+
+export const fetchAuth = (api, dispatch) => {
+    dispatch(userRequested());
+    api.auth()
+        .then(response => {
+            dispatch(userLoaded(response));
+        })
+        .catch(error => {
+            dispatch(userError(error.response.data))
+
+        })
+}
+
+export const logout = (dispatch) => {
+    dispatch(userLoaded(null));
+    localStorage.clear();
 }

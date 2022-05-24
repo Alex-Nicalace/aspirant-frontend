@@ -79,7 +79,7 @@ export const insertFacesAspirants = (rec) => async (facesAspirantsAPI, dispatch)
 export const deleteFacesAspirants = (id) => async (facesAspirantsAPI, dispatch) => {
     dispatch(facesAspirantsRequested());
     try {
-        const deleted = await facesAspirantsAPI.delete(id);
+        // const deleted = await facesAspirantsAPI.delete(id);
         dispatch(facesAspirantsDeleted(id));
         dispatch(setDisappearingMessage('запись удалена', WARNING));
         // фамилия добавлена теперь надо обновить запись из свобной таблицы
@@ -101,5 +101,17 @@ export const updateFacesAspirants = (rec) => async (facesAspirantsAPI, dispatch)
     } catch (e) {
         dispatch(facesAspirantsError(e.response));
         dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));
+    }
+}
+
+export const refreshRecordFacesAspirants  = (id) => async (api, dispatch) => {
+    dispatch(facesAspirantsRequested()); 
+    try {
+        const response = await api.getOne(id);
+        dispatch(facesAspirantsUpdated(response));
+        //dispatch(setDisappearingMessage('запись успешно обновлена', SUCCESS));
+    } catch (e) {
+        dispatch(facesAspirantsError(e.response));
+        //dispatch(setDisappearingMessage(`запись не обновлена ${e.response.data.message}`, ERROR));
     }
 }

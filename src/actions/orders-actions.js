@@ -52,17 +52,10 @@ export const ordersUpdated = (data) => {
     }
 }
 
-// export const ordersRecordRefreshed = (data) => {
-//     return {
-//         type: REF_ORDERS_ACTION,
-//         payload: data,
-//     }
-// }
-
-export const fetchOrders = async (api, dispatch) => {
+export const fetchOrders = async (params, api, dispatch) => {
     dispatch(ordersRequested());
     try{
-        const response = await api.getAll();
+        const response = await api.getAll(params );
         dispatch(ordersLoaded(response));
     }catch (e) {
         dispatch(ordersError(e.response))
