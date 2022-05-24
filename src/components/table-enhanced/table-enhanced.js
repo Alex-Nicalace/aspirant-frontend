@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -20,12 +20,19 @@ import {NavLink} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import './table-enhanced.scss';
+import {BASE_URL} from "../../utils/consts";
+import IndicatorNoData from "../UI/indicator-no-data";
+import ListVisibleColumns from "./list-visible-columns";
+import DotsVertIcon from '@material-ui/icons/MoreVert'
+import Grid from "@material-ui/core/Grid";
+import MenuPopupColumns from "./menu-popup-columns";
 
 const useStyles1 = makeStyles((theme) => ({
     root: {
         flexShrink: 0,
         marginLeft: theme.spacing(2.5),
     },
+
 }));
 
 function descendingComparator(a, b, orderBy) {
@@ -53,15 +60,6 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map((el) => el[0]);
 }
-
-/*const headCells = [
-    {id: 'id_car', numeric: true, disablePadding: false, key: true},
-    {id: 'num_car', numeric: false, disablePadding: false, label: '№ автомобиля'},
-    {id: 'name_m', numeric: false, disablePadding: false, label: 'марка'},
-    {id: 'cvet', numeric: false, disablePadding: false, label: 'цвет'},
-    {id: 'type_auto', numeric: false, disablePadding: false, label: 'тип'},
-    {id: 'dop_info', numeric: false, disablePadding: false, label: 'доп. инф.'},
-];*/
 
 function TablePaginationActions({count, page, rowsPerPage, onPageChange}) {
     const classes = useStyles1();
@@ -113,7 +111,7 @@ function TablePaginationActions({count, page, rowsPerPage, onPageChange}) {
     );
 }
 
-function EnhancedTableHead({classes, order, orderBy, onRequestSort, headCells}) {
+function EnhancedTableHead({classes, order, orderBy, onRequestSort, headCells, showPopup}) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -125,16 +123,25 @@ function EnhancedTableHead({classes, order, orderBy, onRequestSort, headCells}) 
                     <TableCell
                         key={headCell.id}
                         align={headCell.numeric ? 'right' : 'left'}
-                        padding={headCell.disablePadding ? 'none' : 'normal'}
+                        padding={headCell.padding}
                         //sortDirection={orderBy === headCell.id ? order : false}
                     >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                        </TableSortLabel>
+                        <Grid container wrap='nowrap' alignItems='baseline'>
+                            <Grid item>
+                                <TableSortLabel
+                                    active={orderBy === headCell.id}
+                                    direction={orderBy === headCell.id ? order : 'asc'}
+                                    onClick={createSortHandler(headCell.id)}
+                                >
+                                    {headCell.label}
+                                </TableSortLabel>
+                            </Grid>
+                            <Grid item className={classes.dotIcon}>
+                                <IconButton size='small' onClick={(e) => showPopup(e, headCell.id)} className='test'>
+                                    <DotsVertIcon fontSize='small'/>
+                                </IconButton>
+                            </Grid>
+                        </Grid>
                     </TableCell>
                 ))}
             </TableRow>
@@ -154,6 +161,8 @@ function formatingOnType(value, dataType) {
             return value && new Date(value).toLocaleString()
         case 'boolean':
             return <Checkbox size='small' color='default' checked={value}/> //value && 'да'
+        case 'image':
+            return value && <img src={BASE_URL + value} alt="фото" style={{width: '100px'}}/>
         default:
             return value;
     }
@@ -161,6 +170,12 @@ function formatingOnType(value, dataType) {
 }
 
 function formatingCell(row, column) {
+    if (column.Component) {
+        const params = {};
+        column.componentParams.forEach(({nameParam}) => params[nameParam] = row[nameParam]);
+        return column.Component(params)
+    }
+
     const value = formatingOnType(row[column.id], column.dataType);
 
     function joinLink() {
@@ -170,11 +185,9 @@ function formatingCell(row, column) {
                 {value: 'AddrTreeID', isField: true},
             ]*/
 
-        const res = column.linkDivided.reduce((prevValue, item) => {
+        return column.linkDivided.reduce((prevValue, item) => {
             return `${prevValue}${item.isField ? row[item.value] : item.value}`
-        }, '')
-
-        return res;
+        }, '');
 
     }
 
@@ -194,7 +207,6 @@ function formatingCell(row, column) {
 
 export default function TableEnhanced({
                                           dataset,
-                                          error,
                                           isLoading,
                                           headCells,
                                           maxHeight = null,
@@ -203,6 +215,7 @@ export default function TableEnhanced({
                                           },
                                           selectedKey,
                                           masterFieldName,
+                                          tableName
                                       }) {
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -234,6 +247,14 @@ export default function TableEnhanced({
             top: 20,
             width: 1,
         },
+        dotIcon: {
+            // //visibility: 'hidden',
+            // opacity: 0,
+            // '&:hover': {
+            //     //visibility: 'visible',
+            //     opacity: 1,
+            // }
+        }
     }));
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
@@ -241,9 +262,34 @@ export default function TableEnhanced({
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(15);
     const keyField = headCells.find(item => item.key).id;
-    const visibleFields = headCells.filter(item => item.label);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [hiddenColumns, setHiddenColumns] = useState([]);
+    const [openListVisibleColumns, setOpenListVisibleColumns] = useState(false);
+    const [openPopupMenuColumn, setOpenPopupMenuColumn] = useState(false);
+    const elTable = useRef(null);
+    const [pressedColumn, setPressedColumn] = useState(null);
 
-    // console.log(maxHeight);
+    const columns = headCells.filter(({label}) => label);
+    const visibleColumns = columns.filter(({id}) => !hiddenColumns.includes(id));
+
+    useEffect(() => {
+        if (tableName) {
+            const arr = JSON.parse(localStorage.getItem(tableName))
+            if (arr) {
+                setHiddenColumns([...arr]);
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        if (tableName) {
+            const serialObj = JSON.stringify(hiddenColumns);
+            localStorage.setItem(tableName, serialObj);
+        }
+    }, [hiddenColumns])
+
+    //const open = Boolean(anchorEl);
+    //const id = open ? 'popover-list-columns' : undefined;
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -260,9 +306,60 @@ export default function TableEnhanced({
         setPage(0);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, dataset.length - page * rowsPerPage);
+    const closeListColumnsHandle = () => {
+        // закрыть окно редактирвания
+        setAnchorEl(null);
+        setOpenListVisibleColumns(false);
+    }
+
+    const openListColumnsHandle = () => {
+        //setAnchorEl(e.currentTarget);
+        setOpenPopupMenuColumn(false);
+        setOpenListVisibleColumns(true);
+    }
+
+    const toggleHideColumnHandle = (id) => {
+        setHiddenColumns(prev => {
+            const colExists = prev.indexOf(id);
+            if (colExists > -1) {
+                return [...prev.filter(value => value !== id)]
+            } else {
+                return [...prev, id]
+            }
+        })
+    }
+
+    const clearListHiddenColumnHandle = () => {
+        setHiddenColumns([]);
+    }
+
+    const hideAllColumnsHandle = () => {
+        setHiddenColumns([...columns.map(({id}) => id)]);
+    }
+
+    const openPopupMenuColumnHandle = (e, id) => {
+        setAnchorEl(e.currentTarget);
+        setOpenPopupMenuColumn(true);
+        setPressedColumn(id);
+    }
+
+    const closePopupMenuColumnHandle = () => {
+        setOpenPopupMenuColumn(false);
+    }
+
+    const hideColumnHandle = () => {
+        setHiddenColumns([...hiddenColumns, pressedColumn]);
+        setAnchorEl(null);
+    }
+
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, dataset.length - page * rowsPerPage);
 
     masterFieldName = masterFieldName || keyField;
+
+    if (!dataset.length)
+        return (
+            <IndicatorNoData/>
+        )
 
     return (
         // <div className={classes.root}>
@@ -278,6 +375,7 @@ export default function TableEnhanced({
                     aria-labelledby="tableTitle"
                     size='small'
                     aria-label="enhanced table"
+                    //padding='none'
                 >
                     <EnhancedTableHead
                         classes={classes}
@@ -288,13 +386,15 @@ export default function TableEnhanced({
                         }}
                         onRequestSort={handleRequestSort}
                         rowCount={dataset.length}
-                        headCells={headCells}
+                        headCells={visibleColumns}
+                        showPopup={openPopupMenuColumnHandle}
                     />
+                    <div ref={elTable} />
                     {/*<TableBody>*/}
-                        <TransitionGroup component='tbody'>
+                    <TransitionGroup component='tbody'>
                         {stableSort(dataset, getComparator(order, orderBy))
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, index) => {
+                            .map((row) => {
                                 return (
                                     <CSSTransition
                                         key={row[keyField]}
@@ -303,33 +403,33 @@ export default function TableEnhanced({
 
                                     >
 
-                                    <TableRow component='tr'
-                                        hover
-                                        tabIndex={-1}
-                                        //key={row[keyField]}
-                                        onClick={() => onGetKeyValue(row[masterFieldName])}
-                                        selected={selectedKey && row[masterFieldName] === selectedKey}
-                                        style={{cursor: "pointer"}}
-                                    >
-                                        {visibleFields.map((item, index) =>
-                                            <TableCell component='td'
-                                                key={item.id}
-                                                onClick={item?.onClick}
-                                                padding={item?.padding}
-                                                style={item?.style}
-                                            >
-                                                <div>{formatingCell(row, item)}</div>
-                                            </TableCell>)}
-                                    </TableRow>
+                                        <TableRow component='tr'
+                                                  hover
+                                                  tabIndex={-1}
+                                            //key={row[keyField]}
+                                                  onClick={() => onGetKeyValue(row[masterFieldName])}
+                                                  selected={selectedKey && row[masterFieldName] === selectedKey}
+                                                  style={{cursor: "pointer"}}
+                                        >
+                                            {visibleColumns.map((item) =>
+                                                <TableCell component='td'
+                                                           key={item.id}
+                                                           onClick={item?.onClick}
+                                                           padding={item?.padding}
+                                                           style={item?.style}
+                                                >
+                                                    <div>{formatingCell(row, item)}</div>
+                                                </TableCell>)}
+                                        </TableRow>
                                     </CSSTransition>
                                 );
                             })}
-                        </TransitionGroup>
-                        {/*{emptyRows > 0 && (*/}
-                        {/*    <TableRow style={{height: 33 * emptyRows}}>*/}
-                        {/*        <TableCell colSpan={5}/>*/}
-                        {/*    </TableRow>*/}
-                        {/*)}*/}
+                    </TransitionGroup>
+                    {/*{emptyRows > 0 && (*/}
+                    {/*    <TableRow style={{height: 33 * emptyRows}}>*/}
+                    {/*        <TableCell colSpan={5}/>*/}
+                    {/*    </TableRow>*/}
+                    {/*)}*/}
                     {/*</TableBody>*/}
                 </Table>
             </TableContainer>
@@ -347,6 +447,26 @@ export default function TableEnhanced({
                     inputProps: {'aria-label': 'rows per page'},
                     native: true,
                 }}
+            />
+
+            <MenuPopupColumns
+                anchorEl={anchorEl}
+                open={openPopupMenuColumn && anchorEl}
+                closePopupMenuColumn={closePopupMenuColumnHandle}
+                openListColumns={openListColumnsHandle}
+                hideColumn={hideColumnHandle}
+            />
+
+            <ListVisibleColumns
+                id={'list-visible-pressedColumn'}
+                open={openListVisibleColumns && anchorEl}
+                anchorEl={elTable.current}
+                close={closeListColumnsHandle}
+                columns={columns}
+                hiddenColumns={hiddenColumns}
+                toggleHideColumn={toggleHideColumnHandle}
+                clearListHiddenColumn={clearListHiddenColumnHandle}
+                hideAllColumns={hideAllColumnsHandle}
             />
 
         </Paper>
