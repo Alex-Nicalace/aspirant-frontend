@@ -2,7 +2,7 @@ import {
     ACADEMIC_ADVISOR_CARD_ROUTE,
     ACADEMIC_ADVISOR_LIST_ROUTE,
     ACADEMIC_ADVISOR_ROUTE, ASPIRANT_CARD_ROUTE,
-    ASPIRANT_ROUTE, ASPIRANTS_LIST_ROUTE, ASPIRANTS_ROUTE, DICTIONARIES_ADDRESS,
+    ASPIRANTS_LIST_ROUTE, ASPIRANTS_ROUTE, DICTIONARIES_ADDRESS,
     DICTIONARIES_CERTIFICATION_RESULT_ROUTE,
     DICTIONARIES_DIRECTION_ROUTE,
     DICTIONARIES_EDUCATION_FORM_ROUTE,
@@ -16,18 +16,17 @@ import {
     FACES_LIST_ROUTE,
     FACES_ROUTE,
     LOGIN_ROUTE,
-    ORDERS_ROUTE,
+    ORDERS_ROUTE, USERS_LIST_ROUTE,
 } from "./utils/consts";
-import Aspirant from "./page/aspirant";
 import Auth from "./page/auth";
 import Dictionaries from "./components/dictionaries";
-import Home from "@material-ui/icons/Home";
 import React from "react";
 import DictionaryIcon from '@material-ui/icons/FontDownload';
 import FaceIcon from "@material-ui/icons/Face";
 import OrderIcon from "@material-ui/icons/Description";
 import AcademicAdvisorIcon from "@material-ui/icons/SupervisorAccount";
 import AspirantIcon from "@material-ui/icons/School";
+import UserIcon from "@material-ui/icons/AccountCircle";
 import DictDoc from "./components/dict-doc";
 import DictEducationLevel from "./components/dict-education-level";
 import DictContactType from "./components/dict-contact-type/dict-contact-type";
@@ -45,16 +44,17 @@ import AspirantRoutes from "./components/aspirant-routes";
 import AcademicAdvisorRoutes from "./components/academic-advisor-routes";
 import AcademicAdvisorAndAspirants from "./components/academic-advisor-and-aspirants";
 import DictAddress from "./components/dict-address";
+import UsersList from "./components/users-list";
 
 // список маршрутов для авторизированных пользователей
 export const authRoutes = [
-    {
-        path: ASPIRANT_ROUTE,
-        render: () => <Aspirant/>,
-        exact: true,
-        label: 'главная',
-        icon: <Home />
-    },
+    // {
+    //     path: ASPIRANT_ROUTE,
+    //     render: () => <Aspirant/>,
+    //     exact: true,
+    //     label: 'главная',
+    //     icon: <Home />
+    // },
     {
         path: FACES_ROUTE,
         render: () => <FacesRoutes />,
@@ -90,6 +90,14 @@ export const authRoutes = [
         exact: false,
         label: 'справочники',
         icon: <DictionaryIcon />
+    },
+    {
+        path: USERS_LIST_ROUTE,
+        render: () => <UsersList />,
+        exact: false,
+        label: 'пользователи',
+        icon: <UserIcon />,
+        isAdmin: true,
     },
 ];
 
