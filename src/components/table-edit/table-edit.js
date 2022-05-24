@@ -1,27 +1,17 @@
 import React, {useEffect, useState} from "react";
 import TableEnhanced from "../table-enhanced";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import ButtonsPanel from "../buttons-panel";
-import Popover from "@material-ui/core/Popover";
 import DialogAlert from "../dialog-alert";
 import ErrorIndicator from "../error-indicator";
-import {makeStyles} from "@material-ui/core/styles";
-
-// const headCells = [
-//     {id: 'id', disablePadding: false, key: true},
-//     {id: 'document', disablePadding: false, label: 'документ'},
-// ];
-
-const useStyles = makeStyles(theme => ({
-    popupContent: {
-        margin: theme.spacing(2)
-    },
-}));
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 
 const TableEdit = ({
                        headCells,
-                       dataset, isLoading, error,
-                       fetch = () => {},
+                       dataset,
+                       error,
+                       fetch = () => {
+                       },
                        deleteRec,
                        FormEdit,
                        initialOrderBy,
@@ -29,17 +19,16 @@ const TableEdit = ({
                        },
                        valuesToState, // какието переменные которые нужно вставить при добавлении новых записей
                        currentRecInitial,
-                       maxHeight
+                       maxHeight,
+                       tableName
                    }) => {
 
-    const classes = useStyles();
     const [modeEdit, setModeEdit] = useState(null)
     const [currentRec, setCurrentRec] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [isShowDialog, setIsShowDialog] = useState(false);
 
     const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
 
     useEffect(() => {
         setCurrentRec(currentRecInitial)
@@ -90,13 +79,13 @@ const TableEdit = ({
         setIsShowDialog(false);
     };
 
-    const handleSetCurrentRec= (id) => {
+    const handleSetCurrentRec = (id) => {
         setCurrentRec(id);
         onGetKeyValue(id)
     }
 
     if (error)
-        return <ErrorIndicator error={error}  />
+        return <ErrorIndicator error={error}/>
 
     // if (isLoading)
     //     return <CircularProgress/>
@@ -116,6 +105,7 @@ const TableEdit = ({
                 onGetKeyValue={handleSetCurrentRec}
                 selectedKey={currentRec}
                 maxHeight={maxHeight}
+                tableName={tableName}
             />
             <DialogAlert
                 message='Вы действительно хотите удалить запись?'
@@ -125,30 +115,16 @@ const TableEdit = ({
                 handleYes={deleteRecHandle}
             />
 
-            <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                //onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                }}
-            >
-                <div className={classes.popupContent}>
+            <Dialog open={open} aria-labelledby="form-dialog-title">
+                <DialogContent>
                     <FormEdit
                         closeEdit={closeEditHandle}
                         modeEdit={modeEdit}
                         currentRec={currentRec}
                         valuesToState={valuesToState}
                     />
-                </div>
-            </Popover>
-
+                </DialogContent>
+            </Dialog>
 
 
         </>
