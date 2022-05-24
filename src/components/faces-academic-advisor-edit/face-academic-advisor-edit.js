@@ -4,7 +4,7 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import FormWrapField from "../form-wrap-field";
-import ChoiseFaceFromTable from "../controls/choise-face-from-table";
+import ChoiseFaceFromTable from "../controls/react-hook-form/choise-face-from-table";
 
 const schema = yup.object().shape({
     tblFaceId: yup

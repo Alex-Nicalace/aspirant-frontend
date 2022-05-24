@@ -13,21 +13,21 @@ const headCells = [
 const FaceEntranceExamin = ({faceId, isCandidateMin}) => {
     const {
         faceEntranceExamin: {
-            dataset, isLoading, error,
+            entranceExaminDataset, candidateMinDataset, isLoading, error,
             fetch,
             deleteRec,
         },
     } = useAspirantApiContext();
 
     const fetchForCurrentId = () => {
-        fetch(faceId, isCandidateMin);
+        fetch(faceId);
     }
 
     return (
         <TableEdit
             headCells={headCells}
             isLoading={isLoading}
-            dataset={dataset}
+            dataset={isCandidateMin ? candidateMinDataset : entranceExaminDataset}
             error={error}
             deleteRec={deleteRec}
             fetch={fetchForCurrentId}

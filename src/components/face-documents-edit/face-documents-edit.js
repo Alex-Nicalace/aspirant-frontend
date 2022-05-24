@@ -4,7 +4,7 @@ import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-ap
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import FormWrapField from "../form-wrap-field";
-import {Input, DropdownList, InputDate} from "../controls";
+import {Input, DropdownList, InputDate} from "../controls/react-hook-form";
 import * as yup from "yup";
 
 const schema = yup.object().shape({

@@ -4,8 +4,8 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import FormWrapField from "../form-wrap-field";
-import {Input} from "../controls";
-import ChoiseOrderFromTable from "../controls/choise-order-from-table";
+import {Input} from "../controls/react-hook-form";
+import ChoiseOrderFromTable from "../controls/react-hook-form/choise-order-from-table";
 
 const schema = yup.object().shape({
     tblOrderId: yup

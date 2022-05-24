@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import TableEdit from "../table-edit";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FaceAcademicAdvisorEdit from "../faces-academic-advisor-edit";
-import {ACADEMIC_ADVISOR_LIST_ROUTE, FACES_LIST_ROUTE} from "../../utils/consts";
+import {ACADEMIC_ADVISOR_LIST_ROUTE} from "../../utils/consts";
 import PopoverFaceAllData from "../popover-face-all-data";
 
 const FacesAcademicAdvisor = ({
@@ -56,7 +56,7 @@ const FacesAcademicAdvisor = ({
         headCells[2].style = {color: 'blue', textDecoration: 'underline'};
     }
     if (viewCardMode === 'link') {
-        headCells[2].linkArgument = 'id';
+        headCells[2].linkArgument = 'tblFaceId';
         headCells[2].link = `${ACADEMIC_ADVISOR_LIST_ROUTE}`;
     }
 

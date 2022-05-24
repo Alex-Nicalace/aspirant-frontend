@@ -10,14 +10,16 @@ import {
     DropdownList,
     Input,
     ChoiseDirectionalityOrSpecialtyFromTable, InputDate
-} from "../controls";
+} from "../controls/react-hook-form";
 import Popover from "@material-ui/core/Popover";
-import ChoiseFaceFromTable from "../controls/choise-face-from-table";
+import ChoiseFaceFromTable from "../controls/react-hook-form/choise-face-from-table";
 import Button from "@material-ui/core/Button";
 import FaceAspirantOrdersEdit from "../face-aspirant-orders-edit";
 import {TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
+import {useStylesPopupContent} from "../../hooks/use-styles-popup-content";
+import {getFaceById} from "../../utils/my-func";
 
 const schema = yup.object().shape({
     tblFaceId: yup
@@ -76,9 +78,6 @@ const useStyles = makeStyles(theme => ({
         // margin: theme.spacing(1),
         marginTop: theme.spacing(1),
     },
-    popupContent: {
-        margin: theme.spacing(2)
-    },
     btnSelect: {
         alignSelf: 'flex-end',
         textAlign: 'right'
@@ -90,6 +89,7 @@ const useStyles = makeStyles(theme => ({
 
 const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiContext}) => {
     const classes = useStyles();
+    const classesPopup = useStylesPopupContent();
     const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm({
         mode: "onBlur",
         defaultValues: {tblFaceId: null/*, orderIn: ''*/},
@@ -127,6 +127,16 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     const [direction, setDirection] = useState('');
     const [division, setDivision] = useState('');
     const [componentOfPopover, setComponentOfPopover] = useState(null);
+    const [orderIn, setOrderIn] = useState('');
+    const [orderOut, setOrderOut] = useState('');
+
+    useEffect(() => {
+        // чтобы отражать изменния приказов в режиме update
+        if (!currentRec || (modeEdit !== 'update')) return;
+        const result = datasetModify.find(i => i.id === currentRec);
+        setOrderIn(result.orderIn);
+        setOrderOut(result.orderOut);
+    }, [datasetModify, currentRec, modeEdit])
 
     useEffect(() => {
         if (faceId)
@@ -145,13 +155,13 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     const [tblFace_tblOrderId, setTblFace_tblOrderId] = useState(null);
     const [typeOrder, setTypeOrder] = useState(null);
 
-    const orderIn = watch('orderIn');
+    //const orderIn = watch('orderIn');
     const orderIn_tblFace_tblOrderId = watch('orderIn_tblFace_tblOrderId');
-    const orderOut = watch('orderOut');
+    //const orderOut = watch('orderOut');
     const orderOut_tblFace_tblOrderId = watch('orderOut_tblFace_tblOrderId');
 
     useEffect(() => {
-        setFace(getFaceById(watch('tblFaceId')));
+        setFace(getFaceById(watch('tblFaceId'), faces.dataset));
     }, [watch('tblFaceId'), faces.dataset])
 
     useEffect(() => {
@@ -165,10 +175,10 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
         setDivision(division);
     }, [watch('tblDictDirectionalityAndSpecialtyId'), dictDirectionalityAndSpecialty.datasetAll]);
 
-    const getFaceById = (id) => {
-        const face = faces.dataset.find(i => +i.id === +id);
-        return face && `${face.lastname} ${face.firstname} ${face.middleName}, ${new Date(face.birthdate).toLocaleDateString()} г.р.`
-    }
+    // const getFaceById = (id) => {
+    //     const face = faces.dataset.find(i => +i.id === +id);
+    //     return face && `${face.lastname} ${face.firstname} ${face.middleName}, ${new Date(face.birthdate).toLocaleDateString()} г.р.`
+    // }
 
     const getOrderById = (id) => {
         const order = orders.dataset.find(i => +i.id === +id)
@@ -187,7 +197,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
         return {
             direction: specialty?.nameDirection,
             specialty: specialty?.DirectionalityOrSpecialty,
-            division:  specialty?.joinedName,
+            division: specialty?.joinedName,
         }
     }
 
@@ -228,6 +238,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
             case 'out': {
                 setTblFace_tblOrderId(orderOut_tblFace_tblOrderId);
                 setTypeOrder(1);
+                break;
             }
             default: {
 
@@ -301,7 +312,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 variant='outlined'
                                 type='button'
                                 onClick={showFaceSelectionHandle}
-                                //size='small'
+                                size='small'
                             >
                                 выбрать
                             </Button>
@@ -358,7 +369,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                         <Grid item lg={7}>
                             <TextField
                                 id='order-in-aspirant'
-                                label='приказ о зачислении'
+                                label='приказ'
                                 //required
                                 InputProps={{
                                     readOnly: true,
@@ -373,6 +384,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 type='button'
                                 onClick={(e) => showOrderSelectionHandle(e, 'in')}
                                 variant='outlined'
+                                size='small'
                             >
                                 приказ
                             </Button>
@@ -394,7 +406,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                         <Grid item lg={7}>
                             <TextField
                                 id='order-out-aspirant'
-                                label='приказ об отчислении/переводе'
+                                label='приказ'
                                 //required
                                 InputProps={{
                                     readOnly: true,
@@ -409,6 +421,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 type='button'
                                 onClick={(e) => showOrderSelectionHandle(e, 'out')}
                                 variant='outlined'
+                                size='small'
                             >
                                 приказ
                             </Button>
@@ -475,6 +488,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                                 variant='outlined'
                                 type='button'
                                 onClick={showAcademicAdvisorSelectionHandle}
+                                size='small'
                             >
                                 выбрать
                             </Button>
@@ -528,6 +542,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             variant='outlined'
                             type='button'
                             onClick={showSpecialtySelectionHandle}
+                            size='small'
                         >
                             выбрать
                         </Button>
@@ -548,7 +563,7 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                         horizontal: 'center',
                     }}
                 >
-                    <div className={classes.popupContent}>
+                    <div className={classesPopup.popupContent}>
                         <div hidden={componentOfPopover !== 'faces'}>
                             <ChoiseFaceFromTable
                                 control={control}
