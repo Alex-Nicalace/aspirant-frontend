@@ -2,16 +2,10 @@ import React from 'react';
 import Popover from "@material-ui/core/Popover";
 import Button from "@material-ui/core/Button";
 import FaceAllDataChoiseView from "../face-all-data-choise-view";
-import {makeStyles} from "@material-ui/core/styles";
-
-const useStyles = makeStyles(theme => ({
-    popupContent: {
-        margin: theme.spacing(2)
-    },
-}));
+import {useStylesPopupContent} from "../../hooks/use-styles-popup-content";
 
 const PopoverFaceAllData = ({idPopover, isOpenPopover, closePopoverHandler, faceId}) => {
-    const classes = useStyles();
+    const classesPopupContent = useStylesPopupContent();
     if (!faceId)
         return null;
     return (
@@ -29,7 +23,7 @@ const PopoverFaceAllData = ({idPopover, isOpenPopover, closePopoverHandler, face
             //     horizontal: 'center',
             // }}
         >
-            <div className={classes.popupContent}>
+            <div className={classesPopupContent.popupContent}>
                 <div align='right'>
                     <Button
                         variant='contained'
