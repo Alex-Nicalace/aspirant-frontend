@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
-import MenuItem from "@material-ui/core/MenuItem";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList, Input, InputDate} from "../controls";
+import {DropdownList, Input, InputDate} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     tblDictSubjectId: yup
@@ -55,10 +54,6 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}
 
     const valuesToState1 = {tblFaceId: faceId, ...valuesToState};
 
-    const renderSubject = dictSubject.dataset.map((i) => <MenuItem key={i.id}
-                                                                   value={i.id}>{i.subject} </MenuItem>);
-    renderSubject.unshift(<MenuItem key='renderSubject-key' value=''> <em>не выбрано</em> </MenuItem>);
-
     return (
         <FormWrapField
             dataset={dataset}
@@ -80,6 +75,7 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}
                 required
                 error={!!errors.date}
                 helperText={errors?.date?.message}
+                autoFocus
             />
             <Input
                 control={control}
@@ -101,9 +97,11 @@ const FaceEntranceExaminEdit = ({closeEdit, modeEdit, currentRec, valuesToState}
                 defaultValue=''
                 label='предмет'
                 required
-                renderItem={renderSubject}
                 error={!!errors.tblDictSubjectId}
                 helperText={errors?.tblDictSubjectId?.message}
+                items={dictSubject.dataset}
+                itemKey='id'
+                itemVisibleName='subject'
                 fullWidth
             />
 

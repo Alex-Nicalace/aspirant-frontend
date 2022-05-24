@@ -5,7 +5,7 @@ import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList, Input, InputDate} from "../controls";
+import {DropdownList, Input, InputDate} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     firstname: yup
@@ -86,6 +86,7 @@ const FacesEdit = ({closeEdit, modeEdit, currentRec}) => {
                     error={!!errors.lastname}
                     helperText={errors?.lastname?.message}
                     fullWidth
+                    autoFocus
                 />
 
                 <Input

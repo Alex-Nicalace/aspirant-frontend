@@ -33,6 +33,7 @@ const FaceEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='lastname'
+                autoFocus
             />
             <TextField
                 id="firstname-id"

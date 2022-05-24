@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {CheckboxWithLabel, DropdownList, Input, InputDate} from "../controls";
+import {CheckboxWithLabel, DropdownList, Input, InputDate} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     tblDictEducationLevelId: yup
@@ -80,6 +80,7 @@ const FaceEducationsEdit = ({closeEdit, modeEdit, currentRec}) => {
                 required
                 error={!!errors.dateFinished}
                 helperText={errors?.dateFinished?.message}
+                autoFocus
             />
             <Input
                 control={control}

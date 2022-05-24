@@ -19,8 +19,9 @@ const headCells = [
     {id: 'educationForm', disablePadding: false, label: 'форма обучения'},
     {id: 'nameDirection', disablePadding: false, label: 'направление обучения'},
     {id: 'DirectionalityOrSpecialty', disablePadding: false, label: 'направленность/специальность'},
-    {id: 'subject', disablePadding: false, label: 'ин. яз'},
     {id: 'subDiv', disablePadding: false, label: 'кафедра'},
+    {id: 'faculty', disablePadding: false, label: 'факультет'},
+    {id: 'subject', disablePadding: false, label: 'ин. яз'},
     {id: 'academicAdvisor', disablePadding: false, label: 'научный руководитель'},
 
 ];

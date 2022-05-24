@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList, Input} from "../controls";
+import {DropdownList, Input} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     tblDictSubjectId: yup
@@ -82,6 +82,7 @@ const FaceExaminationsEdit = ({closeEdit, modeEdit, currentRec, valuesToState}) 
                 error={!!errors.semesterNum}
                 helperText={errors?.semesterNum?.message}
                 fullWidth
+                autoFocus
             />
             <DropdownList
                 style={{minWidth: "200px"}}

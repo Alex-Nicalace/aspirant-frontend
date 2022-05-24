@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {Input, InputDate} from "../controls";
+import {Input, InputDate} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     info: yup
@@ -65,6 +65,7 @@ const FaceBusinessTripEdit = ({closeEdit, modeEdit, currentRec}) => {
                 required
                 error={!!errors.dateOn}
                 helperText={errors?.dateOn?.message}
+                autoFocus
             />
             <InputDate
                 control={control}

@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import FormWrapField from "../form-wrap-field";
-import {Input, InputDate} from "../controls";
+import {Input, InputDate} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     info: yup
@@ -60,6 +60,7 @@ const FaceScientificPublEdit = ({closeEdit, modeEdit, currentRec}) => {
                 required
                 error={!!errors.date}
                 helperText={errors?.date?.message}
+                autoFocus
             />
             <Input
                 control={control}

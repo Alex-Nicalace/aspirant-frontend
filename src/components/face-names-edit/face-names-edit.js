@@ -4,7 +4,7 @@ import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-ap
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import FormWrapField from "../form-wrap-field";
-import {Input, InputDate} from "../controls";
+import {Input, InputDate} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     firstname: yup
@@ -61,6 +61,7 @@ const FaceNamesEdit = ({closeEdit, modeEdit, currentRec}) => {
                 required
                 error={!!errors.dateOn}
                 helperText={errors?.dateOn?.message}
+                autoFocus
             />
 
             <Input
