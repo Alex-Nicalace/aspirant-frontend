@@ -4,8 +4,16 @@ export const getFaceEntranceExaminSelector = (state) => {
     return state.faceEntranceExamin;
 }
 
-export const getDatasetFaceEntranceExaminSelector = createSelector([getFaceEntranceExaminSelector], (state) => {
+export const getDatasetAll = createSelector([getFaceEntranceExaminSelector], (state) => {
     return state.dataset;
+});
+
+export const getDatasetFaceEntranceExaminSelector = createSelector([getDatasetAll], (dataset) => {
+    return dataset.filter(({isCandidateMin}) => !isCandidateMin) ;
+});
+
+export const getDatasetCandidateMinSelector = createSelector([getDatasetAll], (dataset) => {
+    return dataset.filter(({isCandidateMin}) => isCandidateMin) ;
 });
 
 export const getIsLoadingFaceEntranceExaminSelector = createSelector([getFaceEntranceExaminSelector], (state) => {

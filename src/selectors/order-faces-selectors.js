@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import {getActionInOrder} from "../utils/my-func";
 
 export const getOrderFacesSelector = (state) => {
     return state.orderFaces;
@@ -10,18 +11,6 @@ export const getDatasetOrderFacesSelector = createSelector([getOrderFacesSelecto
 
 export const getDatasetToFlatOrderFacesSelector = createSelector([getDatasetOrderFacesSelector], (dataset) => {
     return dataset.map(i => {
-        const getActionInOrder = (rec) => {
-            switch (rec.typeRel) {
-                case 'in':
-                    return {action: 'зачислен', date: i.tblFaceAspirant?.dateOn}
-                case 'out':
-                    return {action: 'отчислен', date: i.tblFaceAspirant?.dateOff}
-                case 'reIn':
-                    return {action: 'переведен', date: i.tblFaceAspirant?.dateOff}
-                default:
-                    return {action: 'ERROR', date: null}
-            }
-        }
         const {action, date} = getActionInOrder(i);
         return {
             id: i.id,

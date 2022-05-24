@@ -11,7 +11,7 @@ export const getDatasetDictEnterpriseSelector = createSelector([getDictEnterpris
 export const getDatasetAsTreeDictEnterpriseSelector = createSelector([getDatasetDictEnterpriseSelector], (dataset) => {
 
     const getBranch = (id, parentsId = []) => {
-        const res = dataset.filter(rec => rec.parentId === id);
+        const res = dataset.filter(rec => rec.parentId === id).sort((a, b) => (a.name.localeCompare(b.name)));
 
 
         let m = [];

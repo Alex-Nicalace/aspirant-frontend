@@ -35,6 +35,7 @@ export const getDatasetToFlatFacesSelector = createSelector([getDatasetFacesSele
             isAspirant: infoAboutAspirant.isAspirant,
             isWasAspirant: infoAboutAspirant.isWasAspirant,
             isAcademicAdvisor: i.tblAcademicAdvisors.length > 0,
+            photo: i.tblFacePhotos[0]?.pathFile,
         }
     })
 });

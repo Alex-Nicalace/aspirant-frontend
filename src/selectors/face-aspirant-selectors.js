@@ -42,6 +42,7 @@ export const getDatasetToFlatFaceAspirantSelector = createSelector([getDatasetFa
             DirectionalityOrSpecialty: i.tblDictDirectionalityAndSpecialty.DirectionalityOrSpecialty,
             nameDirection: i.tblDictDirectionalityAndSpecialty?.tblDictNameDirection?.nameDirection,
             subDiv: i.tblDictDirectionalityAndSpecialty.tblDictEnterprise.name,
+            faculty: i.tblDictDirectionalityAndSpecialty.tblDictEnterprise.tblDictEnterprise.name,
             academicAdvisor: `${i.tblAcademicAdvisor.tblFace.tblFaceNames[0].lastname} ${i.tblAcademicAdvisor.tblFace.tblFaceNames[0].firstname} ${i.tblAcademicAdvisor.tblFace.tblFaceNames[0].middleName}, ${new Date(i.tblAcademicAdvisor.tblFace.birthdate).toLocaleDateString()} г.р.`,
             orderIn: ordersIn?.order,
             orderIn_tblFace_tblOrderId: ordersIn?.tblFace_tblOrderId,

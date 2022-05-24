@@ -1,11 +1,12 @@
 import {createSelector} from 'reselect';
+import {getActionInOrder} from "../utils/my-func";
 
 export const getFaceOrdersSelector = (state) => {
     return state.faceOrders;
 }
 
 export const  getDatasetFaceOrdersSelector = createSelector([getFaceOrdersSelector], (state) => {
-    return state.dataset;
+    return state.dataset.map(i => ({...i, action: getActionInOrder(i)?.action}));
 });
 
 export const getIsLoadingFaceOrdersSelector = createSelector([getFaceOrdersSelector], (state) => {
