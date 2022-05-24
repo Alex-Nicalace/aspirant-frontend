@@ -24,6 +24,7 @@ const DictContactTypeEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='contactType'
+                autoFocus
             />
         </FormFields>
     );

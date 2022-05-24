@@ -25,6 +25,7 @@ const DictEducationLevelEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='educationLevel'
+                autoFocus
             />
             <TextField
                 id="weightEducationLevel"

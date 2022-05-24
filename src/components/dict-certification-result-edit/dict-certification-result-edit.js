@@ -24,6 +24,7 @@ const DictCertificationResultEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='result'
+                autoFocus
             />
         </FormFields>
     );

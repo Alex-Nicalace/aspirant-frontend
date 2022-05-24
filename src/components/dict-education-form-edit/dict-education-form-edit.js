@@ -24,6 +24,7 @@ const DictEducationFormEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='educationForm'
+                autoFocus
             />
         </FormFields>
     );

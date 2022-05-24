@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import FormWrapField from "../form-wrap-field";
-import {DropdownList, Input} from "../controls";
+import {DropdownList, Input} from "../controls/react-hook-form";
 import MenuItem from "@material-ui/core/MenuItem";
 
 const schema = yup.object().shape({
@@ -65,6 +65,7 @@ const DictEnterpriseEdit = ({closeEdit, modeEdit, currentRec}) => {
                 error={!!errors.name}
                 helperText={errors?.name?.message}
                 fullWidth
+                autoFocus
             />
             <DropdownList
                 style={{minWidth: "200px"}}

@@ -24,6 +24,7 @@ const DictDocEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='document'
+                autoFocus
             />
         </FormFields>
     )

@@ -24,6 +24,7 @@ const DictCountryEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='country'
+                autoFocus
             />
         </FormFields>
     );

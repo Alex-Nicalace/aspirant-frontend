@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-api-context";
 import FormWrapField from "../form-wrap-field";
-import {Input} from "../controls";
+import {Input} from "../controls/react-hook-form";
 
 const schema = yup.object().shape({
     nameDirection: yup
@@ -54,6 +54,7 @@ const DictDirectionEdit = ({closeEdit, modeEdit, currentRec}) => {
                 error={!!errors.nameDirection}
                 helperText={errors?.nameDirection?.message}
                 fullWidth
+                autoFocus
             />
         </FormWrapField>
     );

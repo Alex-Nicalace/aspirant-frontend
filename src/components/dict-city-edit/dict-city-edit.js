@@ -24,6 +24,7 @@ const DictCityEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='city'
+                autoFocus
             />
         </FormFields>
     );

@@ -24,6 +24,7 @@ const DictStreetEdit = ({closeEdit, modeEdit, currentRec}) => {
                 type='search'
                 fullWidth
                 name='street'
+                autoFocus
             />
         </FormFields>
     );
