@@ -3,7 +3,6 @@ import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-ap
 import ErrorIndicator from "../error-indicator";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import PanelButtons from "./panel-buttons";
-import {BASE_URL} from "../../utils/consts";
 import {makeStyles} from "@material-ui/core/styles";
 import Popover from "@material-ui/core/Popover";
 import FacePhotoEdit from "../face-photo-edit";
@@ -133,7 +132,7 @@ const FacePhoto = ({faceId}) => {
             </Grid>
             <div className='img-container'>
                 {countPhoto
-                    ? <img src={BASE_URL + pathPhoto} alt='фото'/>
+                    ? <img src={'/' + pathPhoto} alt='фото'/>
                     : <Typography style={{marginTop: '50%'}} color='textSecondary' > фото отсутствует </Typography>
                 }
             </div>

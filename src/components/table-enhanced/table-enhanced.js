@@ -20,7 +20,6 @@ import {NavLink} from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import './table-enhanced.scss';
-import {BASE_URL} from "../../utils/consts";
 import IndicatorNoData from "../UI/indicator-no-data";
 import ListVisibleColumns from "./list-visible-columns";
 import DotsVertIcon from '@material-ui/icons/MoreVert'
@@ -162,7 +161,7 @@ function formatingOnType(value, dataType) {
         case 'boolean':
             return <Checkbox size='small' color='default' checked={value}/> //value && 'да'
         case 'image':
-            return value && <img src={BASE_URL + value} alt="фото" style={{width: '100px'}}/>
+            return value && <img src={`/${value}`} alt="фото" style={{width: '100px'}}/>
         default:
             return value;
     }

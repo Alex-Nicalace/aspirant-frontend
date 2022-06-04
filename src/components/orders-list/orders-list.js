@@ -3,7 +3,6 @@ import {useAspirantApiContext} from "../context/aspirant-api-context/aspirant-ap
 import TableEdit from "../table-edit";
 import OrdersEdit from "../orders-edit";
 import OrderFindForm from "../UI/order-find-form";
-import {BASE_URL} from "../../utils/consts";
 
 const headCells = [
     {id: 'id', disablePadding: false, key: true},
@@ -15,7 +14,7 @@ const headCells = [
         Component: (params) => {
             const {pathFile} = params
             return pathFile && <button onClick={ () => {
-                window.open(`${BASE_URL + pathFile}`);
+                window.open(pathFile);
             } }>Открыть</button>
         }
     }

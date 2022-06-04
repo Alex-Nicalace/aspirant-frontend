@@ -1,4 +1,3 @@
-export const BASE_URL = 'http://localhost:8080/'
 // константы для всплывающий сообщений *********************************************************************************
 export const SUCCESS = 'success'
 export const INFO = 'info'

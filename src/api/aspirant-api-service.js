@@ -1,10 +1,9 @@
 import * as axios from "axios";
-import {BASE_URL} from "../utils/consts";
 import jwtDecode from "jwt-decode";
 
 const _instance = axios.create({
     //withCredentials: true,
-    baseURL: `${BASE_URL}api/`
+    baseURL: '/api/'
     //baseURL: 'http://aspirant.ddns.net:3000/api/'
 })
 
