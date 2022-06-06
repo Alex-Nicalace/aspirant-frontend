@@ -80,7 +80,7 @@ export default FaceAspirantEdit;
 //         .transform(value => (isNaN(value) ? undefined : value))
 //         .nullable()
 //         .required("форма обучения обязательное поле"),
-//     tblDictDirectionalityAndSpecialtyId: yup
+//     tblDictSpecialtyId: yup
 //         .number()
 //         .transform(value => (isNaN(value) ? undefined : value))
 //         .nullable()
@@ -333,12 +333,12 @@ export default FaceAspirantEdit;
 //                 />
 //                 <ChoiseDirectionalityOrSpecialtyFromTable
 //                     control={control}
-//                     name='tblDictDirectionalityAndSpecialtyId'
+//                     name='tblDictSpecialtyId'
 //                     rules={{required: true}}
 //                     defaultValue=''
 //                     label='выберите направленность/специальность'
-//                     error={!!errors.tblDictDirectionalityAndSpecialtyId}
-//                     helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+//                     error={!!errors.tblDictSpecialtyId}
+//                     helperText={errors?.tblDictSpecialtyId?.message}
 //                 />
 //                 {/*<FaceAspirantOrders*/}
 //                 {/*    faceAspirantId={currentRec}*/}

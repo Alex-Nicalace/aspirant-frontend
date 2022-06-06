@@ -111,7 +111,7 @@ const schema = yup.object().shape({
         .number()
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable(),
-    tblDictDirectionalityAndSpecialtyId: yup
+    tblDictSpecialtyId: yup
         .number()
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable(),
@@ -364,12 +364,12 @@ const AspirantFindForm = ({fetch}) => {
                     <DropdownList
                         style={{minWidth: "400px"}}
                         control={control}
-                        name='tblDictDirectionalityAndSpecialtyId'
+                        name='tblDictSpecialtyId'
                         defaultValue=''
                         label='направленностьть/специальность'
                         renderItem={renderDictDirAndSpec}
-                        error={!!errors.tblDictDirectionalityAndSpecialtyId}
-                        helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                        error={!!errors.tblDictSpecialtyId}
+                        helperText={errors?.tblDictSpecialtyId?.message}
                         fullWidth
                     />
                 </Grid>

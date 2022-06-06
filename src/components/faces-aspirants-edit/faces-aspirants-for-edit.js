@@ -47,7 +47,7 @@ const schema = yup.object().shape({
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
         .required("форма обучения обязательное поле"),
-    tblDictDirectionalityAndSpecialtyId: yup
+    tblDictSpecialtyId: yup
         .number()
         .transform(value => (isNaN(value) ? undefined : value))
         .nullable()
@@ -169,11 +169,11 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
     }, [watch('tblAcademicAdvisorId'), facesAcademicAdvisor.datasetModify]);
 
     useEffect(() => {
-        const {direction, division, specialty} = getSpecialtyById(watch('tblDictDirectionalityAndSpecialtyId'));
+        const {direction, division, specialty} = getSpecialtyById(watch('tblDictSpecialtyId'));
         setSpecialty(specialty);
         setDirection(direction ?? '');
         setDivision(division);
-    }, [watch('tblDictDirectionalityAndSpecialtyId'), dictDirectionalityAndSpecialty.datasetAll]);
+    }, [watch('tblDictSpecialtyId'), dictDirectionalityAndSpecialty.datasetAll]);
 
     // const getFaceById = (id) => {
     //     const face = faces.dataset.find(i => +i.id === +id);
@@ -506,8 +506,8 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             }}
                             InputLabelProps={{shrink: !!direction}}
                             value={direction}
-                            error={!!errors.tblDictDirectionalityAndSpecialtyId}
-                            helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                            error={!!errors.tblDictSpecialtyId}
+                            helperText={errors?.tblDictSpecialtyId?.message}
                             fullWidth
                         />
                         <TextField
@@ -519,8 +519,8 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             }}
                             InputLabelProps={{shrink: !!specialty}}
                             value={specialty}
-                            error={!!errors.tblDictDirectionalityAndSpecialtyId}
-                            helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                            error={!!errors.tblDictSpecialtyId}
+                            helperText={errors?.tblDictSpecialtyId?.message}
                             fullWidth
                         />
                         <TextField
@@ -532,8 +532,8 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                             }}
                             InputLabelProps={{shrink: !!division}}
                             value={division}
-                            error={!!errors.tblDictDirectionalityAndSpecialtyId}
-                            helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                            error={!!errors.tblDictSpecialtyId}
+                            helperText={errors?.tblDictSpecialtyId?.message}
                             fullWidth
                         />
                     </Grid>
@@ -589,12 +589,12 @@ const FacesAspirantsForEdit = ({closeEdit, modeEdit, currentRec, aspirantApiCont
                         <div hidden={componentOfPopover !== 'specialty'}>
                             <ChoiseDirectionalityOrSpecialtyFromTable
                                 control={control}
-                                name='tblDictDirectionalityAndSpecialtyId'
+                                name='tblDictSpecialtyId'
                                 rules={{required: true}}
                                 defaultValue=''
                                 label='выберите направленность/специальность'
-                                error={!!errors.tblDictDirectionalityAndSpecialtyId}
-                                helperText={errors?.tblDictDirectionalityAndSpecialtyId?.message}
+                                error={!!errors.tblDictSpecialtyId}
+                                helperText={errors?.tblDictSpecialtyId?.message}
                             />
                         </div>
                         {/*--------button-----------*/}
